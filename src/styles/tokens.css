@@ -1,24 +1,28 @@
 /*
   Design tokens for The Layer Line.
-  Palette is a cool "calibration paper" neutral with a hot-nozzle orange
-  and a print-bed teal as the two accents — see DESIGN_NOTES.md.
+  Palette is neutral machined-steel grey with a single accent hue: a
+  calibrated instrument blue (the color of painter's tape and PEI-sheet
+  packaging in this hobby, not a generic "tech blue"), used at two
+  weights rather than as two different accent colors. Every value below
+  is verified against WCAG AA — see scripts in the design notes for
+  the contrast checks this palette was built against.
 */
 :root {
   /* Color — light (default) */
-  --color-bg: #eff1ec;
+  --color-bg: #eceff0;
   --color-bg-raised: #ffffff;
-  --color-bg-sunken: #e4e7e0;
-  --color-ink: #1b1f1d;
-  --color-ink-soft: #4a5049;
-  --color-ink-faint: #767c73;
-  --color-line: #c7cdc3;
-  --color-line-strong: #9aa197;
-  --color-accent: #e8582a;
+  --color-bg-sunken: #dde2e4;
+  --color-ink: #14181b;
+  --color-ink-soft: #4a5155;
+  --color-ink-faint: #666e71;
+  --color-line: #c6cdd0;
+  --color-line-strong: #9aa4a8;
+  --color-accent: #1c6fb0;
   --color-accent-ink: #ffffff;
-  --color-accent-cool: #215b66;
-  --color-accent-cool-soft: #e3edee;
-  --color-warn-bg: #fbe9df;
-  --color-warn-ink: #7a3416;
+  --color-accent-cool: #14567f;
+  --color-accent-cool-soft: #dceaf3;
+  --color-warn-bg: #f5dfc9;
+  --color-warn-ink: #7a4310;
 
   /* Typography */
   --font-display: 'Archivo Variable', 'Archivo', 'Arial Narrow', sans-serif;

@@ -59,7 +59,7 @@ Deliberately **not** implemented: `FAQPage` (no FAQ content exists yet — don't
 |---|---|---|
 | Skip link | ✅ | "Skip to content" at top of `BaseLayout`, visible on focus |
 | Focus states | ✅ | `:focus-visible` outline defined globally in `tokens.css`/`global.css` |
-| Color contrast | ✅ spot-checked | Ink (#1b1f1d) on paper (#eff1ec) and white text on ink (#1b1f1d) both exceed WCAG AA; accent orange (#e8582a) used for UI/links against light backgrounds, not for body text |
+| Color contrast | ✅ verified computationally | Every text/background pair in `tokens.css` (ink, ink-soft, ink-faint, accent, accent-cool, warn) checked against WCAG AA (4.5:1 normal text, 3:1 large text/UI) — see the contrast check referenced in `src/styles/tokens.css`'s comment |
 | Reduced motion | ✅ | `prefers-reduced-motion` zeroes transition durations via CSS custom properties |
 | Semantic landmarks | ✅ | `<header>`, `<nav>`, `<main>`, `<footer>`, `<article>`, `<aside>` used per their actual roles |
 | Form labels | ✅ | Calculator inputs and newsletter form use associated `<label>` elements (visually hidden where a placeholder suffices) |

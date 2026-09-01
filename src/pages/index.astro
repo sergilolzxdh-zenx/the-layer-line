@@ -61,43 +61,43 @@ const toolIcons = {
       <div class="hero__diagram" aria-hidden="false">
         <svg viewBox="0 0 620 420" role="img" aria-labelledby="hero-diagram-title">
           <title id="hero-diagram-title">A diagram of a print showing stringing, a warped corner, and layer banding</title>
-          <line x1="20" y1="380" x2="600" y2="380" stroke="#9aa197" stroke-width="2" />
+          <line x1="20" y1="380" x2="600" y2="380" stroke="#9aa4a8" stroke-width="2" />
           {Array.from({ length: 30 }).map((_, i) => (
-            <line x1={20 + i * 20} y1="380" x2={20 + i * 20} y2="386" stroke="#9aa197" stroke-width="1" />
+            <line x1={20 + i * 20} y1="380" x2={20 + i * 20} y2="386" stroke="#9aa4a8" stroke-width="1" />
           ))}
 
           <g>
-            <rect x="70" y="270" width="60" height="110" fill="none" stroke="#1b1f1d" stroke-width="2" />
-            <line x1="70" y1="290" x2="130" y2="290" stroke="#c7cdc3" stroke-width="1" />
-            <line x1="70" y1="310" x2="130" y2="310" stroke="#c7cdc3" stroke-width="1" />
-            <line x1="70" y1="330" x2="130" y2="330" stroke="#c7cdc3" stroke-width="1" />
-            <line x1="70" y1="350" x2="130" y2="350" stroke="#c7cdc3" stroke-width="1" />
-            <rect x="200" y="290" width="60" height="90" fill="none" stroke="#1b1f1d" stroke-width="2" />
-            <path d="M130 285 Q 165 250 200 292" fill="none" stroke="#e8582a" stroke-width="1.5" />
-            <path d="M130 300 Q 165 270 200 305" fill="none" stroke="#e8582a" stroke-width="1.5" />
+            <rect x="70" y="270" width="60" height="110" fill="none" stroke="#14181b" stroke-width="2" />
+            <line x1="70" y1="290" x2="130" y2="290" stroke="#c6cdd0" stroke-width="1" />
+            <line x1="70" y1="310" x2="130" y2="310" stroke="#c6cdd0" stroke-width="1" />
+            <line x1="70" y1="330" x2="130" y2="330" stroke="#c6cdd0" stroke-width="1" />
+            <line x1="70" y1="350" x2="130" y2="350" stroke="#c6cdd0" stroke-width="1" />
+            <rect x="200" y="290" width="60" height="90" fill="none" stroke="#14181b" stroke-width="2" />
+            <path d="M130 285 Q 165 250 200 292" fill="none" stroke="#1c6fb0" stroke-width="1.5" />
+            <path d="M130 300 Q 165 270 200 305" fill="none" stroke="#1c6fb0" stroke-width="1.5" />
             <a href="/print-quality/stringing/">
-              <circle cx="165" cy="272" r="5" fill="#e8582a" />
-              <text x="165" y="255" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5049">STRINGING</text>
+              <circle cx="165" cy="272" r="5" fill="#1c6fb0" />
+              <text x="165" y="255" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">STRINGING</text>
             </a>
           </g>
 
           <g>
-            <path d="M330 380 L330 300 Q328 275 350 278 L 430 285 L 430 380 Z" fill="none" stroke="#1b1f1d" stroke-width="2" />
-            <line x1="330" y1="360" x2="330" y2="380" stroke="#e8582a" stroke-width="2" stroke-dasharray="4 3" />
+            <path d="M330 380 L330 300 Q328 275 350 278 L 430 285 L 430 380 Z" fill="none" stroke="#14181b" stroke-width="2" />
+            <line x1="330" y1="360" x2="330" y2="380" stroke="#1c6fb0" stroke-width="2" stroke-dasharray="4 3" />
             <a href="/print-quality/warping/">
-              <circle cx="335" cy="292" r="5" fill="#e8582a" />
-              <text x="360" y="250" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5049">WARPING</text>
+              <circle cx="335" cy="292" r="5" fill="#1c6fb0" />
+              <text x="360" y="250" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">WARPING</text>
             </a>
           </g>
 
           <g>
-            <rect x="480" y="230" width="90" height="150" fill="none" stroke="#1b1f1d" stroke-width="2" />
+            <rect x="480" y="230" width="90" height="150" fill="none" stroke="#14181b" stroke-width="2" />
             {Array.from({ length: 13 }).map((_, i) => (
-              <line x1="480" y1={240 + i * 11} x2="570" y2={240 + i * 11 + (i % 2 === 0 ? 3 : -3)} stroke="#215b66" stroke-width="1" />
+              <line x1="480" y1={240 + i * 11} x2="570" y2={240 + i * 11 + (i % 2 === 0 ? 3 : -3)} stroke="#1c6fb0" stroke-width="1" />
             ))}
             <a href="/print-quality/layer-lines/">
-              <circle cx="525" cy="222" r="5" fill="#215b66" />
-              <text x="525" y="205" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5049">RINGING</text>
+              <circle cx="525" cy="222" r="5" fill="#1c6fb0" />
+              <text x="525" y="205" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">RINGING</text>
             </a>
           </g>
         </svg>
