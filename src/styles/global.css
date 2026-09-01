@@ -14,9 +14,10 @@
 }
 
 html {
-  color-scheme: light;
+  /* color-scheme itself lives in tokens.css, next to the palette it drives */
   -webkit-text-size-adjust: 100%;
   scrollbar-color: var(--color-line-strong) var(--color-bg);
+  scroll-behavior: smooth;
 }
 
 html:has(dialog[open]) {

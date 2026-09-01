@@ -51,7 +51,9 @@ const { compact = false } = Astro.props;
   }
 
   .newsletter p {
-    color: var(--color-line);
+    /* Derived from the panel's own ink/bg pair rather than --color-line,
+       so it stays correctly muted whichever theme flips underneath it. */
+    color: color-mix(in srgb, var(--color-bg) 78%, var(--color-ink) 22%);
   }
 
   .newsletter__form {
@@ -75,12 +77,12 @@ const { compact = false } = Astro.props;
   .newsletter__form input:focus-visible {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(232, 88, 42, 0.25);
+    box-shadow: 0 0 0 3px var(--color-accent-cool-soft);
   }
 
   .newsletter__note {
     font-size: var(--size-00);
-    color: var(--color-line-strong);
+    color: color-mix(in srgb, var(--color-bg) 65%, var(--color-ink) 35%);
     min-height: 1.2em;
     opacity: 0;
     transform: translateY(4px);

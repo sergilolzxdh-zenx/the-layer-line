@@ -4,25 +4,39 @@
   calibrated instrument blue (the color of painter's tape and PEI-sheet
   packaging in this hobby, not a generic "tech blue"), used at two
   weights rather than as two different accent colors. Every value below
-  is verified against WCAG AA — see scripts in the design notes for
-  the contrast checks this palette was built against.
+  — light AND dark — is verified against WCAG AA via a contrast script,
+  not eyeballed.
+
+  Dark is a first-class variant, not an inversion filter: light-dark()
+  reads the computed `color-scheme` below, which follows the OS by
+  default and can be pinned explicitly by the header toggle setting
+  data-theme on <html> (see theme.ts).
 */
 :root {
-  /* Color — light (default) */
-  --color-bg: #eceff0;
-  --color-bg-raised: #ffffff;
-  --color-bg-sunken: #dde2e4;
-  --color-ink: #14181b;
-  --color-ink-soft: #4a5155;
-  --color-ink-faint: #666e71;
-  --color-line: #c6cdd0;
-  --color-line-strong: #9aa4a8;
-  --color-accent: #1c6fb0;
-  --color-accent-ink: #ffffff;
-  --color-accent-cool: #14567f;
-  --color-accent-cool-soft: #dceaf3;
-  --color-warn-bg: #f5dfc9;
-  --color-warn-ink: #7a4310;
+  color-scheme: light dark;
+
+  /* Color — each pair is light-dark(light-value, dark-value) */
+  --color-bg: light-dark(#eceff0, #15191c);
+  --color-bg-raised: light-dark(#ffffff, #1d2226);
+  --color-bg-sunken: light-dark(#dde2e4, #0e1113);
+  --color-ink: light-dark(#14181b, #e9edef);
+  --color-ink-soft: light-dark(#4a5155, #aab2b6);
+  --color-ink-faint: light-dark(#666e71, #7c8488);
+  --color-line: light-dark(#c6cdd0, #2c3337);
+  --color-line-strong: light-dark(#9aa4a8, #454e52);
+  --color-accent: light-dark(#1c6fb0, #5aa9e6);
+  --color-accent-ink: light-dark(#ffffff, #12161a);
+  --color-accent-cool: light-dark(#14567f, #7fc1ec);
+  --color-accent-cool-soft: light-dark(#dceaf3, rgba(90, 169, 230, 0.18));
+  --color-warn-bg: light-dark(#f5dfc9, #332214);
+  --color-warn-ink: light-dark(#7a4310, #e3ac6e);
+
+  /* Fixed regardless of theme — an instrument readout (calculator result
+     panel) is a device screen, not page chrome, so it doesn't invert. */
+  --color-panel-bg: #14181b;
+  --color-panel-ink: #eceff0;
+  --color-panel-line: #3a3f3c;
+  --color-panel-accent: #5aa9e6;
 
   /* Typography */
   --font-display: 'Archivo Variable', 'Archivo', 'Arial Narrow', sans-serif;
@@ -65,9 +79,9 @@
   --measure-wide: 78ch;
   --content-width: 1180px;
 
-  --shadow-sm: 0 1px 2px rgba(27, 31, 29, 0.08), 0 1px 1px rgba(27, 31, 29, 0.05);
-  --shadow-md: 0 8px 20px -6px rgba(27, 31, 29, 0.18), 0 2px 6px -2px rgba(27, 31, 29, 0.1);
-  --shadow-lg: 0 24px 48px -16px rgba(27, 31, 29, 0.28), 0 4px 12px -4px rgba(27, 31, 29, 0.12);
+  --shadow-sm: 0 1px 2px light-dark(rgba(27, 31, 29, 0.08), rgba(0, 0, 0, 0.4)), 0 1px 1px light-dark(rgba(27, 31, 29, 0.05), rgba(0, 0, 0, 0.3));
+  --shadow-md: 0 8px 20px -6px light-dark(rgba(27, 31, 29, 0.18), rgba(0, 0, 0, 0.5)), 0 2px 6px -2px light-dark(rgba(27, 31, 29, 0.1), rgba(0, 0, 0, 0.3));
+  --shadow-lg: 0 24px 48px -16px light-dark(rgba(27, 31, 29, 0.28), rgba(0, 0, 0, 0.6)), 0 4px 12px -4px light-dark(rgba(27, 31, 29, 0.12), rgba(0, 0, 0, 0.35));
 
   /* Motion — strong, intentional curves rather than the built-in CSS defaults. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -80,11 +94,25 @@
   --scale-press: 0.975;
 }
 
+/* Explicit override from the header's theme toggle, persisted in
+   localStorage — wins over the OS preference in either direction. */
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --duration-instant: 0ms;
     --duration-fast: 0ms;
     --duration-base: 0ms;
     --duration-slow: 0ms;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }

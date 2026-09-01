@@ -268,22 +268,24 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   }
 
   .result {
-    border: var(--border-hair);
+    /* A device readout, not page chrome — fixed dark panel tokens, so it
+       doesn't flip (and lose its "instrument display" identity) in dark mode. */
+    border: 1px solid var(--color-panel-line);
     border-radius: var(--radius-md);
-    background: var(--color-ink);
-    color: var(--color-bg);
+    background: var(--color-panel-bg);
+    color: var(--color-panel-ink);
     padding: var(--space-6);
     display: grid;
     gap: var(--space-4);
   }
 
   .result__label {
-    color: var(--color-accent);
+    color: var(--color-panel-accent);
   }
 
   .result__total {
     font-size: var(--size-6);
-    color: var(--color-bg);
+    color: var(--color-panel-ink);
     font-weight: 700;
   }
 
@@ -294,7 +296,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
   @keyframes value-pulse {
     from {
-      color: var(--color-accent);
+      color: var(--color-panel-accent);
     }
   }
 
@@ -310,7 +312,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
     gap: var(--space-3);
     margin: 0;
     padding-top: var(--space-4);
-    border-top: 1px solid #3a3f3c;
+    border-top: 1px solid var(--color-panel-line);
   }
 
   .result__breakdown div {
@@ -320,18 +322,19 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   }
 
   .result__breakdown dt {
-    color: var(--color-line);
+    color: var(--color-panel-ink);
+    opacity: 0.6;
     font-size: var(--size-0);
   }
 
   .result__breakdown dd {
     margin: 0;
-    color: var(--color-bg);
+    color: var(--color-panel-ink);
   }
 
   .result__perunit {
     padding-top: var(--space-3);
-    border-top: 1px solid #3a3f3c;
+    border-top: 1px solid var(--color-panel-line);
   }
 
   .tool__notes {
