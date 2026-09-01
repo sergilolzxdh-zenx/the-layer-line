@@ -1,16 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-const terms = [
+const rawTerms = [
   {
     term: 'Bowden extruder',
     def: "An extruder layout where the drive motor is mounted away from the hot end, pushing filament through a length of PTFE tube. Needs more retraction distance than direct drive because of the extra compressible length.",
     link: '/calibration/retraction-tuning/',
   },
   {
+    term: 'Brim',
+    def: 'A single-layer flat border printed around the base of a part, connected to it, that increases surface area anchoring the print to the bed without adding a full raft.',
+    link: '/print-quality/warping/',
+  },
+  {
     term: 'Direct drive extruder',
     def: 'An extruder layout where the drive motor sits right on top of the hot end. Needs less retraction distance than Bowden and generally handles flexible filaments like TPU better.',
     link: '/calibration/retraction-tuning/',
+  },
+  {
+    term: 'Draft shield',
+    def: 'A thin printed wall around a model, separate from it, that blocks direct airflow to reduce warping without disabling cooling everywhere else.',
+    link: '/print-quality/warping/',
   },
   {
     term: 'E-steps',
@@ -23,39 +33,9 @@ const terms = [
     link: '/calibration/flow-rate/',
   },
   {
-    term: 'Retraction',
-    def: 'The extruder briefly pulling filament backward before a travel move, and pushing it forward again before the next extrusion, to reduce oozing and stringing.',
-    link: '/calibration/retraction-tuning/',
-  },
-  {
-    term: 'Stringing',
-    def: 'Thin strands of plastic left between separate points of a print where the nozzle traveled without printing, caused by filament oozing during that travel move.',
-    link: '/print-quality/stringing/',
-  },
-  {
-    term: 'Warping',
-    def: 'A part lifting or curling off the bed, usually starting at corners, caused by the outer plastic cooling and shrinking faster than the warmer plastic underneath.',
-    link: '/print-quality/warping/',
-  },
-  {
     term: 'Layer height',
     def: 'The thickness of each individual printed layer, set in the slicer. Smaller values give finer detail and less visible staircasing at the cost of print time.',
     link: '/print-quality/layer-lines/',
-  },
-  {
-    term: 'Z-offset',
-    def: 'The precise distance between the nozzle tip and the bed at the start of a print, set separately from mesh bed leveling, which only corrects relative variation across the bed.',
-    link: '/calibration/bed-leveling/',
-  },
-  {
-    term: 'Brim',
-    def: 'A single-layer flat border printed around the base of a part, connected to it, that increases surface area anchoring the print to the bed without adding a full raft.',
-    link: '/print-quality/warping/',
-  },
-  {
-    term: 'Under-extrusion',
-    def: 'The printer pushing out less plastic than commanded, showing up as gaps, thin walls, or visible holes in top surfaces.',
-    link: '/print-quality/under-extrusion-vs-over-extrusion/',
   },
   {
     term: 'Over-extrusion',
@@ -63,16 +43,46 @@ const terms = [
     link: '/print-quality/under-extrusion-vs-over-extrusion/',
   },
   {
+    term: 'Retraction',
+    def: 'The extruder briefly pulling filament backward before a travel move, and pushing it forward again before the next extrusion, to reduce oozing and stringing.',
+    link: '/calibration/retraction-tuning/',
+  },
+  {
     term: 'Ringing / ghosting',
     def: 'Regular, repeating surface banding caused by the frame or gantry flexing slightly on direction changes, addressed mechanically or with input shaping rather than temperature or cooling settings.',
     link: '/print-quality/layer-lines/',
   },
   {
-    term: 'Draft shield',
-    def: 'A thin printed wall around a model, separate from it, that blocks direct airflow to reduce warping without disabling cooling everywhere else.',
+    term: 'Stringing',
+    def: 'Thin strands of plastic left between separate points of a print where the nozzle traveled without printing, caused by filament oozing during that travel move.',
+    link: '/print-quality/stringing/',
+  },
+  {
+    term: 'Under-extrusion',
+    def: 'The printer pushing out less plastic than commanded, showing up as gaps, thin walls, or visible holes in top surfaces.',
+    link: '/print-quality/under-extrusion-vs-over-extrusion/',
+  },
+  {
+    term: 'Warping',
+    def: 'A part lifting or curling off the bed, usually starting at corners, caused by the outer plastic cooling and shrinking faster than the warmer plastic underneath.',
     link: '/print-quality/warping/',
   },
+  {
+    term: 'Z-offset',
+    def: 'The precise distance between the nozzle tip and the bed at the start of a print, set separately from mesh bed leveling, which only corrects relative variation across the bed.',
+    link: '/calibration/bed-leveling/',
+  },
 ];
+
+const terms = [...rawTerms].sort((a, b) => a.term.localeCompare(b.term));
+
+const groups = new Map<string, typeof terms>();
+for (const item of terms) {
+  const letter = item.term[0].toUpperCase();
+  if (!groups.has(letter)) groups.set(letter, []);
+  groups.get(letter)!.push(item);
+}
+const letters = [...groups.keys()];
 ---
 
 <BaseLayout
@@ -85,28 +95,87 @@ const terms = [
     <header class="glossary__header">
       <h1>3D Printing Glossary</h1>
       <p class="glossary__lead">
-        Short, plain-language definitions for the terms used throughout this site. Each one links to a full guide
+        {terms.length} terms used throughout this site, plain-language and alphabetical. Each one links to a full guide
         where there's more to say.
       </p>
       <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
     </header>
 
-    <dl class="glossary__list">
+    <div class="glossary__controls">
+      <label class="visually-hidden" for="glossary-search">Search the glossary</label>
+      <div class="glossary__search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="search" id="glossary-search" placeholder="Search terms or definitions…" autocomplete="off" />
+      </div>
+      <nav class="glossary__jump" aria-label="Jump to letter">
+        {letters.map((letter) => <a href={`#letter-${letter}`}>{letter}</a>)}
+      </nav>
+    </div>
+
+    <p class="glossary__empty" data-glossary-empty hidden>No terms match that search.</p>
+
+    <div data-glossary-groups>
       {
-        terms.map((item) => (
-          <div class="glossary__item">
-            <dt id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>{item.term}</dt>
-            <dd>
-              <p>{item.def}</p>
-              <a href={item.link}>Read the full guide →</a>
-            </dd>
-          </div>
+        letters.map((letter) => (
+          <section class="glossary__group" data-glossary-group>
+            <h2 class="glossary__letter" id={`letter-${letter}`}>{letter}</h2>
+            <dl class="glossary__list">
+              {groups.get(letter)!.map((item) => (
+                <div
+                  class="glossary__item"
+                  data-glossary-item
+                  data-search={`${item.term} ${item.def}`.toLowerCase()}
+                >
+                  <dt id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>{item.term}</dt>
+                  <dd>
+                    <p>{item.def}</p>
+                    <a href={item.link}>Read the full guide →</a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
         ))
       }
-    </dl>
-
+    </div>
   </div>
 </BaseLayout>
+
+<script>
+  function setupGlossarySearch() {
+    const input = document.getElementById('glossary-search') as HTMLInputElement | null;
+    const items = document.querySelectorAll<HTMLElement>('[data-glossary-item]');
+    const groupEls = document.querySelectorAll<HTMLElement>('[data-glossary-group]');
+    const emptyMsg = document.querySelector<HTMLElement>('[data-glossary-empty]');
+    const jump = document.querySelector<HTMLElement>('.glossary__jump');
+    if (!input) return;
+
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      let anyVisible = false;
+
+      groupEls.forEach((group) => {
+        let groupHasMatch = false;
+        group.querySelectorAll<HTMLElement>('[data-glossary-item]').forEach((item) => {
+          const matches = !query || (item.dataset.search ?? '').includes(query);
+          item.hidden = !matches;
+          if (matches) {
+            groupHasMatch = true;
+            anyVisible = true;
+          }
+        });
+        group.hidden = !groupHasMatch;
+      });
+
+      if (emptyMsg) emptyMsg.hidden = anyVisible;
+      if (jump) jump.style.visibility = query ? 'hidden' : 'visible';
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupGlossarySearch);
+</script>
 
 <style>
   .glossary {
@@ -129,11 +198,100 @@ const terms = [
     margin-top: var(--space-3);
   }
 
+  .glossary__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+    max-width: var(--measure-wide);
+  }
+
+  .glossary__search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: var(--border-hair-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-raised);
+    padding-inline: var(--space-3);
+    flex: 1 1 260px;
+    max-width: 360px;
+    transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .glossary__search:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-cool-soft);
+  }
+
+  .glossary__search svg {
+    width: 16px;
+    height: 16px;
+    color: var(--color-ink-faint);
+    flex-shrink: 0;
+  }
+
+  .glossary__search input {
+    border: none;
+    background: none;
+    padding-block: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--size-0);
+    color: var(--color-ink);
+    width: 100%;
+  }
+
+  .glossary__search input:focus-visible {
+    outline: none;
+  }
+
+  .glossary__jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+  }
+
+  .glossary__jump a {
+    color: var(--color-ink-faint);
+    text-decoration: none;
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .glossary__jump a:hover {
+    color: var(--color-accent);
+  }
+
+  .glossary__empty {
+    margin-top: var(--space-6);
+    color: var(--color-ink-soft);
+  }
+
+  .glossary__group {
+    max-width: var(--measure-wide);
+  }
+
+  .glossary__letter {
+    position: sticky;
+    top: 64px;
+    background: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: var(--size-0);
+    font-weight: 600;
+    color: var(--color-accent);
+    padding-block: var(--space-3);
+    margin-top: var(--space-7);
+    border-bottom: var(--border-hair);
+    z-index: 5;
+  }
+
   .glossary__list {
-    margin: var(--space-8) 0 0;
+    margin: 0;
     display: grid;
     gap: 0;
-    max-width: var(--measure-wide);
   }
 
   .glossary__item {
@@ -167,6 +325,15 @@ const terms = [
   @media (max-width: 640px) {
     .glossary__item {
       grid-template-columns: 1fr;
+    }
+
+    .glossary__controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .glossary__search {
+      max-width: none;
     }
   }
 </style>

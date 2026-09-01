@@ -112,10 +112,13 @@ const toolIcons = {
       <div class="pillars-list">
         {
           byCategory.map(({ slug, meta }, index) => (
-            <a class="pillar-row" href={`/${slug}/`} data-reveal style={`--reveal-index:${index}`}>
+            <a class:list={['pillar-row', { 'pillar-row--start': index === 0 }]} href={`/${slug}/`} data-reveal style={`--reveal-index:${index}`}>
               <svg class="pillar-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={pillarIcons[slug]} />
               <div class="pillar-row__text">
-                <h3>{meta.title}</h3>
+                <h3>
+                  {meta.title}
+                  {index === 0 && <span class="pillar-row__badge">Start here</span>}
+                </h3>
                 <p>{meta.description}</p>
               </div>
               <span class="pillar-row__cta">
@@ -316,12 +319,21 @@ const toolIcons = {
     border-bottom: var(--border-hair);
   }
 
+  .pillar-row--start {
+    padding-block: var(--space-7);
+  }
+
   .pillar-row__icon {
     flex-shrink: 0;
     width: 34px;
     height: 34px;
     color: var(--color-accent-cool);
     transition: color var(--duration-fast) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+
+  .pillar-row--start .pillar-row__icon {
+    width: 44px;
+    height: 44px;
   }
 
   .pillar-row:hover .pillar-row__icon {
@@ -335,8 +347,27 @@ const toolIcons = {
   }
 
   .pillar-row__text h3 {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
     font-size: var(--size-3);
     transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .pillar-row--start .pillar-row__text h3 {
+    font-size: var(--size-4);
+  }
+
+  .pillar-row__badge {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--size-000);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    padding: 2px var(--space-2);
   }
 
   .pillar-row:hover .pillar-row__text h3 {
