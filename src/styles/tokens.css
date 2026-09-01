@@ -1,0 +1,76 @@
+/*
+  Design tokens for The Layer Line.
+  Palette is a cool "calibration paper" neutral with a hot-nozzle orange
+  and a print-bed teal as the two accents — see DESIGN_NOTES.md.
+*/
+:root {
+  /* Color — light (default) */
+  --color-bg: #eff1ec;
+  --color-bg-raised: #ffffff;
+  --color-bg-sunken: #e4e7e0;
+  --color-ink: #1b1f1d;
+  --color-ink-soft: #4a5049;
+  --color-ink-faint: #767c73;
+  --color-line: #c7cdc3;
+  --color-line-strong: #9aa197;
+  --color-accent: #e8582a;
+  --color-accent-ink: #ffffff;
+  --color-accent-cool: #215b66;
+  --color-accent-cool-soft: #e3edee;
+  --color-warn-bg: #fbe9df;
+  --color-warn-ink: #7a3416;
+
+  /* Typography */
+  --font-display: 'Archivo Variable', 'Archivo', 'Arial Narrow', sans-serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --size-000: 0.75rem;
+  --size-00: 0.8125rem;
+  --size-0: 0.9375rem;
+  --size-1: 1.0625rem;
+  --size-2: 1.25rem;
+  --size-3: 1.5rem;
+  --size-4: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  --size-5: clamp(2.1rem, 1.7rem + 1.8vw, 3rem);
+  --size-6: clamp(2.6rem, 2rem + 3vw, 4.25rem);
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  --radius-sm: 2px;
+  --radius-md: 3px;
+
+  --border-hair: 1px solid var(--color-line);
+  --border-hair-strong: 1px solid var(--color-line-strong);
+
+  --measure: 68ch;
+  --measure-wide: 78ch;
+  --content-width: 1180px;
+
+  --shadow-card: 0 1px 0 var(--color-line), 0 12px 24px -18px rgba(27, 31, 29, 0.35);
+
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}

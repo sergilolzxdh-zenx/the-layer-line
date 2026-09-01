@@ -1,0 +1,46 @@
+---
+title: "PETG Printing Guide: Settings, Stringing, and Adhesion"
+description: "PETG behaves differently enough from PLA that copying a PLA profile causes most of the problems people blame on the material itself."
+category: "materials"
+pageType: "guide"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "print-quality/stringing"
+  - "calibration/retraction-tuning"
+  - "materials/pla-vs-petg-vs-abs"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Most PETG frustration comes from using a PLA-tuned printer profile and being surprised when the results are worse, not better, than PLA. PETG isn't harder to print than PLA — it just needs different answers to the same settings.
+
+## Starting settings
+
+- **Nozzle temperature**: 230–250°C, brand-dependent. Start in the middle of your specific spool's recommended range and adjust based on stringing and layer adhesion, not the other way around.
+- **Bed temperature**: 70–80°C. A PEI or similar textured surface generally works well.
+- **Cooling fan**: lower than PLA, especially on the first several layers. PETG benefits from staying slightly warmer for longer to bond layers well — full PLA-level cooling from layer one is one of the more common causes of both weak layer adhesion and paradoxically worse-looking stringing.
+- **Retraction**: PETG tends to need more careful tuning than PLA, not necessarily more retraction distance. See [retraction tuning](/calibration/retraction-tuning/) to find your actual threshold rather than assuming a higher number automatically helps.
+
+<AdSlot slot="in-article" />
+
+## The two problems people associate with PETG
+
+**Stringing.** PETG's molten behavior holds thin strings together more easily than PLA's does at a comparable position in its temperature range. This is addressed through the same two levers as any stringing problem — temperature and retraction — see the full [stringing guide](/print-quality/stringing/). PETG usually ends up printing well toward the lower end of its temperature range specifically because of this tendency.
+
+**Bed adhesion that's too strong.** On bare PEI surfaces in particular, PETG can bond so well that removing the part risks damaging the sheet's coating. A thin layer of glue stick or a dedicated release agent isn't a workaround for bad adhesion — for PETG on PEI, it's closer to standard practice.
+
+## Common mistakes
+
+<Callout kind="mistake">
+Copying a PLA cooling profile directly. High fan speed from the first layer is a common PLA default that actively works against PETG's layer adhesion and can make stringing look worse rather than better.
+</Callout>
+
+<Callout kind="mistake">
+Assuming rough surface finish means the temperature is wrong. PETG absorbs moisture from the air more readily than PLA, and damp filament produces a rough, sometimes bubbly surface finish that looks like a temperature problem but is actually a storage problem. If PETG that printed cleanly before starts looking rough, drying the filament is worth trying before adjusting temperature.
+</Callout>
+
+<Callout kind="tip" label="Dry filament before a long or important print">
+A few hours in a filament dryer or a low-temperature oven (following the specific manufacturer's guidance for safe temperatures) before a print that needs to come out right the first time is cheap insurance against moisture-related surface defects.
+</Callout>

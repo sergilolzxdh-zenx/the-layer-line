@@ -1,0 +1,59 @@
+---
+title: "Stringing in 3D Prints: Causes and How to Fix It"
+description: "Thin wisps of plastic between separate parts of a print almost always trace back to temperature or retraction. Here's how to tell which one, and what to change."
+category: "print-quality"
+pageType: "troubleshooting"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "calibration/retraction-tuning"
+  - "materials/petg-guide"
+  - "print-quality/layer-lines"
+sources:
+  - label: "Prusa Knowledge Base — Stringing and oozing"
+    url: "https://help.prusa3d.com/article/stringing-and-oozing_1805"
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Stringing is the thin, hair-like strands of plastic that stretch between separate points of a model where the nozzle traveled without printing. It happens when melted filament keeps oozing out of the nozzle during a travel move instead of staying put until the next extrusion starts.
+
+## The direct fix: retraction
+
+Retraction is the slicer pulling filament backward, away from the nozzle tip, right before a travel move — and pushing it back forward before extrusion resumes. It exists specifically to counteract oozing. If you're seeing stringing, retraction is the first thing to check:
+
+- **Retraction distance too short** for your extruder type. Bowden setups (motor mounted away from the hot end, filament pushed through a tube) typically need 3–7 mm of retraction; direct-drive setups (motor mounted right on top of the hot end) usually only need 0.5–2 mm, because there's much less flexible tubing for the filament to compress into.
+- **Retraction speed too slow** to actually pull the filament back before the nozzle starts moving.
+
+Print a [retraction test tower](/calibration/retraction-tuning/) rather than guessing — it isolates the variable and shows you the actual threshold where stringing stops, instead of over-correcting.
+
+<AdSlot slot="in-article" />
+
+## The other half: temperature
+
+Retraction can only do so much if the filament is simply too hot and too runny. Molten plastic at the high end of a filament's temperature range oozes more readily, and no amount of retraction fully stops a nozzle that's dripping.
+
+If you've already tuned retraction and stringing persists:
+
+1. Drop nozzle temperature in 5°C steps, printing a small test each time, until stringing clears up or print quality (layer adhesion, surface finish) starts to suffer.
+2. Note that PETG strings more readily than PLA at a comparable position within its temperature range — see the [materials guide](/materials/) for why. It's common for a well-tuned PETG profile to sit at the lower end of the manufacturer's suggested range specifically to control stringing.
+
+<Callout kind="tip" label="Check travel speed too">
+Faster travel moves spend less time hovering near a hot part, which reduces the opportunity for oozing to become a visible string. If temperature and retraction are both already reasonable, try raising travel speed before making further retraction changes.
+</Callout>
+
+## Less common causes
+
+- **A worn or partially clogged nozzle** can cause inconsistent internal pressure that leaks filament even during correctly-tuned retraction moves.
+- **Coasting and wipe settings**, where supported by your slicer, reduce pressure in the nozzle right before a travel move starts, which can help on stubborn cases without needing more aggressive retraction.
+- **Damp filament** — moisture turning to steam inside the nozzle can push out small amounts of plastic unpredictably. This shows up alongside other symptoms like popping sounds and rough surface finish, not stringing alone.
+
+## Common mistakes
+
+<Callout kind="mistake">
+Cranking retraction distance far beyond what the extruder type needs. Excessive retraction on a Bowden setup can grind or chew the filament against the drive gear, and on any setup it slows printing and can eventually cause under-extrusion at the start of each new segment.
+</Callout>
+
+<Callout kind="mistake">
+Fixing stringing by dropping temperature so far that layer adhesion suffers. If reasonable retraction tuning plus a temperature within the filament's recommended range still strings badly, look at the nozzle and filament dryness before going colder.
+</Callout>

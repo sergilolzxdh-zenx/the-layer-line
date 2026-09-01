@@ -1,0 +1,45 @@
+---
+export interface Props {
+  size?: 'default' | 'large';
+}
+const { size = 'default' } = Astro.props;
+---
+
+<a href="/" class:list={['logo', { 'logo--large': size === 'large' }]} aria-label="The Layer Line — home">
+  <span class="logo-word">The Layer</span>
+  <span class="logo-word logo-word--accent">
+    Line
+    <span class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></span>
+  </span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 0.95;
+    text-decoration: none;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: var(--size-3);
+  }
+
+  .logo:hover {
+    color: var(--color-ink);
+  }
+
+  .logo--large {
+    font-size: var(--size-5);
+  }
+
+  .logo-word--accent {
+    color: var(--color-accent);
+  }
+
+  .logo .layer-lines {
+    width: 100%;
+    margin-block: 4px 0;
+  }
+</style>

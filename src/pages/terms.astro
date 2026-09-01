@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Terms of Use"
+  description="The terms governing use of The Layer Line website."
+  path="/terms/"
+>
+  <div class="container prose-page">
+    <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Terms of Use', href: '/terms/' }]} />
+    <header class="prose-page__header">
+      <p class="eyebrow">Terms of Use</p>
+      <h1>Terms of Use</h1>
+      <p class="prose-page__lead">Last updated September 1, 2026.</p>
+    </header>
+
+    <div class="prose-page__body">
+      <p>By using thelayerline.com, you agree to these terms. This is a general template — have it reviewed by qualified legal counsel before relying on it for a live commercial site.</p>
+
+      <h2>Content is informational, not professional advice</h2>
+      <p>
+        Guides, calculators, and other content on this site are provided for general informational purposes about
+        desktop 3D printing. 3D printers involve heating elements, moving parts, and materials that can be hazardous
+        if mishandled. Follow your printer and filament manufacturer's own safety instructions, and use appropriate
+        judgment and supervision, especially around unattended printing.
+      </p>
+
+      <h2>No warranty</h2>
+      <p>
+        Content is provided "as is" without warranties of any kind, express or implied. We work to keep guides
+        accurate and current (see our <a href="/editorial-policy/">editorial policy</a>), but we don't guarantee
+        that any setting, calculation, or recommendation will produce a specific result on your particular
+        hardware.
+      </p>
+
+      <h2>Limitation of liability</h2>
+      <p>
+        To the fullest extent permitted by law, The Layer Line is not liable for any damages arising from use of
+        this site or reliance on its content, including damage to equipment, materials, or property.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        Text, graphics, and tools on this site are owned by The Layer Line unless otherwise noted, and may not be
+        republished or redistributed without permission. You're welcome to link to any page on this site.
+      </p>
+
+      <h2>Third-party links</h2>
+      <p>
+        This site links to external resources (manufacturer documentation, community resources) for reference. We
+        don't control and aren't responsible for the content or availability of external sites.
+      </p>
+
+      <h2>Advertising</h2>
+      <p>
+        This site displays advertising, including through Google AdSense. See our
+        <a href="/privacy-policy/">privacy policy</a> for how that affects data collection.
+      </p>
+
+      <h2>Changes</h2>
+      <p>We may update these terms from time to time; the date above reflects the most recent revision.</p>
+
+      <h2>Contact</h2>
+      <p>Questions: <a href="mailto:hello@thelayerline.com">hello@thelayerline.com</a>.</p>
+    </div>
+  </div>
+</BaseLayout>

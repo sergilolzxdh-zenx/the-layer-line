@@ -1,0 +1,54 @@
+---
+export interface Props {
+  kind?: 'tip' | 'mistake' | 'warning';
+  label?: string;
+}
+const { kind = 'tip', label } = Astro.props;
+const defaults: Record<string, string> = {
+  tip: 'Good to know',
+  mistake: 'Common mistake',
+  warning: 'Watch out',
+};
+const heading = label ?? defaults[kind];
+---
+
+<aside class:list={['callout', `callout--${kind}`]}>
+  <p class="callout__label">{heading}</p>
+  <div class="callout__body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .callout {
+    border-left: 3px solid var(--color-accent-cool);
+    background: var(--color-accent-cool-soft);
+    padding: var(--space-4) var(--space-5);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-block: var(--space-6);
+  }
+
+  .callout--mistake,
+  .callout--warning {
+    border-left-color: var(--color-accent);
+    background: var(--color-warn-bg);
+  }
+
+  .callout__label {
+    font-family: var(--font-mono);
+    font-size: var(--size-000);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 var(--space-2);
+    color: var(--color-accent-cool);
+  }
+
+  .callout--mistake .callout__label,
+  .callout--warning .callout__label {
+    color: var(--color-warn-ink);
+  }
+
+  .callout__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

@@ -1,0 +1,20 @@
+---
+import { getEntry, render } from 'astro:content';
+import PillarLayout from '../../layouts/PillarLayout.astro';
+
+const entry = await getEntry('pillars', 'print-quality');
+if (!entry) throw new Error('Missing pillars/print-quality.mdx');
+const { Content, headings } = await render(entry);
+---
+
+<PillarLayout
+  category="print-quality"
+  title={entry.data.title}
+  description={entry.data.description}
+  publishDate={entry.data.publishDate}
+  updatedDate={entry.data.updatedDate}
+  headings={headings}
+  sources={entry.data.sources}
+>
+  <Content />
+</PillarLayout>

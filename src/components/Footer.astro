@@ -1,0 +1,93 @@
+---
+import Logo from './Logo.astro';
+import { FOOTER_LINKS, SITE } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <Logo />
+      <p>{SITE.tagline}.</p>
+    </div>
+    <nav aria-label="Topics">
+      <p class="eyebrow">Topics</p>
+      <ul>
+        {FOOTER_LINKS.topics.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="About">
+      <p class="eyebrow">About</p>
+      <ul>
+        {FOOTER_LINKS.company.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Legal">
+      <p class="eyebrow">Legal</p>
+      <ul>
+        {FOOTER_LINKS.legal.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="container site-footer__bottom">
+    <p>© {year} The Layer Line. Independently written and edited. Not affiliated with any printer or slicer manufacturer.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: var(--border-hair);
+    background: var(--color-bg-sunken);
+    margin-top: var(--space-9);
+    padding-block: var(--space-8) var(--space-6);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: var(--space-6);
+  }
+
+  .site-footer__brand p {
+    color: var(--color-ink-soft);
+    max-width: 32ch;
+    margin-top: var(--space-3);
+  }
+
+  .site-footer ul {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .site-footer a {
+    color: var(--color-ink-soft);
+    text-decoration: none;
+    font-size: var(--size-0);
+  }
+
+  .site-footer a:hover {
+    color: var(--color-accent);
+  }
+
+  .site-footer__bottom {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: var(--border-hair);
+  }
+
+  .site-footer__bottom p {
+    font-size: var(--size-00);
+    color: var(--color-ink-faint);
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

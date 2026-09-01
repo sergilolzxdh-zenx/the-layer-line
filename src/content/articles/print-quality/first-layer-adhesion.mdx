@@ -1,0 +1,59 @@
+---
+title: "How to Fix First Layer Adhesion Problems"
+description: "A step-by-step way to get a print to actually stick to the bed, from leveling to surface prep, without guessing at random fixes."
+category: "print-quality"
+pageType: "how-to"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "calibration/bed-leveling"
+  - "print-quality/warping"
+  - "materials/pla-vs-petg-vs-abs"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+A print that won't stick, peels up at the edges, or detaches part-way through almost always comes down to one of three things: the nozzle-to-bed distance, the bed surface and temperature, or the material's inherent adhesion behavior. Work through them in this order.
+
+## Step 1: Check nozzle-to-bed distance
+
+This is the single most common cause of adhesion problems, and it's worth ruling out first even if you leveled the bed recently.
+
+- **Too far away**: the first layer looks stringy, round, and doesn't flatten into the bed — you can see individual extruded lines with gaps between them.
+- **Too close**: the nozzle drags, the filament can't come out fast enough, and you'll often hear a clicking or grinding sound as the extruder skips.
+- **Correct**: the first layer looks slightly flattened and matte, with lines touching their neighbors, but not squished into a solid sheet.
+
+See the full [bed leveling guide](/calibration/bed-leveling/) for how to set this properly across the whole bed, not just the center.
+
+<AdSlot slot="in-article" />
+
+## Step 2: Match bed temperature to the material
+
+Every material has a bed temperature range that helps the first layers stay soft and bond to the surface long enough to build a mechanical grip:
+
+- PLA: bed surface generally works well in the 50–60°C range.
+- PETG: usually 70–80°C.
+- ABS/ASA: usually 90–110°C, which is also why these materials benefit most from an enclosure — a cooler surrounding air temperature pulls heat out of the bed and the part faster than the bed heater can replace it.
+
+If adhesion is inconsistent between prints on the same settings, confirm the bed is actually reaching its set temperature before the print starts, especially on larger beds that take longer to heat evenly.
+
+## Step 3: Match the surface (and any adhesive) to the material
+
+Most bed surfaces are designed around specific materials:
+
+- Smooth or textured PEI sheets work well for PLA and PETG without additional adhesive in most cases.
+- Glass beds often need a thin layer of glue stick or a dedicated adhesion spray, particularly for ABS and PETG.
+- PETG has a tendency to bond too well to bare PEI in some cases, which can pull small chunks off the sheet's surface on removal — a light release agent (glue stick works) is a normal precaution for PETG on PEI, not a sign something is wrong.
+
+## Step 4: Add mechanical help for large or corner-heavy parts
+
+If leveling, temperature, and surface are all correct and adhesion is still marginal — usually for large flat parts or shapes with sharp corners — a brim adds surface area exactly where lifting starts. See [warping](/print-quality/warping/) for why corners lift in the first place; a brim is treating the same root cause from the adhesion side rather than the thermal side.
+
+<Callout kind="mistake">
+Adding more adhesive or a brim before checking bed leveling and temperature. Adhesives and brims compensate for a marginal bond — they don't fix a nozzle gap that's genuinely too large, and stacking fixes makes it harder to tell what actually solved the problem.
+</Callout>
+
+<Callout kind="tip" label="Clean the surface first">
+Oils from handling (even just touching the bed with bare hands) can reduce adhesion noticeably on PEI and glass surfaces. Wiping the bed with isopropyl alcohol before a print that needs strong adhesion is a fast, free troubleshooting step that's easy to skip.
+</Callout>

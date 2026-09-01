@@ -1,0 +1,53 @@
+---
+title: "How to Calibrate Flow Rate (Extrusion Multiplier)"
+description: "A printed test that catches extrusion errors E-steps alone can't — from nozzle wear to filament diameter variance."
+category: "calibration"
+pageType: "how-to"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "calibration/e-steps"
+  - "print-quality/under-extrusion-vs-over-extrusion"
+  - "materials/pla-vs-petg-vs-abs"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Flow rate (sometimes called extrusion multiplier) scales how much filament the slicer commands on top of an already-correct [E-steps](/calibration/e-steps/) value. Where E-steps corrects a mechanical property of the extruder, flow rate corrects everything else that affects actual output: nozzle wear, real filament diameter versus the diameter typed into the slicer, and small thermal effects on flow.
+
+## Why a printed test beats a formula
+
+E-steps calibration measures the motor directly. Flow rate calibration measures the result — the actual printed wall thickness — because that's the only way to catch errors that happen after the motor turns, like a nozzle that's worn slightly oversize or filament that measures 1.78 mm instead of the 1.75 mm typed into the slicer profile.
+
+<AdSlot slot="in-article" />
+
+## The single-wall test
+
+1. Model or download a simple hollow box or cylinder, roughly 20 mm tall, with **no top layers, no bottom layers, and a single perimeter wall** — you want pure wall extrusion with nothing else affecting the result.
+2. Slice it with 100% flow (the default) and print it.
+3. Once printed, measure the wall thickness with calipers at several points around the shape and average the readings.
+4. Compare to your nozzle diameter. For a 0.4 mm nozzle, a single wall printed at 100% flow should measure close to 0.4–0.45 mm.
+5. Calculate the correction: `new flow % = old flow % × (target wall thickness / measured wall thickness)`.
+
+For example, if you measured 0.46 mm on a 0.4 mm nozzle at 100% flow: `100 × (0.40 / 0.46) ≈ 87%`. Re-slice and print the same test at the new percentage to confirm it lands closer to target.
+
+<Callout kind="tip" label="Calibrate per filament, not per printer">
+Flow rate is a property of the specific spool and material, not the printer. It's normal to end up with a slightly different flow percentage for each filament brand, and even between colors of the "same" filament from some manufacturers. Keep a note of the value that works for each spool rather than assuming one number covers everything.
+</Callout>
+
+## What a correct flow rate actually fixes
+
+- Solid top layers that are fully closed instead of showing pinholes or gaps
+- Vertical walls that measure at the dimension you modeled, not systematically oversize or undersize
+- Consistent layer adhesion, since correctly-sized extrusion lines bond to their neighbors more predictably than over- or under-sized ones
+
+## Common mistakes
+
+<Callout kind="mistake">
+Using top-layer gaps alone to judge flow rate. Pinholes in top surfaces can also come from too few top layers, too fast a top-layer print speed, or insufficient cooling — the single-wall test isolates flow specifically so you're not chasing the wrong variable.
+</Callout>
+
+<Callout kind="mistake">
+Re-running full flow calibration after every spool change "just in case." If you're using the same brand and material and the results have been consistent, a quick single-wall check is enough to confirm nothing changed — you don't need to treat every roll as a fresh unknown.
+</Callout>

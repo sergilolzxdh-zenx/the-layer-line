@@ -1,0 +1,50 @@
+---
+title: "How to Level a 3D Printer Bed (Manual and Auto)"
+description: "What bed leveling actually sets, why it needs to be checked at temperature, and how manual and automatic mesh leveling differ in practice."
+category: "calibration"
+pageType: "how-to"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "print-quality/first-layer-adhesion"
+  - "print-quality/warping"
+  - "calibration/e-steps"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Bed leveling sets the distance between the nozzle tip and the bed surface, ideally to the same value across the entire bed, not just wherever you last checked it. That distance directly determines first-layer quality — see [first-layer adhesion](/print-quality/first-layer-adhesion/) for what happens when it's wrong.
+
+## Manual leveling
+
+1. Home the printer so the nozzle moves to a known reference position.
+2. Move the nozzle to each of the bed's leveling points — typically the four corners plus the center on a standard bed, or a similar spread of points.
+3. At each point, slide a piece of standard paper between the nozzle and the bed. Adjust the corresponding leveling knob or screw until you feel slight friction on the paper — it should drag a little, not slide freely, and not tear.
+4. Repeat across all points, then re-check the first one, since adjusting one corner slightly affects the others on most bed designs.
+
+<AdSlot slot="in-article" />
+
+## Automatic (mesh) leveling
+
+Many current printers use a probe (inductive, capacitive, or a physical switch like a BLTouch) to measure bed height at a grid of points and compensate in software during printing, rather than relying on physically adjusted screws alone.
+
+This is more precise for beds with a slight warp or waviness that manual leveling at 4–5 points can't fully correct, since it builds a height map across dozens of points instead of a handful. It does not replace getting the bed roughly level and square first — a probe compensates for small variations, not for a bed that's tilted at a steep angle relative to the gantry.
+
+<Callout kind="tip" label="Set Z-offset separately from mesh leveling">
+Mesh leveling corrects relative differences across the bed; it doesn't tell the printer the actual distance from nozzle to bed at any single point. That's a separate value — Z-offset — usually set once via a live first-layer test print, then left alone unless you change nozzles or the bed surface.
+</Callout>
+
+## Why "level at printing temperature" matters
+
+Some bed materials and printer frames shift very slightly as they heat up — not always by much, but sometimes enough to affect first-layer consistency. If a print's first layer looks fine in one area and inconsistent in another, and you leveled the bed cold, re-check with the bed and nozzle both heated to printing temperature before assuming there's a deeper problem.
+
+## Common mistakes
+
+<Callout kind="mistake">
+Re-leveling the bed every time a print fails, regardless of cause. If leveling was fine on the previous print and nothing physically changed (no bed swap, no nozzle change, no frame adjustment), a failure is more likely a flow, temperature, or retraction issue — see the [print quality guide](/print-quality/) to narrow it down before assuming leveling drifted.
+</Callout>
+
+<Callout kind="mistake">
+Trusting a single leveling pass on a large bed. Bigger beds are more likely to have some waviness across the surface that a 4-point manual check won't catch — mesh leveling, or at minimum checking more points manually, matters more as bed size increases.
+</Callout>

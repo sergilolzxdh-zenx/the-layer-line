@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Cookie Policy"
+  description="Which cookies The Layer Line uses and how to control or disable them."
+  path="/cookie-policy/"
+>
+  <div class="container prose-page">
+    <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Cookie Policy', href: '/cookie-policy/' }]} />
+    <header class="prose-page__header">
+      <p class="eyebrow">Cookie Policy</p>
+      <h1>Cookie Policy</h1>
+      <p class="prose-page__lead">Last updated September 1, 2026.</p>
+    </header>
+
+    <div class="prose-page__body">
+      <h2>What cookies we use</h2>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Type</th><th>Purpose</th><th>Set by</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Essential</td><td>Basic site functionality (e.g. remembering your cookie preference)</td><td>The Layer Line</td></tr>
+            <tr><td>Analytics</td><td>Understanding aggregate site usage, if Google Analytics is enabled</td><td>Google Analytics</td></tr>
+            <tr><td>Advertising</td><td>Serving and measuring ads, if Google AdSense is enabled</td><td>Google AdSense / partners</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Controlling cookies</h2>
+      <p>
+        Most browsers let you block or delete cookies through their settings. Blocking essential cookies may affect
+        basic site functionality; blocking analytics or advertising cookies won't affect your ability to read the
+        site, but may make ads less relevant to you.
+      </p>
+      <p>
+        For Google-served ads specifically, you can manage personalization at
+        <a href="https://adssettings.google.com" rel="noopener noreferrer" target="_blank">Google's Ads Settings</a>.
+      </p>
+
+      <h2>Questions</h2>
+      <p>Email <a href="mailto:privacy@thelayerline.com">privacy@thelayerline.com</a>.</p>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from './ArticleCard.astro';
+
+export interface Props {
+  slugs: string[];
+}
+const { slugs } = Astro.props;
+const all = await getCollection('articles');
+const related = slugs
+  .map((slug) => all.find((entry) => entry.id === slug))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+---
+
+{
+  related.length > 0 && (
+    <section class="related" aria-labelledby="related-heading">
+      <p class="eyebrow" id="related-heading">
+        Related
+      </p>
+      <div class="related__grid">
+        {related.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .related {
+    margin-block: var(--space-8);
+    padding-top: var(--space-7);
+    border-top: var(--border-hair);
+  }
+
+  .related__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+</style>

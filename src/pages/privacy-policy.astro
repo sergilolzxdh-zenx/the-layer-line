@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="What data The Layer Line collects, how advertising and analytics cookies are used, and how to exercise your privacy rights."
+  path="/privacy-policy/"
+>
+  <div class="container prose-page">
+    <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy', href: '/privacy-policy/' }]} />
+    <header class="prose-page__header">
+      <p class="eyebrow">Privacy Policy</p>
+      <h1>Privacy Policy</h1>
+      <p class="prose-page__lead">Last updated September 1, 2026.</p>
+    </header>
+
+    <div class="prose-page__body">
+      <p>
+        This policy explains what information The Layer Line ("we," "us") collects when you visit
+        thelayerline.com, and how it's used. This is a general policy template; before launch, review it against
+        your actual configuration (which analytics and ad services are enabled, which regions you serve) and adapt
+        it with qualified legal advice if you need jurisdiction-specific compliance (GDPR, CCPA, etc.).
+      </p>
+
+      <h2>Information we collect</h2>
+      <p>
+        We don't require account creation or collect personal information to read the site. The following may be
+        collected automatically or when you choose to provide it:
+      </p>
+      <ul>
+        <li><strong>Usage data</strong> via Google Analytics, if enabled — pages visited, approximate location (country/region level), device and browser type, and referring site.</li>
+        <li><strong>Advertising data</strong> via Google AdSense, if enabled — Google and its partners may use cookies and similar technologies to serve and measure ads, which can include personalization based on your browsing activity across sites.</li>
+        <li><strong>Newsletter signup</strong> — if you subscribe, we collect your email address for the sole purpose of sending the newsletter.</li>
+        <li><strong>Contact form or email</strong> — if you email us, we retain that correspondence to respond to you.</li>
+      </ul>
+
+      <h2>Cookies</h2>
+      <p>
+        Cookies are small text files stored on your device. We use them for basic site functionality, analytics
+        (understanding how the site is used, in aggregate), and advertising (via Google AdSense). See the
+        <a href="/cookie-policy/">cookie policy</a> for details and how to control them.
+      </p>
+
+      <h2>Google AdSense and personalized advertising</h2>
+      <p>
+        Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this and
+        other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your
+        visit to this site and/or other sites on the Internet. You can opt out of personalized advertising by
+        visiting <a href="https://adssettings.google.com" rel="noopener noreferrer" target="_blank">Google's Ads
+        Settings</a>, or opt out of a third-party vendor's use of cookies for personalized advertising by visiting
+        <a href="https://www.aboutads.info" rel="noopener noreferrer" target="_blank">www.aboutads.info</a>.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        Depending on where you live, you may have rights to access, correct, or delete personal data we hold about
+        you, and to opt out of certain data uses. To make a request, contact us at
+        <a href="mailto:privacy@thelayerline.com">privacy@thelayerline.com</a>.
+      </p>
+
+      <h2>Children's privacy</h2>
+      <p>This site is not directed at children under 13, and we do not knowingly collect personal information from them.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>We'll update the date at the top of this page when this policy changes materially.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a href="mailto:privacy@thelayerline.com">privacy@thelayerline.com</a>.</p>
+    </div>
+  </div>
+</BaseLayout>

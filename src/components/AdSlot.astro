@@ -1,0 +1,42 @@
+---
+// Placeholder ad container. No AdSense script or publisher ID is wired in —
+// see MONETIZATION.md for how to enable real units once the site is approved.
+// Reserves space to avoid layout shift; renders a labeled placeholder only
+// while PUBLIC_ADSENSE_CLIENT is unset, so nothing resembling a real ad
+// ships before there is one.
+export interface Props {
+  slot: 'in-article' | 'article-end' | 'sidebar';
+}
+const { slot } = Astro.props;
+
+const sizes: Record<Props['slot'], string> = {
+  'in-article': '250px',
+  'article-end': '250px',
+  sidebar: '600px',
+};
+---
+
+<div class="ad-slot" data-ad-slot={slot} style={`--ad-min-height: ${sizes[slot]}`}>
+  <span class="ad-slot__label">Advertisement</span>
+</div>
+
+<style>
+  .ad-slot {
+    min-height: var(--ad-min-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--color-line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-sunken);
+    margin-block: var(--space-6);
+  }
+
+  .ad-slot__label {
+    font-family: var(--font-mono);
+    font-size: var(--size-000);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+</style>

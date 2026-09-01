@@ -1,0 +1,47 @@
+---
+title: "Visible Layer Lines: What Causes Them and When to Worry"
+description: "Some layer lines are unavoidable in FDM printing. Here's how to tell normal texture from a mechanical problem, and the settings that actually smooth things out."
+category: "print-quality"
+pageType: "troubleshooting"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "calibration/e-steps"
+  - "calibration/bed-leveling"
+  - "print-quality/under-extrusion-vs-over-extrusion"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Every FDM print has layer lines — the process builds a part by stacking extruded lines of plastic, so some texture is physically unavoidable. The question worth asking isn't "how do I remove layer lines," it's "are these consistent, or is something mechanical making them worse than they should be."
+
+## Normal texture vs. a real problem
+
+**Normal:** faint, evenly-spaced horizontal ridges, most visible on curved or angled surfaces where the "staircase" effect of stacked layers shows up geometrically. This is inherent to the process and scales directly with layer height — see below.
+
+**A real problem:** lines that are uneven in spacing or depth, a visible periodic wobble (bands that repeat at a consistent vertical interval, often called "ringing" or "ghosting"), or lines that appear only on one side of the print.
+
+<AdSlot slot="in-article" />
+
+## If it's just normal texture: layer height is the lever
+
+The staircase effect on angled surfaces is a direct function of layer height — a 0.3 mm layer height leaves noticeably bigger visible steps on a slope than a 0.12 mm layer height, at the cost of roughly double to triple the print time. There's no way around this trade-off; it's geometry, not a setting to "fix." Choose layer height based on how much the visual result matters for that particular print versus how long you're willing to wait.
+
+Post-processing (light sanding, filler primer, vapor smoothing for compatible materials like ABS) removes visible layer lines entirely, but changes the part's dimensions slightly and isn't reversible.
+
+## If the lines are uneven or banded: it's mechanical
+
+**Inconsistent spacing or depth**, especially combined with slightly rough vertical walls, usually points to inconsistent extrusion — see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/) — or a Z-axis that isn't moving smoothly, such as a bent lead screw, a loose coupler between the stepper motor and the leadscrew, or accumulated debris on the Z rods.
+
+**Regular banding at a consistent vertical interval** ("ringing" or "ghosting") is a motion-system problem: the frame or gantry flexing slightly every time the print head changes direction, at a frequency matched to the print's geometry. This is addressed through mechanical tightening (belts, frame joints, gantry bolts) and, on printers that support it, input shaping or reduced acceleration — not by changing layer height or temperature.
+
+**Lines on one side only** often mean an X or Y axis that isn't perfectly parallel to the bed, or a gantry that's slightly racked (one side higher than the other), which is a frame-squareness and belt-tension issue rather than a print setting.
+
+<Callout kind="mistake">
+Reaching for cooling and temperature adjustments to fix banding or one-sided ridges. Those settings affect surface finish and stringing, not mechanical vibration or frame geometry — tightening belts and checking the frame will do more than any slicer setting here.
+</Callout>
+
+<Callout kind="tip">
+If you're not sure whether an issue is mechanical, print a plain cube or cylinder with no complex geometry. Mechanical issues (banding, one-sided lines) show up clearly on the simplest possible shape, while normal staircase texture only appears where the model actually has a slope or curve.
+</Callout>

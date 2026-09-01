@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Editorial Policy"
+  description="How content on The Layer Line is researched, written, verified, and updated — including how AI is used in the process."
+  path="/editorial-policy/"
+>
+  <div class="container prose-page">
+    <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Editorial Policy', href: '/editorial-policy/' }]} />
+    <header class="prose-page__header">
+      <p class="eyebrow">Editorial Policy</p>
+      <h1>How we research, write, and correct content</h1>
+      <p class="prose-page__lead">Last updated September 1, 2026.</p>
+    </header>
+
+    <div class="prose-page__body">
+      <h2>What this site covers</h2>
+      <p>
+        The Layer Line publishes guides about desktop FDM (fused deposition modeling) 3D printing: print quality
+        troubleshooting, calibration, and material behavior. We don't cover resin (SLA/DLP) printing, industrial
+        additive manufacturing, or specific printer reviews.
+      </p>
+
+      <h2>Research and sourcing</h2>
+      <p>
+        Guides are built primarily from well-established, widely documented engineering principles of FDM
+        printing — thermoplastic behavior, extrusion mechanics, motion control — the kind of material covered
+        consistently across printer and slicer manufacturer documentation, materials science references, and the
+        broader 3D printing community's shared, tested knowledge. Where a specific claim comes from a particular
+        source rather than general consensus, we link to that source directly in the article rather than
+        presenting it as unattributed fact.
+      </p>
+      <p>
+        We do not claim to have personally tested every printer, filament brand, or combination of settings
+        described in a guide. Where a guide would benefit from first-hand testing we haven't done, it's written to
+        explain the underlying mechanism and general ranges rather than presenting an untested specific number as
+        verified fact.
+      </p>
+
+      <h2>How AI is used</h2>
+      <p>
+        AI tools are used internally for research assistance, outlining, drafting, and editing. Every published
+        article is reviewed for technical accuracy before publication, and we do not publish AI output that hasn't
+        been checked against the sourcing standard above. We do not use AI to fabricate test results, personal
+        experience, statistics, or sources — where we haven't verified something, we say so or leave it out.
+      </p>
+
+      <h2>Authorship</h2>
+      <p>
+        We don't invent author names, credentials, or biographies. Articles represent the editorial position of The
+        Layer Line as a publication rather than a claimed individual expert, because that's an accurate description
+        of how the content is produced.
+      </p>
+
+      <h2>Updates and corrections</h2>
+      <p>
+        Articles show a "Published" date and, where they've been substantively revised, an "Updated" date. We
+        prioritize updates for pages covering fast-changing information (specific software features, current
+        product recommendations) over pages covering stable engineering principles that don't change year to year.
+      </p>
+      <p>
+        If you spot an error, see the <a href="/contact/">contact page</a> — corrections are reviewed and, where
+        warranted, the article is updated with a note of what changed.
+      </p>
+
+      <h2>Monetization and editorial independence</h2>
+      <p>
+        This site is monetized primarily through Google AdSense, with more detail in our
+        <a href="/privacy-policy/">privacy policy</a>. Advertising has no influence over which topics we cover or
+        what a guide recommends. Where we ever add affiliate links, they'll only point to products actually relevant
+        to the guide they appear in, and they won't change the guide's recommendations.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

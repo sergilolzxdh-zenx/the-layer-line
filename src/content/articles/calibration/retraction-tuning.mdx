@@ -1,0 +1,51 @@
+---
+title: "How to Tune Retraction Settings to Stop Stringing"
+description: "A printed retraction test isolates distance and speed from every other variable, so you can find the actual threshold for your printer and filament."
+category: "calibration"
+pageType: "how-to"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "print-quality/stringing"
+  - "materials/petg-guide"
+  - "calibration/flow-rate"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Retraction has two settings that matter: **distance** (how far the filament is pulled back) and **speed** (how fast it's pulled). Guessing at both together makes it hard to know which one actually fixed — or caused — a problem. A printed retraction tower tests distance methodically while holding everything else constant.
+
+## Know your extruder type first
+
+This changes your starting point more than anything else:
+
+- **Bowden** (motor mounted away from the hot end, filament pushed through a PTFE tube): typically needs 3–7 mm of retraction distance, because some of the pulled-back filament is absorbed by compressing slightly in the tube before the effect reaches the nozzle.
+- **Direct drive** (motor mounted directly above the hot end): typically needs only 0.5–2 mm, since there's minimal tube length for filament to compress into.
+
+Starting from the wrong range wastes test prints. If you don't know which your printer has, check the extruder — if the filament travels through a length of tube before reaching a separate hot end assembly, it's Bowden.
+
+<AdSlot slot="in-article" />
+
+## Printing a retraction tower
+
+1. Download or model a test object with multiple separate towers or pillars on a single print bed, connected only by travel moves — several free retraction test models are widely available for common slicers.
+2. Slice it with retraction distance increasing at set intervals up the height of the print, if your slicer supports built-in retraction towers, or print several versions at fixed distances (for example 1 mm, 2 mm, 3 mm, 4 mm, 5 mm for a Bowden setup) if it doesn't.
+3. Examine the result: strings should visibly decrease as distance increases, then plateau. The lowest distance where stringing disappears (not the highest distance overall) is your target — going further adds risk without benefit.
+
+## Then tune speed
+
+Once distance is set, retraction speed determines how fast that filament actually gets pulled back before the travel move starts:
+
+- Too slow, and the nozzle starts moving before retraction finishes, so the effective retraction is less than what you configured.
+- Too fast, particularly on flexible filaments like TPU, can strip the filament against the drive gear instead of pulling it back cleanly.
+
+A reasonable starting point for most rigid filaments is 25–45 mm/s; increase in small steps and watch for stripped filament (a visible chewed or flattened spot) as the upper limit.
+
+<Callout kind="tip" label="Retest after any hot end change">
+Retraction distance is partly a function of how much empty space exists between the extruder gear and the melt zone. Replacing a nozzle, hot end, or PTFE tube can shift that distance even if nothing else changed — it's worth a quick retest, not a full assumption that old settings still apply.
+</Callout>
+
+<Callout kind="mistake">
+Tuning retraction on PLA and assuming the result transfers directly to PETG or TPU. Viscosity when molten varies enough between materials that retraction distance and speed are genuinely filament-specific, not just printer-specific — see the [stringing guide](/print-quality/stringing/) for why PETG tends to need more attention here.
+</Callout>

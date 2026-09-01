@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AdSlot from '../../components/AdSlot.astro';
+
+const symptoms = [
+  {
+    id: 'stringing',
+    label: 'Thin strands between parts',
+    causes: [
+      'Retraction distance too short for your extruder type (Bowden vs. direct drive)',
+      'Nozzle temperature at the high end of the filament\'s range',
+      'Travel speed too slow, giving the nozzle more time to ooze',
+    ],
+    link: '/print-quality/stringing/',
+    linkLabel: 'Full stringing guide',
+  },
+  {
+    id: 'warping',
+    label: 'Corners lifting or curling off the bed',
+    causes: [
+      'Material with high shrinkage (ABS/ASA) printed without an enclosure',
+      'Bed temperature too low for the material',
+      'Part cooling fan too aggressive on the first several layers',
+    ],
+    link: '/print-quality/warping/',
+    linkLabel: 'Full warping guide',
+  },
+  {
+    id: 'layer-lines',
+    label: 'Visible ridges or banding on the surface',
+    causes: [
+      'Normal staircase texture from layer height, on angled surfaces',
+      'Loose belts or a racked gantry causing regular banding',
+      'Inconsistent extrusion from partial under- or over-extrusion',
+    ],
+    link: '/print-quality/layer-lines/',
+    linkLabel: 'Full layer lines guide',
+  },
+  {
+    id: 'adhesion',
+    label: "First layer won't stick or peels up",
+    causes: [
+      'Nozzle too far from the bed (most common cause)',
+      'Bed temperature not matched to the material',
+      'Bed surface needs an adhesive for this specific material',
+    ],
+    link: '/print-quality/first-layer-adhesion/',
+    linkLabel: 'Full adhesion guide',
+  },
+  {
+    id: 'surface',
+    label: 'Rough, blobby surface or wrong wall thickness',
+    causes: [
+      'Flow rate miscalibrated — run the single-wall test to check which direction',
+      'Nozzle partially clogged (under-extrusion) or worn oversize (over-extrusion)',
+      'Filament diameter different from what the slicer profile assumes',
+    ],
+    link: '/print-quality/under-extrusion-vs-over-extrusion/',
+    linkLabel: 'Under- vs. over-extrusion guide',
+  },
+];
+---
+
+<BaseLayout
+  title="Print Problem Diagnostic"
+  description="Pick the defect you're seeing on a 3D print and get the most likely causes in priority order, each linked to a full troubleshooting guide."
+  path="/tools/print-problem-diagnostic/"
+>
+  <div class="container tool">
+    <Breadcrumbs
+      crumbs={[
+        { label: 'Home', href: '/' },
+        { label: 'Tools', href: '/tools/' },
+        { label: 'Print Problem Diagnostic', href: '/tools/print-problem-diagnostic/' },
+      ]}
+    />
+
+    <header class="tool__header">
+      <p class="eyebrow">Diagnostic</p>
+      <h1>Print Problem Diagnostic</h1>
+      <p class="tool__lead">What does the print actually look like? Pick the closest match below.</p>
+      <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+    </header>
+
+    <div class="diagnostic" data-diagnostic>
+      <div class="diagnostic__symptoms" role="tablist" aria-label="Symptoms">
+        {
+          symptoms.map((symptom, index) => (
+            <button
+              type="button"
+              class="symptom-button"
+              role="tab"
+              id={`tab-${symptom.id}`}
+              aria-controls={`panel-${symptom.id}`}
+              aria-selected={index === 0 ? 'true' : 'false'}
+              data-symptom={symptom.id}
+            >
+              {symptom.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="diagnostic__panels">
+        {
+          symptoms.map((symptom, index) => (
+            <div
+              class="symptom-panel"
+              id={`panel-${symptom.id}`}
+              role="tabpanel"
+              aria-labelledby={`tab-${symptom.id}`}
+              data-panel={symptom.id}
+              hidden={index !== 0}
+            >
+              <p class="eyebrow">Most likely causes, in order</p>
+              <ol>
+                {symptom.causes.map((cause) => (
+                  <li>{cause}</li>
+                ))}
+              </ol>
+              <a class="button button--accent" href={symptom.link}>
+                {symptom.linkLabel} →
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <AdSlot slot="article-end" />
+  </div>
+
+  <script>
+    const container = document.querySelector('[data-diagnostic]');
+    const buttons = container?.querySelectorAll<HTMLButtonElement>('.symptom-button');
+    const panels = container?.querySelectorAll<HTMLElement>('.symptom-panel');
+
+    buttons?.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.symptom;
+        buttons.forEach((b) => b.setAttribute('aria-selected', String(b === button)));
+        panels?.forEach((panel) => {
+          panel.hidden = panel.dataset.panel !== target;
+        });
+      });
+    });
+  </script>
+
+  <style>
+    .tool {
+      padding-block: var(--space-6) var(--space-9);
+    }
+
+    .tool__header {
+      max-width: var(--measure-wide);
+      margin-top: var(--space-5);
+    }
+
+    .tool__header h1 {
+      font-size: var(--size-5);
+      margin-top: var(--space-3);
+    }
+
+    .tool__lead {
+      font-size: var(--size-2);
+      color: var(--color-ink-soft);
+      margin-top: var(--space-3);
+    }
+
+    .diagnostic {
+      margin-top: var(--space-7);
+      max-width: var(--measure-wide);
+    }
+
+    .diagnostic__symptoms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .symptom-button {
+      font-family: var(--font-mono);
+      font-size: var(--size-00);
+      letter-spacing: 0.02em;
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      border: var(--border-hair-strong);
+      border-radius: var(--radius-sm);
+      background: var(--color-bg-raised);
+      color: var(--color-ink-soft);
+      cursor: pointer;
+    }
+
+    .symptom-button:hover {
+      color: var(--color-ink);
+      border-color: var(--color-accent-cool);
+    }
+
+    .symptom-button[aria-selected='true'] {
+      background: var(--color-ink);
+      border-color: var(--color-ink);
+      color: var(--color-bg);
+    }
+
+    .diagnostic__panels {
+      margin-top: var(--space-6);
+      border: var(--border-hair);
+      border-radius: var(--radius-md);
+      background: var(--color-bg-raised);
+      padding: var(--space-6);
+    }
+
+    .symptom-panel ol {
+      margin: var(--space-4) 0 var(--space-6);
+      padding-left: 1.25em;
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .symptom-panel li {
+      font-size: var(--size-1);
+    }
+  </style>
+</BaseLayout>

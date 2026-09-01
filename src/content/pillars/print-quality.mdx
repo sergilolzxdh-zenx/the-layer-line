@@ -1,0 +1,69 @@
+---
+title: "3D Print Quality Troubleshooting: The Complete Guide"
+description: "A structured way to work through the print defects that actually show up on desktop FDM printers — what causes them, what to check first, and which fixes tend to matter most."
+publishDate: 2026-09-01
+sources:
+  - label: "Simplify3D — Print Quality Troubleshooting Guide"
+    url: "https://www.simplify3d.com/resources/print-quality-troubleshooting/"
+  - label: "Prusa Knowledge Base — Stringing and oozing"
+    url: "https://help.prusa3d.com/article/stringing-and-oozing_1805"
+---
+
+import Callout from '../../components/Callout.astro';
+import AdSlot from '../../components/AdSlot.astro';
+
+Most FDM print quality problems trace back to one of four things: temperature, flow, motion, or the interface between the part and the bed. Once you can place a defect into one of those buckets, fixing it stops being guesswork.
+
+This page is the map. It groups the common defects by what's actually going wrong, links to a full walkthrough for each one, and gives you a quick way to narrow down where to start looking on your own printer.
+
+<AdSlot slot="in-article" />
+
+## Start with what you can see
+
+Before changing any settings, look closely at the failed print (or the one in progress) and match it to one of these categories:
+
+- **The surface looks rough or has fine wispy strands between parts** — that's almost always [stringing](/print-quality/stringing/), caused by filament oozing during travel moves.
+- **Corners lift off the bed, or the part warps into a curved shape** — that's [warping](/print-quality/warping/), driven by uneven cooling and shrinkage.
+- **You can clearly see and feel ridges running around the whole model, even where you didn't expect them** — that's [visible layer lines](/print-quality/layer-lines/), a mix of mechanical and cooling causes.
+- **The first layer won't stick, peels up at the edges, or the whole print detaches partway through** — start with [first-layer adhesion](/print-quality/first-layer-adhesion/).
+- **The part is missing material in some spots, or has blobs and zits in others** — that's an extrusion balance issue; see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/).
+
+<Callout kind="tip" label="Change one variable at a time">
+It's tempting to adjust temperature, retraction, and cooling all in the same test print. When two changes fix the problem, you won't know which one actually mattered — and you'll carry an unnecessary setting into every future print. Isolate variables, even when it's slower.
+</Callout>
+
+## The four root causes
+
+**Temperature.** Too hot and the filament oozes, sags, and strings. Too cold and it doesn't bond between layers or extrude consistently. Every polymer has a usable range, and it shifts a few degrees between filament brands even within the same material — see the [PLA vs. PETG vs. ABS](/materials/pla-vs-petg-vs-abs/) comparison for typical ranges.
+
+**Flow.** This is the relationship between how much filament your firmware _thinks_ it's pushing and how much is actually coming out of the nozzle. A miscalibrated E-steps value or an incorrect flow percentage throws off wall thickness, layer adhesion, and dimensional accuracy at the same time, even when everything else is dialed in. [Calibrating flow rate](/calibration/flow-rate/) is one of the highest-leverage things you can do on a new printer.
+
+**Motion.** Retraction, travel speed, acceleration, and jerk/junction settings all affect how cleanly the nozzle moves between features without dragging plastic with it. A retraction setting that works for one filament can under- or over-perform on another with different viscosity.
+
+**Bed interface.** Everything from bed leveling to surface material to the first layer height affects whether a part actually stays where you put it. This is also the category most likely to produce failures that look like something else — a print that "warps" at one corner might really be a bed that's not level there.
+
+<AdSlot slot="in-article" />
+
+## A troubleshooting order that saves time
+
+When a print is coming out wrong and you're not sure why, checking things in this order avoids fixing symptoms instead of causes:
+
+1. **Confirm the bed is actually level and the first layer squish is correct.** A large share of "random" print failures are bed issues in disguise.
+2. **Check flow calibration**, especially if the printer is new, the nozzle was recently changed, or you switched filament brands.
+3. **Verify nozzle temperature against the filament you're using**, not just the printer's default profile. Manufacturer-recommended ranges vary and your particular spool may run better a few degrees off the middle of that range.
+4. **Look at retraction and travel behavior** if the surface finish issue is stringing- or blob-specific rather than structural.
+5. **Only then tune cooling and speed** for cosmetic surface finish, once the structural fundamentals are solid.
+
+Doing them out of order usually means re-doing an earlier step later, because a bed or flow problem can masquerade as a cooling or retraction problem.
+
+## Common mistakes
+
+<Callout kind="mistake">
+Copying someone else's slicer profile wholesale. Retraction distance, flow percentage, and even effective nozzle temperature are specific to your combination of printer, extruder, nozzle, and filament spool. A profile is a reasonable starting point — not a finished answer.
+</Callout>
+
+<Callout kind="mistake">
+Chasing a cosmetic issue with structural settings. Fuzzy skin, ironing, and cooling fan tuning make a print look better without addressing why the underlying geometry is inconsistent. Fix flow and temperature first.
+</Callout>
+
+Work through the guides below in whichever order matches what you're actually seeing, or start from [calibration](/calibration/) if you're setting up a printer for the first time and haven't had a failure yet.

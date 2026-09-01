@@ -1,0 +1,56 @@
+---
+title: "How to Calibrate E-Steps on Your 3D Printer"
+description: "E-steps tells your firmware how far the extruder motor needs to turn to move 1 mm of filament. Here's how to measure and correct it properly."
+category: "calibration"
+pageType: "how-to"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "calibration/flow-rate"
+  - "print-quality/under-extrusion-vs-over-extrusion"
+  - "calibration/bed-leveling"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+E-steps (extruder steps per millimeter) is the firmware value that converts "move the filament 1 mm" into "turn the extruder stepper motor this many steps." If it's wrong, every extrusion command in every print is scaled by the same error, no matter what the slicer asks for.
+
+## What you need
+
+- A permanent marker
+- A ruler or, ideally, calipers
+- A way to send G-code commands to the printer (the printer's own menu, or a host like the one built into your slicer or firmware's web interface)
+
+<AdSlot slot="in-article" />
+
+## The measurement
+
+1. Heat the nozzle to your filament's printing temperature so it can move freely (you're not extruding onto a print, just testing motor movement).
+2. Mark the filament 120 mm above the extruder's entry point and note the current E-steps value from your firmware settings.
+3. Send a command to extrude 100 mm of filament at a slow, controlled speed (in G-code, something like `G1 E100 F100`, adjusted for your firmware's syntax).
+4. Measure the remaining distance from the extruder entry point to your mark. Subtract that from 120 mm to get the amount actually extruded.
+5. Calculate the corrected value: `new E-steps = old E-steps × (100 / actual distance moved)`.
+
+For example, if your old value was 415 steps/mm and only 94 mm of filament actually moved instead of the requested 100 mm: `415 × (100 / 94) = 441.5` steps/mm.
+
+6. Enter the new value and, if your firmware supports it, save it to permanent memory (commonly `M92 E<value>` followed by `M500` on Marlin-based firmware — check your specific firmware's documentation for the exact commands).
+7. Repeat the test once more to confirm the new value produces a measurement close to 100 mm.
+
+<Callout kind="tip" label="Use a slower extrusion speed for the test">
+Extruding too fast during the test can cause the stepper motor to skip steps under load, which will throw off your measurement in a way that has nothing to do with the actual E-steps value. A slow, steady speed gives a cleaner result.
+</Callout>
+
+## When to redo this
+
+E-steps is a property of your extruder's mechanical setup — the gear ratio, the stepper motor, and the microstepping configuration in firmware. You generally only need to recalibrate it after:
+
+- Replacing the extruder, hot end, or drive gear
+- Changing microstepping settings in firmware
+- Noticing consistent, direction-independent under- or over-extrusion across multiple filament types (a symptom that points upstream of flow rate — see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/))
+
+Switching filament brands or colors doesn't require re-checking E-steps — that's what [flow rate calibration](/calibration/flow-rate/) is for, since it's tuned per-filament rather than per-printer.
+
+<Callout kind="mistake">
+Skipping E-steps and going straight to flow rate percentage adjustments in the slicer. Flow rate is meant to fine-tune small, per-filament differences on top of a correct E-steps value — using it to compensate for a badly wrong E-steps means every filament needs a wildly different flow percentage to compensate, which is a sign the underlying number needs fixing instead.
+</Callout>

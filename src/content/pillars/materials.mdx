@@ -1,0 +1,48 @@
+---
+title: "Filament & Materials: The Complete Guide"
+description: "What PLA, PETG, ABS and ASA actually do differently in the nozzle and on the bed, and how that changes the settings you should be using."
+publishDate: 2026-09-01
+sources: []
+---
+
+import Callout from '../../components/Callout.astro';
+import AdSlot from '../../components/AdSlot.astro';
+
+Most slicer and printer problems that look like a "settings" issue are actually a materials issue — a profile built around one filament's behavior being applied to a different one. The four materials below cover the large majority of desktop FDM printing, and each behaves differently enough that it's worth understanding the mechanism, not just copying a number.
+
+<AdSlot slot="in-article" />
+
+## The short version
+
+- **PLA** — easiest to print, lowest odds of warping, lowest heat resistance. The default for most models, prototypes, and anything that won't sit in a hot car or near a heat source.
+- **PETG** — tougher and more heat-resistant than PLA, but more prone to stringing and slightly fussier about cooling. A good step up for functional parts.
+- **ABS/ASA** — most heat- and impact-resistant of the common materials, but shrinks more as it cools, which makes it prone to warping without an enclosure. ASA handles UV exposure noticeably better than ABS for outdoor parts.
+- **TPU** — flexible, not rigid, and needs slower speeds and often a direct-drive extruder to print reliably at all.
+
+See the full [PLA vs. PETG vs. ABS comparison](/materials/pla-vs-petg-vs-abs/) for a side-by-side on temperatures, bed adhesion, and typical uses, or the [PETG guide](/materials/petg-guide/) for a deeper look at the material most people move to after PLA.
+
+## Why materials change your settings
+
+Three physical properties explain almost all of the practical differences between filaments:
+
+**Melting behavior.** Semi-crystalline plastics like PLA have a fairly narrow, well-defined melting point. Amorphous plastics like ABS and PETG soften gradually over a wider range instead of melting sharply, which is part of why their printable temperature windows are wider and why "the right temperature" is more of a range than a single number.
+
+**Shrinkage on cooling.** All thermoplastics contract slightly as they cool from printing temperature to room temperature. ABS and ASA shrink more than PLA does, and that difference in shrinkage between the outer (cooler, already-solid) layers and the inner (still warm) layers is what pulls corners upward — warping. PLA's lower shrinkage is a big part of why it's so much more forgiving without an enclosure.
+
+**Viscosity when molten.** PETG in particular tends to be "stringier" than PLA at comparable relative temperatures because of how it behaves when molten and oozing — thin strings hold together more easily rather than breaking cleanly. That's why PETG print profiles usually lean harder on retraction tuning and travel speed than PLA ones do.
+
+<AdSlot slot="in-article" />
+
+## Common mistakes
+
+<Callout kind="mistake">
+Using a PLA cooling profile (high fan speed from the first layer) on PETG. PETG generally needs less cooling than PLA — too much fan too early can hurt layer adhesion and actually make stringing look worse, not better.
+</Callout>
+
+<Callout kind="mistake">
+Assuming "ABS" settings from one brand's spool will work on another. Filler content, colorant, and pellet source vary between manufacturers even within the same base polymer, and it shows up most in the exact temperature and retraction numbers.
+</Callout>
+
+<Callout kind="tip" label="Store filament dry">
+PETG and, to a lesser extent, PLA absorb moisture from the air over time. Damp filament tends to produce popping or hissing sounds while printing, along with rougher surface finish and inconsistent extrusion — a problem that looks like a slicer setting but is actually the material itself. Sealed storage with desiccant is worth the small amount of effort for filament you don't print through quickly.
+</Callout>

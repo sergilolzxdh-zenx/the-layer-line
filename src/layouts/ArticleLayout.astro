@@ -1,0 +1,205 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import RelatedArticles from '../components/RelatedArticles.astro';
+import AdSlot from '../components/AdSlot.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { CATEGORIES, type CategorySlug } from '../lib/categories';
+import { SITE } from '../lib/site';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  entry: CollectionEntry<'articles'>;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { entry, headings } = Astro.props;
+const { title, description, category, pageType, publishDate, updatedDate, sources, relatedSlugs } = entry.data;
+const categoryMeta = CATEGORIES[category as CategorySlug];
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  datePublished: publishDate.toISOString(),
+  dateModified: (updatedDate ?? publishDate).toISOString(),
+  author: { '@type': 'Organization', name: SITE.name },
+  publisher: { '@type': 'Organization', name: SITE.name },
+  mainEntityOfPage: `${SITE.url}/${entry.id}/`,
+};
+
+const typeLabels: Record<string, string> = {
+  guide: 'Guide',
+  'how-to': 'How-to',
+  troubleshooting: 'Troubleshooting',
+  comparison: 'Comparison',
+  reference: 'Reference',
+};
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={title} description={description} path={`/${entry.id}/`}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />
+  <article class="article container">
+    <Breadcrumbs
+      crumbs={[
+        { label: 'Home', href: '/' },
+        { label: categoryMeta.short, href: `/${category}/` },
+        { label: title, href: `/${entry.id}/` },
+      ]}
+    />
+
+    <header class="article__header">
+      <p class="eyebrow">{typeLabels[pageType]} · {categoryMeta.short}</p>
+      <h1>{title}</h1>
+      <p class="article__lead">{description}</p>
+      <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="article__dates">
+        Published <time datetime={publishDate.toISOString()}>{dateFormatter.format(publishDate)}</time>
+        {
+          updatedDate && (
+            <>
+              {' '}
+              · Updated <time datetime={updatedDate.toISOString()}>{dateFormatter.format(updatedDate)}</time>
+            </>
+          )
+        }
+      </p>
+    </header>
+
+    <div class="article__layout">
+      <div class="article__body">
+        <slot />
+
+        {
+          sources.length > 0 && (
+            <section class="article__sources" aria-labelledby="sources-heading">
+              <p class="eyebrow" id="sources-heading">Sources</p>
+              <ul>
+                {sources.map((source) => (
+                  <li>
+                    <a href={source.url} rel="noopener noreferrer" target="_blank">
+                      {source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        <AdSlot slot="article-end" />
+      </div>
+      <aside class="article__aside">
+        <TableOfContents headings={headings} />
+        <AdSlot slot="sidebar" />
+      </aside>
+    </div>
+
+    <RelatedArticles slugs={relatedSlugs} />
+    <Newsletter compact />
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    padding-block: var(--space-6) var(--space-9);
+  }
+
+  .article__header {
+    max-width: var(--measure-wide);
+    margin-top: var(--space-5);
+  }
+
+  .article__header h1 {
+    font-size: var(--size-5);
+    margin-top: var(--space-3);
+  }
+
+  .article__lead {
+    font-size: var(--size-2);
+    color: var(--color-ink-soft);
+    max-width: var(--measure);
+    margin-top: var(--space-3);
+  }
+
+  .article__dates {
+    font-family: var(--font-mono);
+    font-size: var(--size-000);
+    color: var(--color-ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .article__layout {
+    display: grid;
+    grid-template-columns: minmax(0, var(--measure)) 260px;
+    gap: var(--space-8);
+    margin-top: var(--space-7);
+    align-items: start;
+  }
+
+  .article__body :global(h2) {
+    font-size: var(--size-3);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-4);
+    scroll-margin-top: var(--space-6);
+  }
+
+  .article__body :global(h3) {
+    font-size: var(--size-2);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  .article__body :global(p),
+  .article__body :global(li) {
+    font-size: var(--size-1);
+    line-height: var(--leading-relaxed);
+  }
+
+  .article__body :global(ul),
+  .article__body :global(ol) {
+    padding-left: 1.25em;
+  }
+
+  .article__body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .article__aside {
+    position: sticky;
+    top: calc(var(--space-8) + 60px);
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .article__sources {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: var(--border-hair);
+  }
+
+  .article__sources ul {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+    font-size: var(--size-0);
+  }
+
+  @media (max-width: 900px) {
+    .article__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .article__aside {
+      position: static;
+      order: -1;
+    }
+  }
+</style>

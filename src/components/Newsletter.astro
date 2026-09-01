@@ -1,0 +1,87 @@
+---
+export interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<section class:list={['newsletter', { 'newsletter--compact': compact }]} aria-labelledby="newsletter-heading">
+  <div class="newsletter__text">
+    <p class="eyebrow">Newsletter</p>
+    <h2 id="newsletter-heading">Useful guides, tools and practical tips — without the spam.</h2>
+    <p>One email when we publish something worth your time. No drip sequence, no upsells.</p>
+  </div>
+  <form class="newsletter__form" data-newsletter>
+    <label class="visually-hidden" for="newsletter-email">Email address</label>
+    <input id="newsletter-email" name="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+    <button type="submit" class="button button--accent">Subscribe</button>
+  </form>
+  <p class="newsletter__note" role="status" data-newsletter-status></p>
+</section>
+
+<script>
+  const form = document.querySelector('[data-newsletter]');
+  const status = document.querySelector('[data-newsletter-status]');
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (status) {
+      status.textContent = 'Signups open soon — this form is not yet connected to a mailing list.';
+    }
+  });
+</script>
+
+<style>
+  .newsletter {
+    background: var(--color-ink);
+    color: var(--color-bg);
+    padding: var(--space-8) var(--space-5);
+    border-radius: var(--radius-md);
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .newsletter h2 {
+    color: var(--color-bg);
+    font-size: var(--size-4);
+    max-width: 24ch;
+  }
+
+  .newsletter p {
+    color: var(--color-line);
+  }
+
+  .newsletter .eyebrow {
+    color: var(--color-accent);
+  }
+
+  .newsletter__form {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .newsletter__form input {
+    flex: 1 1 240px;
+    background: var(--color-bg);
+    border: var(--border-hair-strong);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--size-0);
+    color: var(--color-ink);
+  }
+
+  .newsletter__note {
+    font-size: var(--size-00);
+    color: var(--color-line-strong);
+    min-height: 1.2em;
+  }
+
+  .newsletter--compact {
+    padding: var(--space-6);
+  }
+
+  .newsletter--compact h2 {
+    font-size: var(--size-3);
+  }
+</style>

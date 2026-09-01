@@ -1,0 +1,45 @@
+---
+title: "3D Print Warping: Why Corners Lift and How to Stop It"
+description: "Warping is uneven shrinkage pulling a part off the bed, usually starting at corners. Here's what actually controls it, from bed temperature to enclosures."
+category: "print-quality"
+pageType: "troubleshooting"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "print-quality/first-layer-adhesion"
+  - "materials/pla-vs-petg-vs-abs"
+  - "calibration/bed-leveling"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Warping happens when the outer, already-cooled parts of a print shrink more than the still-warm plastic underneath, pulling the corners or edges upward off the bed. It's a materials and thermal problem first, and a bed-adhesion problem second — which is why adhesion aids alone don't always fix it.
+
+## Why corners specifically
+
+Corners have the most surface area exposed to cooling air relative to how much warm plastic is directly behind them, so they cool and contract fastest. That contraction pulls against the still-warm center of the part. On a large, flat print, that tug is often enough to overcome the bond to the bed at the corner, and it lifts.
+
+<AdSlot slot="in-article" />
+
+## What actually reduces it, in order of impact
+
+1. **Use a material that shrinks less**, if the part allows it. PLA warps far less than ABS or ASA because it contracts less as it cools — see the [materials comparison](/materials/pla-vs-petg-vs-abs/) for typical shrinkage behavior. This is the single biggest lever, when you have a choice of material.
+2. **Keep the first layers warm for longer.** A heated bed set to the correct temperature for your material, combined with an enclosure (even an improvised one, like a cardboard box over the printer) that traps ambient heat, slows the cooling differential that causes warping. This matters much more for ABS/ASA than for PLA.
+3. **Reduce or redirect part cooling fan airflow** on the first several layers specifically, since aggressive fan cooling right at the bed is one of the more avoidable causes of a fast temperature drop at the corners.
+4. **Improve mechanical adhesion** — a properly leveled bed with correct first-layer squish, the right bed surface for your material, and a thin layer of adhesive (glue stick or similar) where appropriate. This helps, but it's fighting the shrinkage rather than reducing it, so it's a smaller lever than the first two.
+5. **Add brims or use rounded corners in the model** where the design allows it. A brim increases the surface area anchoring the part down at exactly the corners that need it most, and rounding sharp corners in the model spreads the same contraction force over a longer edge instead of concentrating it at one point.
+
+<Callout kind="tip" label="Draft shields help more than people expect">
+If your slicer supports one, a draft shield — a thin printed wall around the part, separate from the model — blocks direct airflow across the print without you having to disable cooling everywhere. It's a smaller change than a full enclosure but often enough for moderately warp-prone parts.
+</Callout>
+
+## Common mistakes
+
+<Callout kind="mistake">
+Treating every lifted corner as a bed-leveling problem. If one specific corner lifts consistently across different prints and different filament, check leveling; if it's the general pattern on any large or ABS-family print, it's shrinkage, not leveling — see [bed leveling](/calibration/bed-leveling/) for the difference.
+</Callout>
+
+<Callout kind="mistake">
+Relying entirely on enclosures for materials that don't need them. An unnecessarily hot, poorly ventilated enclosure on PLA can soften the part before it's fully cooled and cause other defects, like drooping overhangs.
+</Callout>

@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  article: CollectionEntry<'articles'>;
+}
+const { article } = Astro.props;
+const typeLabels: Record<string, string> = {
+  guide: 'Guide',
+  'how-to': 'How-to',
+  troubleshooting: 'Troubleshooting',
+  comparison: 'Comparison',
+  reference: 'Reference',
+};
+---
+
+<a class="article-card" href={`/${article.id}/`}>
+  <p class="article-card__type">{typeLabels[article.data.pageType]}</p>
+  <h3>{article.data.title}</h3>
+  <p class="article-card__desc">{article.data.description}</p>
+</a>
+
+<style>
+  .article-card {
+    display: block;
+    padding: var(--space-5);
+    border: var(--border-hair);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-raised);
+    text-decoration: none;
+    color: var(--color-ink);
+    transition: border-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .article-card:hover {
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .article-card__type {
+    font-family: var(--font-mono);
+    font-size: var(--size-000);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent-cool);
+    margin: 0 0 var(--space-2);
+  }
+
+  .article-card h3 {
+    font-size: var(--size-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .article-card__desc {
+    color: var(--color-ink-soft);
+    font-size: var(--size-0);
+    margin: 0;
+  }
+</style>

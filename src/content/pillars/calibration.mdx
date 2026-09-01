@@ -1,0 +1,53 @@
+---
+title: "3D Printer Calibration: The Complete Guide"
+description: "The handful of calibration passes that actually matter on a desktop FDM printer, in the order that makes each one easier to get right."
+publishDate: 2026-09-01
+sources:
+  - label: "Prusa Knowledge Base — Stringing and oozing"
+    url: "https://help.prusa3d.com/article/stringing-and-oozing_1805"
+---
+
+import Callout from '../../components/Callout.astro';
+import AdSlot from '../../components/AdSlot.astro';
+
+Calibration is easy to over-complicate. On a stock, mechanically sound FDM printer, there are really only four things worth measuring by hand: how far the extruder actually moves filament, how much plastic comes out relative to what the slicer asked for, how the bed is leveled, and how retraction behaves with your specific filament. Everything else in most "ultimate calibration" checklists is either firmware-specific, printer-specific, or a smaller refinement on top of these four.
+
+<AdSlot slot="in-article" />
+
+## The order that matters
+
+Calibration steps build on each other, and doing them out of sequence means re-doing earlier ones:
+
+1. **[E-steps](/calibration/e-steps/)** — confirms the extruder motor moves the amount of filament your firmware thinks it does. Everything downstream assumes this number is close to correct.
+2. **[Bed leveling](/calibration/bed-leveling/)** — sets the physical relationship between the nozzle and the bed across the whole surface, which determines first-layer quality.
+3. **[Flow rate](/calibration/flow-rate/)** — fine-tunes extrusion volume using an actual printed test, catching anything E-steps alone can't (nozzle wear, filament diameter variance, thermal expansion in the hot end).
+4. **[Retraction tuning](/calibration/retraction-tuning/)** — dials in how the extruder pulls back filament during travel moves, which is specific to each filament's viscosity and your hot end's internal geometry.
+
+<Callout kind="tip" label="You don't need to redo all four for every spool">
+E-steps and bed leveling are largely printer-and-extruder properties — you set them once and revisit them only after a hardware change (new extruder gears, a new nozzle, a releveled frame). Flow rate and retraction are more filament-specific and are worth re-checking when you switch brands or materials, even if the material type is the same.
+</Callout>
+
+## What "good enough" looks like
+
+Calibration has diminishing returns. For most people printing functional parts and models, the goal is:
+
+- E-steps accurate enough that a commanded 100 mm extrusion is within roughly 1–2% of measured.
+- A first layer that's uniformly squished — visibly flattened, but not so thin it looks translucent or scraped — across the entire bed, not just the center.
+- A flow percentage that produces flat top surfaces without gaps, and vertical walls at the dimension you modeled them at.
+- Retraction that eliminates stringing on a test piece with multiple travel moves, without introducing gaps or under-extrusion at the start of each new travel move.
+
+Chasing tighter numbers than that mostly matters for dimensionally critical mechanical parts, not general-purpose printing.
+
+<AdSlot slot="in-article" />
+
+## Common mistakes
+
+<Callout kind="mistake">
+Recalibrating E-steps to "fix" a dimensional accuracy problem that's actually a flow rate or over-extrusion issue. E-steps is about the extruder motor's mechanical accuracy — it won't fix a nozzle that's partially worn or a filament that measures a different diameter than the slicer profile assumes.
+</Callout>
+
+<Callout kind="mistake">
+Leveling the bed once, at room temperature, and never checking it again after the bed has heated up. Some bed materials and frames shift slightly under heat. If your first layer is inconsistent between prints, check leveling at printing temperature, not cold.
+</Callout>
+
+If you're setting up a new printer, work through the four guides above in order. If a specific print already went wrong, the [print quality guide](/print-quality/) will help you work backward from the defect to the likely cause.

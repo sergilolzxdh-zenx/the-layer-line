@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AdSlot from '../components/AdSlot.astro';
+
+const terms = [
+  {
+    term: 'Bowden extruder',
+    def: "An extruder layout where the drive motor is mounted away from the hot end, pushing filament through a length of PTFE tube. Needs more retraction distance than direct drive because of the extra compressible length.",
+    link: '/calibration/retraction-tuning/',
+  },
+  {
+    term: 'Direct drive extruder',
+    def: 'An extruder layout where the drive motor sits right on top of the hot end. Needs less retraction distance than Bowden and generally handles flexible filaments like TPU better.',
+    link: '/calibration/retraction-tuning/',
+  },
+  {
+    term: 'E-steps',
+    def: 'The firmware value that converts a commanded filament move (in millimeters) into stepper motor steps. Wrong E-steps scales every extrusion command by the same error.',
+    link: '/calibration/e-steps/',
+  },
+  {
+    term: 'Flow rate (extrusion multiplier)',
+    def: "A percentage that scales commanded extrusion volume, tuned per filament to correct for nozzle wear, real filament diameter, and other effects E-steps can't catch.",
+    link: '/calibration/flow-rate/',
+  },
+  {
+    term: 'Retraction',
+    def: 'The extruder briefly pulling filament backward before a travel move, and pushing it forward again before the next extrusion, to reduce oozing and stringing.',
+    link: '/calibration/retraction-tuning/',
+  },
+  {
+    term: 'Stringing',
+    def: 'Thin strands of plastic left between separate points of a print where the nozzle traveled without printing, caused by filament oozing during that travel move.',
+    link: '/print-quality/stringing/',
+  },
+  {
+    term: 'Warping',
+    def: 'A part lifting or curling off the bed, usually starting at corners, caused by the outer plastic cooling and shrinking faster than the warmer plastic underneath.',
+    link: '/print-quality/warping/',
+  },
+  {
+    term: 'Layer height',
+    def: 'The thickness of each individual printed layer, set in the slicer. Smaller values give finer detail and less visible staircasing at the cost of print time.',
+    link: '/print-quality/layer-lines/',
+  },
+  {
+    term: 'Z-offset',
+    def: 'The precise distance between the nozzle tip and the bed at the start of a print, set separately from mesh bed leveling, which only corrects relative variation across the bed.',
+    link: '/calibration/bed-leveling/',
+  },
+  {
+    term: 'Brim',
+    def: 'A single-layer flat border printed around the base of a part, connected to it, that increases surface area anchoring the print to the bed without adding a full raft.',
+    link: '/print-quality/warping/',
+  },
+  {
+    term: 'Under-extrusion',
+    def: 'The printer pushing out less plastic than commanded, showing up as gaps, thin walls, or visible holes in top surfaces.',
+    link: '/print-quality/under-extrusion-vs-over-extrusion/',
+  },
+  {
+    term: 'Over-extrusion',
+    def: 'The printer pushing out more plastic than commanded, showing up as blobs, rough bumpy surfaces, or dimensions larger than modeled.',
+    link: '/print-quality/under-extrusion-vs-over-extrusion/',
+  },
+  {
+    term: 'Ringing / ghosting',
+    def: 'Regular, repeating surface banding caused by the frame or gantry flexing slightly on direction changes, addressed mechanically or with input shaping rather than temperature or cooling settings.',
+    link: '/print-quality/layer-lines/',
+  },
+  {
+    term: 'Draft shield',
+    def: 'A thin printed wall around a model, separate from it, that blocks direct airflow to reduce warping without disabling cooling everywhere else.',
+    link: '/print-quality/warping/',
+  },
+];
+---
+
+<BaseLayout
+  title="3D Printing Glossary"
+  description="Plain-language definitions for the FDM 3D printing terms that come up constantly in troubleshooting and calibration guides, each linked to a full walkthrough."
+  path="/glossary/"
+>
+  <div class="container glossary">
+    <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Glossary', href: '/glossary/' }]} />
+    <header class="glossary__header">
+      <p class="eyebrow">Reference</p>
+      <h1>3D Printing Glossary</h1>
+      <p class="glossary__lead">
+        Short, plain-language definitions for the terms used throughout this site. Each one links to a full guide
+        where there's more to say.
+      </p>
+      <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+    </header>
+
+    <dl class="glossary__list">
+      {
+        terms.map((item) => (
+          <div class="glossary__item">
+            <dt id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>{item.term}</dt>
+            <dd>
+              <p>{item.def}</p>
+              <a href={item.link}>Read the full guide →</a>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <AdSlot slot="article-end" />
+  </div>
+</BaseLayout>
+
+<style>
+  .glossary {
+    padding-block: var(--space-6) var(--space-9);
+  }
+
+  .glossary__header {
+    max-width: var(--measure-wide);
+    margin-top: var(--space-5);
+  }
+
+  .glossary__header h1 {
+    font-size: var(--size-5);
+    margin-top: var(--space-3);
+  }
+
+  .glossary__lead {
+    font-size: var(--size-2);
+    color: var(--color-ink-soft);
+    margin-top: var(--space-3);
+  }
+
+  .glossary__list {
+    margin: var(--space-8) 0 0;
+    display: grid;
+    gap: 0;
+    max-width: var(--measure-wide);
+  }
+
+  .glossary__item {
+    padding-block: var(--space-5);
+    border-bottom: var(--border-hair);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-5);
+  }
+
+  .glossary__item dt {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 115%;
+    font-size: var(--size-2);
+  }
+
+  .glossary__item dd {
+    margin: 0;
+    color: var(--color-ink-soft);
+  }
+
+  .glossary__item a {
+    display: inline-block;
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+  }
+
+  @media (max-width: 640px) {
+    .glossary__item {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

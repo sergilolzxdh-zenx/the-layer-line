@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const tools = [
+  {
+    title: 'Filament & Print Cost Calculator',
+    href: '/tools/filament-cost-calculator/',
+    description:
+      'Enter your spool price, print weight, print time, and electricity rate to get a real per-print cost, with an optional allowance for failed prints.',
+  },
+  {
+    title: 'Print Problem Diagnostic',
+    href: '/tools/print-problem-diagnostic/',
+    description:
+      'Pick the defect you’re seeing and get the most likely causes in priority order, each linked to a full troubleshooting guide.',
+  },
+];
+---
+
+<BaseLayout
+  title="3D Printing Tools"
+  description="Interactive calculators and diagnostic tools for desktop FDM 3D printing."
+  path="/tools/"
+>
+  <div class="container tools-hub">
+    <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Tools', href: '/tools/' }]} />
+    <header class="tools-hub__header">
+      <p class="eyebrow">Tools</p>
+      <h1>3D Printing Tools</h1>
+      <p class="tools-hub__lead">
+        Small, focused tools that solve a specific problem — not a dashboard of everything we could think of.
+      </p>
+      <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+    </header>
+
+    <div class="tools-hub__grid">
+      {
+        tools.map((tool) => (
+          <a class="tool-card" href={tool.href}>
+            <h2>{tool.title}</h2>
+            <p>{tool.description}</p>
+            <span class="tool-card__cta">Open tool →</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tools-hub {
+    padding-block: var(--space-6) var(--space-9);
+  }
+
+  .tools-hub__header {
+    max-width: var(--measure-wide);
+    margin-top: var(--space-5);
+  }
+
+  .tools-hub__header h1 {
+    font-size: var(--size-5);
+    margin-top: var(--space-3);
+  }
+
+  .tools-hub__lead {
+    font-size: var(--size-2);
+    color: var(--color-ink-soft);
+    margin-top: var(--space-3);
+  }
+
+  .tools-hub__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-8);
+  }
+
+  .tool-card {
+    display: block;
+    padding: var(--space-6);
+    border: var(--border-hair);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+
+  .tool-card:hover {
+    border-color: var(--color-accent);
+  }
+
+  .tool-card h2 {
+    font-size: var(--size-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .tool-card p {
+    color: var(--color-ink-soft);
+  }
+
+  .tool-card__cta {
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-accent-cool);
+  }
+</style>

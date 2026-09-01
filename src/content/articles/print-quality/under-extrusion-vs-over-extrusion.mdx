@@ -1,0 +1,51 @@
+---
+title: "Under-Extrusion vs. Over-Extrusion: How to Tell Them Apart"
+description: "Both show up as rough surfaces and weak parts, but the causes — and fixes — are opposite. Here's how to diagnose which one you're actually looking at."
+category: "print-quality"
+pageType: "comparison"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "calibration/flow-rate"
+  - "calibration/e-steps"
+  - "print-quality/layer-lines"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+Under-extrusion and over-extrusion are opposite problems that sometimes get confused because both can produce a rough, inconsistent-looking print. The distinction matters because the fixes are opposite too — treating one as the other makes it worse.
+
+<div class="table-scroll">
+<table>
+<thead>
+<tr><th></th><th>Under-extrusion</th><th>Over-extrusion</th></tr>
+</thead>
+<tbody>
+<tr><td>What you see</td><td>Gaps between lines, thin or missing walls, visible holes in top surfaces, weak layer bonding</td><td>Blobs, "zits," rough bumpy surfaces, dimensions larger than modeled, walls that look swollen</td></tr>
+<tr><td>Sound during printing</td><td>Often a clicking or grinding sound from the extruder motor skipping</td><td>Usually quiet — the extruder isn't struggling, it's just pushing too much</td></tr>
+<tr><td>Typical cause</td><td>Partial clog, worn nozzle, filament diameter thinner than the slicer's assumed value, extruder tension too loose, temperature too low for consistent flow</td><td>Flow rate set too high, filament diameter thicker than assumed, wrong nozzle diameter selected in slicer</td></tr>
+<tr><td>First thing to check</td><td>Extruder gear tension and a cold pull to check for a partial clog</td><td>Flow percentage in the slicer and the actual measured filament diameter</td></tr>
+<tr><td>Calibration fix</td><td><a href="/calibration/flow-rate/">Flow rate calibration</a>, increased if too low; check <a href="/calibration/e-steps/">E-steps</a> if the gap is large</td><td>Flow rate calibration, decreased if too high</td></tr>
+</tbody>
+</table>
+</div>
+
+<AdSlot slot="in-article" />
+
+## Quick diagnostic: the single-wall test
+
+Print a simple single-walled cylinder or box with no top or bottom layers. This isolates flow from every other variable — no infill pattern, no top-layer bridging, just one line of extrusion stacked repeatedly.
+
+- Walls that are **thinner than the nozzle diameter**, with visible gaps or a "see-through" quality when held up to light, point to under-extrusion.
+- Walls that are **noticeably thicker than the nozzle diameter** or have excess material squeezing out at the corners point to over-extrusion.
+
+Measure the actual wall thickness with calipers and compare it to your nozzle diameter — for a 0.4 mm nozzle printing a single-wall test, you're looking for wall thickness close to 0.4–0.45 mm, not exactly one to the thousandth, but close enough that a large deviation is informative.
+
+## Why both can look "rough"
+
+Extrusion volume that's off in either direction disrupts how cleanly each new line bonds to its neighbor. Under-extrusion leaves gaps that show up as visible texture and weak points; over-extrusion pushes excess material sideways with nowhere to go, which also shows up as texture, just in the form of bumps and blobs instead of gaps. From a few feet away, both can read as "the surface looks bad" — which is exactly why the single-wall test matters more than eyeballing the finished part.
+
+<Callout kind="mistake">
+Adjusting nozzle temperature to fix what's actually a flow rate problem. Temperature affects how easily plastic flows once it's moving, but the volume of plastic moved is set by flow rate (and, upstream of that, E-steps) — not temperature. If walls are the wrong thickness on a well-tuned printer, start with flow, not heat.
+</Callout>

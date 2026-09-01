@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#eff1ec"/>
+  <rect x="0" y="0" width="1200" height="630" fill="none" stroke="#c7cdc3" stroke-width="2"/>
+  <text x="80" y="270" font-family="Arial, sans-serif" font-weight="800" font-size="88" fill="#1b1f1d">The Layer</text>
+  <text x="80" y="360" font-family="Arial, sans-serif" font-weight="800" font-size="88" fill="#e8582a">Line</text>
+  <rect x="82" y="380" width="220" height="8" fill="#e8582a"/>
+  <rect x="82" y="393" width="158" height="8" fill="#215b66"/>
+  <rect x="82" y="406" width="92" height="8" fill="#9aa197"/>
+  <text x="80" y="470" font-family="Consolas, monospace" font-size="28" letter-spacing="1" fill="#4a5049">PRACTICAL FDM 3D PRINTING, ONE LAYER AT A TIME</text>
+</svg>

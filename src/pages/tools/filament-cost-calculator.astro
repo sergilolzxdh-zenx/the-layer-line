@@ -1,0 +1,329 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AdSlot from '../../components/AdSlot.astro';
+---
+
+<BaseLayout
+  title="Filament & Print Cost Calculator"
+  description="Work out the real cost of a 3D print — filament, electricity, and an optional allowance for failed prints — from your own spool price and printer's power draw."
+  path="/tools/filament-cost-calculator/"
+>
+  <div class="container tool">
+    <Breadcrumbs
+      crumbs={[
+        { label: 'Home', href: '/' },
+        { label: 'Tools', href: '/tools/' },
+        { label: 'Filament & Print Cost Calculator', href: '/tools/filament-cost-calculator/' },
+      ]}
+    />
+
+    <header class="tool__header">
+      <p class="eyebrow">Calculator</p>
+      <h1>Filament & Print Cost Calculator</h1>
+      <p class="tool__lead">
+        Enter what your spool actually cost and how the print is set up. This adds filament and electricity together
+        — it doesn't guess at your time or a markup, since that depends entirely on why you're printing.
+      </p>
+      <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+    </header>
+
+    <div class="tool__layout">
+      <form class="calculator" id="cost-calculator" novalidate>
+        <div class="field-grid">
+          <div class="field">
+            <label for="spool-price">Spool price</label>
+            <div class="input-unit">
+              <span class="input-unit__prefix">$</span>
+              <input id="spool-price" name="spoolPrice" type="number" min="0" step="0.01" value="22.00" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="spool-weight">Spool weight</label>
+            <div class="input-unit">
+              <input id="spool-weight" name="spoolWeight" type="number" min="1" step="1" value="1000" required />
+              <span class="input-unit__suffix">g</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="print-weight">Print weight</label>
+            <div class="input-unit">
+              <input id="print-weight" name="printWeight" type="number" min="0" step="0.1" value="45" required />
+              <span class="input-unit__suffix">g</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="print-hours">Print time</label>
+            <div class="input-unit">
+              <input id="print-hours" name="printHours" type="number" min="0" step="0.1" value="4.5" required />
+              <span class="input-unit__suffix">hrs</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="printer-watts">Printer power draw</label>
+            <div class="input-unit">
+              <input id="printer-watts" name="printerWatts" type="number" min="0" step="1" value="120" required />
+              <span class="input-unit__suffix">W</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="electricity-rate">Electricity rate</label>
+            <div class="input-unit">
+              <span class="input-unit__prefix">$</span>
+              <input id="electricity-rate" name="electricityRate" type="number" min="0" step="0.001" value="0.16" required />
+              <span class="input-unit__suffix">/kWh</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="failure-rate">Failed-print allowance</label>
+            <div class="input-unit">
+              <input id="failure-rate" name="failureRate" type="number" min="0" max="90" step="1" value="10" />
+              <span class="input-unit__suffix">%</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="quantity">Quantity</label>
+            <div class="input-unit">
+              <input id="quantity" name="quantity" type="number" min="1" step="1" value="1" />
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <aside class="result" aria-live="polite">
+        <p class="eyebrow">Estimated cost</p>
+        <p class="result__total measurement" id="result-total">$0.00</p>
+        <dl class="result__breakdown">
+          <div><dt>Filament</dt><dd class="measurement" id="result-filament">$0.00</dd></div>
+          <div><dt>Electricity</dt><dd class="measurement" id="result-electricity">$0.00</dd></div>
+          <div><dt>Failed-print allowance</dt><dd class="measurement" id="result-failure">$0.00</dd></div>
+          <div class="result__perunit"><dt>Per unit ({'>'}1 qty)</dt><dd class="measurement" id="result-perunit">$0.00</dd></div>
+        </dl>
+        <AdSlot slot="sidebar" />
+      </aside>
+    </div>
+
+    <section class="tool__notes">
+      <h2>How this is calculated</h2>
+      <p>
+        Filament cost is <code>(print weight ÷ spool weight) × spool price</code>. Electricity cost is
+        <code>(print hours × watts ÷ 1000) × rate per kWh</code>. The failed-print allowance spreads the average cost
+        of occasional failed prints across successful ones — a 10% allowance means the tool assumes roughly 1 in 10
+        attempts fails, and divides your cost by <code>(1 − failure rate)</code> to reflect that.
+      </p>
+      <p>
+        This intentionally leaves out your own time, machine depreciation, and any markup — those depend on why
+        you're printing (personal project vs. selling parts) in a way a generic calculator can't assume for you.
+      </p>
+    </section>
+
+    <AdSlot slot="article-end" />
+  </div>
+
+  <script>
+    const form = document.getElementById('cost-calculator') as HTMLFormElement;
+    const totalEl = document.getElementById('result-total')!;
+    const filamentEl = document.getElementById('result-filament')!;
+    const electricityEl = document.getElementById('result-electricity')!;
+    const failureEl = document.getElementById('result-failure')!;
+    const perUnitEl = document.getElementById('result-perunit')!;
+
+    function formatUSD(value: number) {
+      if (!Number.isFinite(value)) return '$0.00';
+      return `$${value.toFixed(2)}`;
+    }
+
+    function num(name: string): number {
+      const el = form.elements.namedItem(name) as HTMLInputElement | null;
+      const value = el ? parseFloat(el.value) : 0;
+      return Number.isFinite(value) ? value : 0;
+    }
+
+    function calculate() {
+      const spoolPrice = num('spoolPrice');
+      const spoolWeight = num('spoolWeight') || 1;
+      const printWeight = num('printWeight');
+      const printHours = num('printHours');
+      const watts = num('printerWatts');
+      const rate = num('electricityRate');
+      const failureRate = Math.min(num('failureRate'), 90) / 100;
+      const quantity = Math.max(1, Math.round(num('quantity')) || 1);
+
+      const filamentCost = (printWeight / spoolWeight) * spoolPrice;
+      const electricityCost = ((printHours * watts) / 1000) * rate;
+      const subtotal = filamentCost + electricityCost;
+      const withFailure = subtotal / (1 - failureRate);
+      const failureCost = withFailure - subtotal;
+      const total = withFailure * quantity;
+
+      filamentEl.textContent = formatUSD(filamentCost * quantity);
+      electricityEl.textContent = formatUSD(electricityCost * quantity);
+      failureEl.textContent = formatUSD(failureCost * quantity);
+      totalEl.textContent = formatUSD(total);
+      perUnitEl.textContent = formatUSD(withFailure);
+    }
+
+    form.addEventListener('input', calculate);
+    calculate();
+  </script>
+</BaseLayout>
+
+<style>
+  .tool {
+    padding-block: var(--space-6) var(--space-9);
+  }
+
+  .tool__header {
+    max-width: var(--measure-wide);
+    margin-top: var(--space-5);
+  }
+
+  .tool__header h1 {
+    font-size: var(--size-5);
+    margin-top: var(--space-3);
+  }
+
+  .tool__lead {
+    font-size: var(--size-2);
+    color: var(--color-ink-soft);
+    max-width: var(--measure);
+    margin-top: var(--space-3);
+  }
+
+  .tool__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: var(--space-7);
+    margin-top: var(--space-7);
+    align-items: start;
+  }
+
+  .calculator {
+    border: var(--border-hair);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+    padding: var(--space-6);
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  .field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--size-000);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-soft);
+    margin-bottom: var(--space-2);
+  }
+
+  .input-unit {
+    display: flex;
+    align-items: center;
+    border: var(--border-hair-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    padding-inline: var(--space-3);
+  }
+
+  .input-unit input {
+    border: none;
+    background: none;
+    padding: var(--space-3) var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--size-1);
+    width: 100%;
+    color: var(--color-ink);
+  }
+
+  .input-unit input:focus-visible {
+    outline: none;
+  }
+
+  .input-unit:focus-within {
+    border-color: var(--color-accent);
+  }
+
+  .input-unit__prefix,
+  .input-unit__suffix {
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    color: var(--color-ink-faint);
+    white-space: nowrap;
+  }
+
+  .result {
+    border: var(--border-hair);
+    border-radius: var(--radius-md);
+    background: var(--color-ink);
+    color: var(--color-bg);
+    padding: var(--space-6);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .result .eyebrow {
+    color: var(--color-accent);
+  }
+
+  .result__total {
+    font-size: var(--size-6);
+    color: var(--color-bg);
+    font-weight: 700;
+  }
+
+  .result__breakdown {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid #3a3f3c;
+  }
+
+  .result__breakdown div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .result__breakdown dt {
+    color: var(--color-line);
+    font-size: var(--size-0);
+  }
+
+  .result__breakdown dd {
+    margin: 0;
+    color: var(--color-bg);
+  }
+
+  .result__perunit {
+    padding-top: var(--space-3);
+    border-top: 1px solid #3a3f3c;
+  }
+
+  .tool__notes {
+    max-width: var(--measure);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: var(--border-hair);
+  }
+
+  .tool__notes h2 {
+    font-size: var(--size-3);
+    margin-bottom: var(--space-3);
+  }
+
+  @media (max-width: 860px) {
+    .tool__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .field-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

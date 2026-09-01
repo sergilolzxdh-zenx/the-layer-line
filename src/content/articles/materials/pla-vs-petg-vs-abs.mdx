@@ -1,0 +1,53 @@
+---
+title: "PLA vs. PETG vs. ABS: Which Filament to Use"
+description: "A practical comparison of the three most common desktop filaments — temperatures, strength, warping risk, and which one fits your part."
+category: "materials"
+pageType: "comparison"
+publishDate: 2026-09-01
+relatedSlugs:
+  - "materials/petg-guide"
+  - "print-quality/warping"
+  - "calibration/flow-rate"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+
+If you're choosing a filament for a specific part rather than defaulting to whatever's already on the spool holder, the decision usually comes down to three questions: does it need to survive heat, does it need to survive impact, and can your printer handle it without an enclosure.
+
+<div class="table-scroll">
+<table>
+<thead>
+<tr><th></th><th>PLA</th><th>PETG</th><th>ABS</th></tr>
+</thead>
+<tbody>
+<tr><td>Typical nozzle temp</td><td>190–220°C</td><td>230–250°C</td><td>230–250°C</td></tr>
+<tr><td>Typical bed temp</td><td>50–60°C</td><td>70–80°C</td><td>90–110°C</td></tr>
+<tr><td>Warping risk</td><td>Low</td><td>Low–moderate</td><td>High without an enclosure</td></tr>
+<tr><td>Heat resistance</td><td>Low (softens around 55–60°C)</td><td>Moderate (softens around 70–80°C)</td><td>Higher (softens around 95–105°C)</td></tr>
+<tr><td>Impact strength</td><td>Brittle-ish; low flex before cracking</td><td>Good — tougher than PLA</td><td>Good, with better impact resistance than PLA</td></tr>
+<tr><td>Stringing tendency</td><td>Low</td><td>Moderate–high (needs retraction tuning)</td><td>Low–moderate</td></tr>
+<tr><td>Odor while printing</td><td>Mild</td><td>Mild</td><td>Noticeable; ventilation matters</td></tr>
+<tr><td>Good default for</td><td>Models, prototypes, most household items</td><td>Functional parts, outdoor-adjacent use, mechanical fittings</td><td>Parts needing heat resistance, enclosures, higher-stress mechanical use</td></tr>
+</tbody>
+</table>
+</div>
+
+<AdSlot slot="in-article" />
+
+## PLA: the default for a reason
+
+PLA is the easiest of the three to print well — low warping, no enclosure needed, and a wide margin for error on temperature. Its main limitation is heat resistance: a PLA part left in a hot car or near a heat source can visibly soften and deform. For anything that stays indoors at normal temperatures and doesn't need to flex or absorb impact, PLA is usually the right default, not just the easy one.
+
+## PETG: the step up for functional parts
+
+PETG holds up better to heat and impact than PLA while still not requiring an enclosure for most printers. The trade-off is a stronger tendency to string (see [stringing](/print-quality/stringing/)) and a slightly narrower sweet spot on cooling — see the [PETG guide](/materials/petg-guide/) for the specifics. It's a reasonable first "upgrade" material once PLA's limitations start to matter for a given project.
+
+## ABS/ASA: for heat and an enclosure
+
+ABS resists heat and impact better than PETG in most comparisons, but its higher shrinkage on cooling makes it prone to warping — see [warping](/print-quality/warping/) — unless you have an enclosure or heated chamber. ASA is chemically similar to ABS but handles UV exposure noticeably better, making it the better choice specifically for parts that will sit outdoors. Neither is a good starting material without at least a basic enclosure or a printer that already runs an unusually warm ambient temperature.
+
+<Callout kind="tip" label="Manufacturer datasheets vary more than you'd expect">
+The ranges above are typical, not universal — a specific manufacturer's PETG might specify 235–245°C while another recommends 240–250°C for what's nominally the same material. Start from the spool's own datasheet or included instructions and use the ranges here as a sanity check, not a replacement.
+</Callout>

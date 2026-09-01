@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout title="Contact" description="How to reach The Layer Line with corrections, questions, or feedback." path="/contact/">
+  <div class="container prose-page">
+    <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact', href: '/contact/' }]} />
+    <header class="prose-page__header">
+      <p class="eyebrow">Contact</p>
+      <h1>Get in touch</h1>
+      <p class="prose-page__lead">
+        Corrections are especially welcome — if something on this site is inaccurate or out of date, that's exactly
+        the kind of message we want to get.
+      </p>
+    </header>
+
+    <div class="prose-page__body">
+      <h2>Corrections and factual errors</h2>
+      <p>
+        Email <a href="mailto:corrections@thelayerline.com">corrections@thelayerline.com</a> with a link to the page
+        and what's wrong. See the <a href="/editorial-policy/">editorial policy</a> for how corrections are handled.
+      </p>
+
+      <h2>General questions or feedback</h2>
+      <p>
+        Email <a href="mailto:hello@thelayerline.com">hello@thelayerline.com</a>. We read everything, though we
+        can't promise a personal reply to every message.
+      </p>
+
+      <h2>What we can't help with</h2>
+      <p>
+        We don't offer one-on-one troubleshooting support for a specific printer or specific print — the guides on
+        this site are written to be general enough to apply broadly, but diagnosing one exact failure over email
+        isn't something this site is set up to do.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

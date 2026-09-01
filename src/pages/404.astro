@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { NAV_LINKS } from '../lib/site';
+---
+
+<BaseLayout title="Page Not Found" description="The page you're looking for doesn't exist." path="/404/" noindex>
+  <div class="container not-found">
+    <p class="eyebrow">404</p>
+    <h1>This page didn't extrude cleanly.</h1>
+    <p>
+      The page you're looking for doesn't exist, or has moved. Try one of the main sections instead:
+    </p>
+    <ul>
+      {NAV_LINKS.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+    </ul>
+    <a class="button button--accent" href="/">Back to home</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: var(--space-9) var(--space-10);
+    max-width: var(--measure);
+  }
+
+  .not-found h1 {
+    font-size: var(--size-5);
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .not-found p {
+    color: var(--color-ink-soft);
+    font-size: var(--size-1);
+  }
+
+  .not-found ul {
+    list-style: none;
+    margin: var(--space-4) 0 var(--space-7);
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .not-found ul a {
+    font-family: var(--font-mono);
+    font-size: var(--size-0);
+  }
+</style>
