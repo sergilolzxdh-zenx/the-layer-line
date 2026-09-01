@@ -64,7 +64,7 @@ git push -u origin main
 
 ## Google AdSense
 
-The AdSense connection script is already wired in `BaseLayout.astro`, gated on `PUBLIC_ADSENSE_CLIENT` (publisher ID `ca-pub-4555323558143314`). **To activate it on the live site**, add `PUBLIC_ADSENSE_CLIENT=ca-pub-4555323558143314` to the Cloudflare project's environment variables and redeploy — it's already set locally in `.env` (not committed), but that has no effect on the deployed build. See `MONETIZATION.md` for what happens next (review, then Auto ads or manual ad units).
+The AdSense connection script is already wired in `BaseLayout.astro`, gated on `PUBLIC_ADSENSE_CLIENT` (publisher ID `ca-pub-4555323558143314`). **To activate it on the live site**, add `PUBLIC_ADSENSE_CLIENT=ca-pub-4555323558143314` to the Cloudflare project's environment variables and redeploy — it's already set locally in `.env` (not committed), but that has no effect on the deployed build. See `MONETIZATION.md` for what happens next (review, then enabling Auto ads with intrusive formats disabled).
 
 ## Post-deploy checklist
 

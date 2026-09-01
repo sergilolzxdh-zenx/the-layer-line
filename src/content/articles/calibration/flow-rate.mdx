@@ -12,15 +12,12 @@ sources: []
 ---
 
 import Callout from '../../../components/Callout.astro';
-import AdSlot from '../../../components/AdSlot.astro';
 
 Flow rate (sometimes called extrusion multiplier) scales how much filament the slicer commands on top of an already-correct [E-steps](/calibration/e-steps/) value. Where E-steps corrects a mechanical property of the extruder, flow rate corrects everything else that affects actual output: nozzle wear, real filament diameter versus the diameter typed into the slicer, and small thermal effects on flow.
 
 ## Why a printed test beats a formula
 
 E-steps calibration measures the motor directly. Flow rate calibration measures the result — the actual printed wall thickness — because that's the only way to catch errors that happen after the motor turns, like a nozzle that's worn slightly oversize or filament that measures 1.78 mm instead of the 1.75 mm typed into the slicer profile.
-
-<AdSlot slot="in-article" />
 
 ## The single-wall test
 

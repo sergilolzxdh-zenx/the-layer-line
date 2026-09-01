@@ -2,44 +2,29 @@
 
 ## Primary: Google AdSense
 
-This is the site's primary revenue model. **The AdSense connection script is now live**, gated behind the `PUBLIC_ADSENSE_CLIENT` environment variable (set to `ca-pub-4555323558143314` — the site's real publisher ID) in `BaseLayout.astro`. This is the "connect your site" step: it lets Google crawl and verify the site for review. It does **not** by itself display any ads, and no individual ad unit exists in the code yet — `AdSlot.astro` still renders a labeled placeholder everywhere.
+This is the site's primary revenue model, run via **Google AdSense Auto ads** — Google's script analyzes each page and inserts ad units automatically, rather than the site hand-placing fixed slots.
 
 ### Where things stand
 
-- ✅ Publisher ID connected (`PUBLIC_ADSENSE_CLIENT` in `.env` locally — **not committed**, per `.gitignore`)
-- ⏳ **Action needed:** add the same `PUBLIC_ADSENSE_CLIENT=ca-pub-4555323558143314` variable in the Cloudflare Pages/Workers project's environment variables (Settings → Environment variables), then redeploy — the local `.env` only affects local builds, not the deployed site.
-- ⏳ Apply for/await AdSense review at [google.com/adsense](https://www.google.com/adsense) if not already submitted. Policy readiness is already covered — see `SEO_AUDIT.md`'s "AdSense readiness" table (About, Contact, Privacy Policy, Terms, Editorial Policy, Cookie Policy, no thin content).
-- ⏳ Once approved, either turn on **Auto ads** in the AdSense dashboard (Google places ads automatically, no more code needed) or create manual ad units per placement and get their slot IDs.
+- ✅ Publisher ID connected (`PUBLIC_ADSENSE_CLIENT` = `ca-pub-4555323558143314`, set in Cloudflare's build environment variables and locally in `.env`, not committed)
+- ✅ `ads.txt` live at the site root, declaring Google as an authorized seller
+- ✅ Site ownership verified in AdSense, review requested
+- ✅ Consent message configured for EEA/UK/Swiss visitors (3-option: Consentir / No consentir / Gestionar opciones — the compliant pattern, since GDPR requires rejecting to be as easy as accepting)
+- ⏳ Waiting on AdSense's review decision
 
-### If you go the manual ad-unit route (recommended, matches the placement plan below)
+### Why Auto ads instead of manually placed slots
 
-For each `AdSlot` placement (`in-article`, `article-end`, `sidebar`), create a matching ad unit in AdSense to get a `data-ad-slot` ID, then update `src/components/AdSlot.astro` to render the real unit when both the client ID and that slot's ID are set:
+The site previously reserved three fixed positions (`in-article`, `article-end`, `sidebar`) via a placeholder `AdSlot` component. That component and every placeholder reference has been **removed** — Auto ads doesn't target manual slots, so keeping empty placeholder boxes next to independently-injected real ads would have been confusing and pointless. Auto ads decides placement itself once enabled in the AdSense dashboard.
 
-```astro
-<ins class="adsbygoogle"
-  style="display:block"
-  data-ad-client={adsenseClient}
-  data-ad-slot={slotId}
-  data-ad-format="auto"
-  data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-```
+### Enabling it (Google dashboard, not code)
 
-Keep the placeholder as the fallback when a slot ID isn't set yet, so partially-configured placements never ship broken markup.
+Once AdSense approves the site:
 
-Re-run the accessibility and layout-shift checks in `SEO_AUDIT.md` once real ads are live — ad dimensions from a live network can differ from the placeholder's reserved space.
+1. AdSense dashboard → **Anuncios** → **Anuncios automáticos** (Auto ads) → toggle on for `thelayerline.site`.
+2. Go into the format settings and **disable the more intrusive formats** — interstitial/vignette (full-page ads between navigations) and overlay/anchor ads — to stay consistent with the site's own "readability first" principle below. Leave in-content and multiplex ad formats on.
+3. No further code changes needed — the connection script already live in `BaseLayout.astro` is everything Auto ads requires.
 
-### Current placement plan (already reserved, not yet live)
-
-Defined in `AdSlot.astro`, used across `ArticleLayout`, `PillarLayout`, `glossary.astro`, and the two tool pages:
-
-| Slot | Where | Reasoning |
-|---|---|---|
-| `in-article` | Inline, embedded manually via `<AdSlot slot="in-article" />` in MDX content, placed after the intro and again after a major section | Never before the first sentence; never inside a heading or list |
-| `article-end` | After the article body, before Related/Newsletter | Natural break point, reader has already gotten value |
-| `sidebar` | Desktop two-column layout only, next to the table of contents | Doesn't compete with reading flow; collapses out of the way on mobile (`article__aside` becomes `order:-1`, stacked above content, not interleaved with paragraphs) |
-
-Placement rules from the brief that are already enforced by the component/layout design: no ad before the first sentence, no ad shaped or labeled like navigation, no more than one ad type per major content break, ads never inside interactive tool UI.
+If a more controlled, manually-placed approach is ever wanted instead, that would mean re-adding fixed slot components and creating individual ad units in AdSense to get `data-ad-slot` IDs — a bigger change than toggling Auto ads, and not the current plan.
 
 ## Secondary options (not yet implemented)
 
@@ -52,6 +37,10 @@ Per the brief, these may be added later **without letting them distort editorial
 
 ## What this site will not do
 
-- Insert placeholder or fake ad units that could be mistaken for real ads or clicked accidentally.
+- Enable Auto ads' interstitial/vignette or overlay/anchor formats — those interrupt reading in ways the site's design deliberately avoids.
 - Let affiliate revenue change which product or setting a guide recommends.
 - Run sponsored content without clear disclosure, if that's ever added.
+
+## Trade-off, stated plainly
+
+Auto ads means giving up exact control over where ads land on the page, in exchange for zero ongoing placement maintenance. If ad placement ever looks genuinely disruptive once live (e.g. an ad breaking up a short paragraph awkwardly), the fix is tightening the format settings in the AdSense dashboard first, not necessarily reverting to manual slots.

@@ -82,8 +82,8 @@ Deliberately **not** implemented: `FAQPage` (no FAQ content exists yet — don't
 | Terms of Use | ✅ `/terms/` |
 | Editorial Policy | ✅ `/editorial-policy/` |
 | Original, substantial content | ✅ 14 long-form pages, no thin/duplicate pages |
-| AdSense connection script | ✅ live via `PUBLIC_ADSENSE_CLIENT` (`ca-pub-4555323558143314`) in `BaseLayout.astro`; no individual ad units yet — `AdSlot.astro` still renders a labeled placeholder, see `MONETIZATION.md` |
-| Ad placement won't cause accidental clicks | ✅ by design — `AdSlot` reserves space with a dashed border and label, sits after intro/at article end/in sidebar, never inside a heading or nav |
+| AdSense connection script | ✅ live via `PUBLIC_ADSENSE_CLIENT` (`ca-pub-4555323558143314`) in `BaseLayout.astro`; monetized via Auto ads (Google-placed), see `MONETIZATION.md` |
+| Ad placement won't cause accidental clicks | ⚠️ depends on AdSense's Auto ads format settings, not site code — interstitial/overlay formats should stay disabled in the AdSense dashboard per `MONETIZATION.md` |
 
 ## Known gaps to revisit
 

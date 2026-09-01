@@ -12,7 +12,6 @@ sources: []
 ---
 
 import Callout from '../../../components/Callout.astro';
-import AdSlot from '../../../components/AdSlot.astro';
 
 E-steps (extruder steps per millimeter) is the firmware value that converts "move the filament 1 mm" into "turn the extruder stepper motor this many steps." If it's wrong, every extrusion command in every print is scaled by the same error, no matter what the slicer asks for.
 
@@ -21,8 +20,6 @@ E-steps (extruder steps per millimeter) is the firmware value that converts "mov
 - A permanent marker
 - A ruler or, ideally, calipers
 - A way to send G-code commands to the printer (the printer's own menu, or a host like the one built into your slicer or firmware's web interface)
-
-<AdSlot slot="in-article" />
 
 ## The measurement
 

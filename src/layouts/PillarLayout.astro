@@ -3,7 +3,6 @@ import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import AdSlot from '../components/AdSlot.astro';
 import Newsletter from '../components/Newsletter.astro';
 import { CATEGORIES, type CategorySlug } from '../lib/categories';
 import { getCollection, type CollectionEntry } from 'astro:content';
@@ -70,11 +69,9 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
           </div>
         </section>
 
-        <AdSlot slot="article-end" />
       </div>
       <aside class="article__aside">
         <TableOfContents headings={headings} />
-        <AdSlot slot="sidebar" />
       </aside>
     </div>
 

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import AdSlot from '../../components/AdSlot.astro';
 ---
 
 <BaseLayout
@@ -98,7 +97,6 @@ import AdSlot from '../../components/AdSlot.astro';
           <div><dt>Failed-print allowance</dt><dd class="measurement" id="result-failure">$0.00</dd></div>
           <div class="result__perunit"><dt>Per unit ({'>'}1 qty)</dt><dd class="measurement" id="result-perunit">$0.00</dd></div>
         </dl>
-        <AdSlot slot="sidebar" />
       </aside>
     </div>
 
@@ -116,7 +114,6 @@ import AdSlot from '../../components/AdSlot.astro';
       </p>
     </section>
 
-    <AdSlot slot="article-end" />
   </div>
 
   <script>

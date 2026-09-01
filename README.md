@@ -8,7 +8,7 @@ See [`NICHE_RESEARCH.md`](./NICHE_RESEARCH.md) for why this niche was chosen ove
 
 - **[Astro](https://astro.build)** (static output) — content collections (MDX) for articles and pillar guides, plain `.astro` pages for tools and static pages.
 - **No UI framework** — vanilla CSS (design tokens in `src/styles/tokens.css`) and vanilla `<script>` for the two interactive tools. No Tailwind, no React — kept minimal on purpose for performance and because the design system needed full control, not utility defaults.
-- **`@astrojs/sitemap`** for `sitemap-index.xml`, **`@astrojs/mdx`** so articles can embed `<Callout>` and `<AdSlot>` components inline.
+- **`@astrojs/sitemap`** for `sitemap-index.xml`, **`@astrojs/mdx`** so articles can embed the `<Callout>` component inline.
 - Fonts are self-hosted via `@fontsource` (Archivo Variable, IBM Plex Sans, IBM Plex Mono) — no external font requests.
 
 ## Project structure
@@ -19,7 +19,7 @@ src/
   content/
     articles/<category>/<slug>.mdx   # Supporting articles
     pillars/<category>.mdx           # The 3 pillar/hub guides
-  components/             # Header, Footer, AdSlot, Callout, ArticleCard, TOC, etc.
+  components/             # Header, Footer, Callout, ArticleCard, TOC, etc.
   layouts/                # BaseLayout, ArticleLayout, PillarLayout
   lib/                    # site.ts (nav/site constants), categories.ts (category metadata)
   pages/
