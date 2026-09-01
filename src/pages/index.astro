@@ -1,18 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Newsletter from '../components/Newsletter.astro';
-import ArticleCard from '../components/ArticleCard.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { CATEGORIES, CATEGORY_ORDER } from '../lib/categories';
+import { GLOSSARY_TERMS } from '../lib/glossary-terms';
 
 const allArticles = await getCollection('articles', ({ data }) => !data.draft);
 
-const editorsPickSlugs = [
-  'print-quality/stringing',
-  'calibration/retraction-tuning',
-  'materials/petg-guide',
-  'print-quality/warping',
-];
+const typeLabels: Record<string, string> = {
+  guide: 'Guide',
+  'how-to': 'How-to',
+  troubleshooting: 'Troubleshooting',
+  comparison: 'Comparison',
+  reference: 'Reference',
+};
+
+const editorsPickSlugs = ['print-quality/stringing', 'print-quality/warping', 'calibration/retraction-tuning'];
 const editorsPicks = editorsPickSlugs
   .map((slug) => allArticles.find((a: CollectionEntry<'articles'>) => a.id === slug))
   .filter((a): a is CollectionEntry<'articles'> => Boolean(a));
@@ -23,6 +26,50 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
   articles: allArticles.filter((a: CollectionEntry<'articles'>) => a.data.category === slug),
 }));
 
+const stats = {
+  guides: allArticles.length,
+  terms: GLOSSARY_TERMS.length,
+  calibrations: allArticles.filter((a) => a.data.category === 'calibration').length,
+};
+
+const defects = [
+  {
+    code: 'D-01',
+    title: 'Stringing',
+    description: 'Thin threads between features, left behind on travel moves.',
+    href: '/print-quality/stringing/',
+    lever: 'retraction',
+  },
+  {
+    code: 'D-02',
+    title: 'Warping',
+    description: 'Corners lifting off the bed as the outer plastic cools first.',
+    href: '/print-quality/warping/',
+    lever: 'bed adhesion',
+  },
+  {
+    code: 'D-03',
+    title: 'Layer lines & ringing',
+    description: 'Visible ridges, or repeating bands from gantry flex.',
+    href: '/print-quality/layer-lines/',
+    lever: 'vibration',
+  },
+  {
+    code: 'D-04',
+    title: 'Under- & over-extrusion',
+    description: 'Gaps and weak walls, or blobby, smeared surfaces.',
+    href: '/print-quality/under-extrusion-vs-over-extrusion/',
+    lever: 'flow rate',
+  },
+  {
+    code: 'D-05',
+    title: 'Weak first layer',
+    description: "Poor adhesion or gaps before the print even gets going.",
+    href: '/print-quality/first-layer-adhesion/',
+    lever: 'z-offset',
+  },
+];
+
 const pillarIcons: Record<string, string> = {
   'print-quality':
     '<path d="M10.29 3.86 1.82 18a1.5 1.5 0 0 0 1.29 2.25h17.78A1.5 1.5 0 0 0 22.18 18L13.71 3.86a1.5 1.5 0 0 0-2.42 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
@@ -30,13 +77,6 @@ const pillarIcons: Record<string, string> = {
     '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/>',
   materials:
     '<path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
-};
-
-const toolIcons = {
-  calculator:
-    '<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><line x1="8" y1="15" x2="8" y2="15.01"/><line x1="12" y1="15" x2="12" y2="15.01"/><line x1="16" y1="15" x2="16" y2="15.01"/><line x1="8" y1="19" x2="16" y2="19"/>',
-  diagnostic:
-    '<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v3l2 2"/>',
 };
 ---
 
@@ -48,60 +88,56 @@ const toolIcons = {
   <section class="hero">
     <div class="container hero__inner">
       <div class="hero__text">
-        <h1>Every print defect is a symptom. This is how you find the cause.</h1>
+        <p class="hero__eyebrow">Field diagnosis</p>
+        <h1>Your print is failing. Point at the symptom.</h1>
         <p class="hero__lead">
-          Practical, mechanism-first guides for the problems that actually show up on desktop printers — stringing,
-          warping, layer lines, weak first layers — plus the calibration steps that prevent most of them.
+          Pick what you're seeing on the bed. You'll get the mechanism behind it, the likely cause, and the setting
+          to check first — not lifestyle padding around an affiliate link.
         </p>
         <div class="hero__actions">
-          <a class="button button--accent" href="/print-quality/">Start with print quality</a>
-          <a class="button" href="/tools/print-problem-diagnostic/">Diagnose a print →</a>
+          <a class="button button--accent" href="/tools/print-problem-diagnostic/">Start a diagnosis →</a>
+          <a class="button" href="/print-quality/">Browse every defect</a>
         </div>
+        <dl class="hero__stats">
+          <div class="hero__stat">
+            <dt>Guides</dt>
+            <dd>{stats.guides}</dd>
+          </div>
+          <div class="hero__stat">
+            <dt>Glossary terms</dt>
+            <dd>{stats.terms}</dd>
+          </div>
+          <div class="hero__stat">
+            <dt>Calibrations</dt>
+            <dd>{stats.calibrations}</dd>
+          </div>
+        </dl>
       </div>
-      <div class="hero__diagram" aria-hidden="false">
-        <svg viewBox="0 0 620 420" role="img" aria-labelledby="hero-diagram-title">
-          <title id="hero-diagram-title">A diagram of a print showing stringing, a warped corner, and layer banding</title>
-          <line x1="20" y1="380" x2="600" y2="380" stroke="#9aa4a8" stroke-width="2" />
-          {Array.from({ length: 30 }).map((_, i) => (
-            <line x1={20 + i * 20} y1="380" x2={20 + i * 20} y2="386" stroke="#9aa4a8" stroke-width="1" />
-          ))}
 
-          <g>
-            <rect x="70" y="270" width="60" height="110" fill="none" stroke="#14181b" stroke-width="2" />
-            <line x1="70" y1="290" x2="130" y2="290" stroke="#c6cdd0" stroke-width="1" />
-            <line x1="70" y1="310" x2="130" y2="310" stroke="#c6cdd0" stroke-width="1" />
-            <line x1="70" y1="330" x2="130" y2="330" stroke="#c6cdd0" stroke-width="1" />
-            <line x1="70" y1="350" x2="130" y2="350" stroke="#c6cdd0" stroke-width="1" />
-            <rect x="200" y="290" width="60" height="90" fill="none" stroke="#14181b" stroke-width="2" />
-            <path d="M130 285 Q 165 250 200 292" fill="none" stroke="#1c6fb0" stroke-width="1.5" />
-            <path d="M130 300 Q 165 270 200 305" fill="none" stroke="#1c6fb0" stroke-width="1.5" />
-            <a href="/print-quality/stringing/">
-              <circle cx="165" cy="272" r="5" fill="#1c6fb0" />
-              <text x="165" y="255" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">STRINGING</text>
-            </a>
-          </g>
-
-          <g>
-            <path d="M330 380 L330 300 Q328 275 350 278 L 430 285 L 430 380 Z" fill="none" stroke="#14181b" stroke-width="2" />
-            <line x1="330" y1="360" x2="330" y2="380" stroke="#1c6fb0" stroke-width="2" stroke-dasharray="4 3" />
-            <a href="/print-quality/warping/">
-              <circle cx="335" cy="292" r="5" fill="#1c6fb0" />
-              <text x="360" y="250" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">WARPING</text>
-            </a>
-          </g>
-
-          <g>
-            <rect x="480" y="230" width="90" height="150" fill="none" stroke="#14181b" stroke-width="2" />
-            {Array.from({ length: 13 }).map((_, i) => (
-              <line x1="480" y1={240 + i * 11} x2="570" y2={240 + i * 11 + (i % 2 === 0 ? 3 : -3)} stroke="#1c6fb0" stroke-width="1" />
-            ))}
-            <a href="/print-quality/layer-lines/">
-              <circle cx="525" cy="222" r="5" fill="#1c6fb0" />
-              <text x="525" y="205" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">RINGING</text>
-            </a>
-          </g>
-        </svg>
-        <p class="hero__diagram-caption">Three real defects, three different root causes. Click one.</p>
+      <div class="defect-table">
+        <div class="defect-table__head">
+          <p class="label">Browse by defect</p>
+          <span class="defect-table__count">{defects.length} entries</span>
+        </div>
+        <ul class="defect-table__list">
+          {
+            defects.map((d) => (
+              <li>
+                <a class="defect-row" href={d.href}>
+                  <span class="defect-row__code">{d.code}</span>
+                  <span class="defect-row__text">
+                    <span class="defect-row__title">{d.title}</span>
+                    <span class="defect-row__desc">{d.description}</span>
+                  </span>
+                  <span class="defect-row__lever">
+                    {d.lever}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </section>
@@ -134,26 +170,42 @@ const toolIcons = {
 
   <section class="section section--sunken">
     <div class="container">
-      <h2>Where most people start</h2>
-      <div class="picks-list" data-reveal>
-        {editorsPicks.map((article) => <ArticleCard article={article} />)}
+      <div class="section__head">
+        <h2>Where most people start</h2>
+        <a class="section__all" href="/print-quality/">All {stats.guides} guides →</a>
+      </div>
+      <div class="spotlight-grid">
+        {
+          editorsPicks.map((article, index) => (
+            <a class="spotlight-card" href={`/${article.id}/`} data-reveal style={`--reveal-index:${index}`}>
+              <div class="spotlight-card__visual" data-tone={index === 1 ? 'accent' : 'ink'}>
+                <span class="spotlight-card__code">{CATEGORIES[article.data.category].short}</span>
+              </div>
+              <div class="spotlight-card__body">
+                <p class="spotlight-card__meta">{typeLabels[article.data.pageType]}</p>
+                <h3>{article.data.title}</h3>
+                <p>{article.data.description}</p>
+              </div>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <h2>Calculators worth bookmarking</h2>
+      <h2>Reference & tools</h2>
       <div class="tools-grid">
-        <a class="tools-card" href="/tools/filament-cost-calculator/" data-reveal style="--reveal-index:0">
-          <svg class="tools-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={toolIcons.calculator} />
-          <h3>Filament & Print Cost Calculator</h3>
-          <p>Real per-print cost from your spool price, print time, and electricity rate.</p>
+        <a class="tools-card" href="/glossary/" data-reveal style="--reveal-index:0">
+          <h3>Glossary</h3>
+          <p>Searchable, plain-language definitions for every value you'll be asked to change.</p>
+          <span class="tools-card__cta">{stats.terms} terms →</span>
         </a>
-        <a class="tools-card" href="/tools/print-problem-diagnostic/" data-reveal style="--reveal-index:1">
-          <svg class="tools-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={toolIcons.diagnostic} />
-          <h3>Print Problem Diagnostic</h3>
-          <p>Pick the defect you're seeing, get the most likely causes in priority order.</p>
+        <a class="tools-card" href="/tools/filament-cost-calculator/" data-reveal style="--reveal-index:1">
+          <h3>Filament & print cost calculator</h3>
+          <p>Filament, electricity, and failed-print allowance, on an instrument readout.</p>
+          <span class="tools-card__cta">Open the calculator →</span>
         </a>
       </div>
     </div>
@@ -215,16 +267,16 @@ const toolIcons = {
 
   .hero__inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-8);
-    align-items: center;
+    align-items: start;
   }
 
   .hero__text {
     animation: hero-in var(--duration-slow) var(--ease-out) both;
   }
 
-  .hero__diagram {
+  .defect-table {
     animation: hero-in var(--duration-slow) var(--ease-out) 90ms both;
   }
 
@@ -241,20 +293,29 @@ const toolIcons = {
 
   @media (prefers-reduced-motion: reduce) {
     .hero__text,
-    .hero__diagram {
+    .defect-table {
       animation: none;
     }
   }
 
+  .hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+  }
+
   .hero__text h1 {
     font-size: var(--size-6);
-    max-width: 16ch;
+    max-width: 15ch;
   }
 
   .hero__lead {
     font-size: var(--size-2);
     color: var(--color-ink-soft);
-    max-width: 46ch;
+    max-width: 44ch;
     margin-top: var(--space-4);
   }
 
@@ -265,27 +326,140 @@ const toolIcons = {
     flex-wrap: wrap;
   }
 
-  .hero__diagram svg {
-    width: 100%;
-    height: auto;
+  .hero__stats {
+    display: flex;
+    gap: 0;
+    margin: var(--space-7) 0 0;
+    border: var(--border-hair);
+    border-radius: var(--radius-md);
+    max-width: 32rem;
   }
 
-  .hero__diagram a circle {
-    transition: r var(--duration-fast) var(--ease-out);
-  }
-
-  .hero__diagram a:hover circle {
-    r: 7;
-  }
-
-  .hero__diagram-caption {
+  .hero__stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: var(--space-4);
     text-align: center;
-    font-family: var(--font-body);
+  }
+
+  .hero__stat + .hero__stat {
+    border-left: var(--border-hair);
+  }
+
+  .hero__stat dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--size-4);
     font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .hero__stat dt {
     font-size: var(--size-000);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--color-ink-faint);
-    letter-spacing: 0.03em;
-    margin-top: var(--space-2);
+    margin-top: var(--space-1);
+  }
+
+  .defect-table {
+    border: var(--border-hair-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+    overflow: hidden;
+  }
+
+  .defect-table__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: var(--border-hair);
+  }
+
+  .defect-table__count {
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    color: var(--color-ink-faint);
+  }
+
+  .defect-table__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .defect-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    text-decoration: none;
+    color: var(--color-ink);
+    border-top: var(--border-hair);
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+
+  .defect-table__list li:first-child .defect-row {
+    border-top: none;
+  }
+
+  .defect-row:hover {
+    background: var(--color-bg-sunken);
+  }
+
+  .defect-row__code {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    color: var(--color-ink-faint);
+  }
+
+  .defect-row__text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .defect-row__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 110%;
+    font-size: var(--size-1);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .defect-row:hover .defect-row__title {
+    color: var(--color-accent);
+  }
+
+  .defect-row__desc {
+    font-size: var(--size-00);
+    color: var(--color-ink-soft);
+  }
+
+  .defect-row__lever {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    color: var(--color-accent-cool);
+    white-space: nowrap;
+  }
+
+  .defect-row__lever svg {
+    width: 14px;
+    height: 14px;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .defect-row:hover .defect-row__lever svg {
+    transform: translateX(3px);
   }
 
   .section {
@@ -299,6 +473,27 @@ const toolIcons = {
   .section h2 {
     font-size: var(--size-4);
     max-width: 28ch;
+  }
+
+  .section__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .section__all {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--size-00);
+    color: var(--color-accent-cool);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .section__all:hover {
+    color: var(--color-accent);
   }
 
   .pillars-list {
@@ -401,8 +596,90 @@ const toolIcons = {
     transform: translateX(3px);
   }
 
-  .picks-list {
+  .spotlight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
     margin-top: var(--space-6);
+  }
+
+  .spotlight-card {
+    display: block;
+    text-decoration: none;
+    color: var(--color-ink);
+    background: var(--color-bg-raised);
+    border: var(--border-hair);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  }
+
+  .spotlight-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .spotlight-card__visual {
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-4);
+    background: var(--color-ink);
+    background-image: repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.07) 0px,
+      rgba(255, 255, 255, 0.07) 2px,
+      transparent 2px,
+      transparent 16px
+    );
+  }
+
+  .spotlight-card__visual[data-tone='accent'] {
+    background-color: var(--color-accent);
+    background-image: repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.1) 0px,
+      rgba(0, 0, 0, 0.1) 2px,
+      transparent 2px,
+      transparent 16px
+    );
+  }
+
+  .spotlight-card__code {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--size-3);
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .spotlight-card__body {
+    padding: var(--space-5);
+  }
+
+  .spotlight-card__meta {
+    font-family: var(--font-mono);
+    font-size: var(--size-000);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+    margin: 0;
+  }
+
+  .spotlight-card__body h3 {
+    font-size: var(--size-2);
+    margin-top: var(--space-2);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .spotlight-card:hover .spotlight-card__body h3 {
+    color: var(--color-accent);
+  }
+
+  .spotlight-card__body p {
+    color: var(--color-ink-soft);
+    font-size: var(--size-0);
+    margin: var(--space-2) 0 0;
   }
 
   .tools-grid {
@@ -415,28 +692,17 @@ const toolIcons = {
   .tools-card {
     display: block;
     padding: var(--space-6);
-    border-top: 3px solid var(--color-accent);
+    border: var(--border-hair-strong);
+    border-radius: var(--radius-md);
     background: var(--color-bg-raised);
     text-decoration: none;
     color: var(--color-ink);
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
-  }
-
-  .tools-card:nth-child(2) {
-    border-top-color: var(--color-accent-cool);
+    transition: border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
   }
 
   .tools-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
-  }
-
-  .tools-card__icon {
-    width: 28px;
-    height: 28px;
-    color: var(--color-ink-faint);
-    margin-bottom: var(--space-4);
+    border-color: var(--color-ink);
+    transform: translateY(-2px);
   }
 
   .tools-card h3 {
@@ -448,6 +714,14 @@ const toolIcons = {
     color: var(--color-ink-soft);
     font-size: var(--size-0);
     margin: 0;
+  }
+
+  .tools-card__cta {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    color: var(--color-accent-cool);
   }
 
   .browse-grid {
@@ -505,7 +779,7 @@ const toolIcons = {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    .tools-grid {
+    .spotlight-grid {
       grid-template-columns: 1fr;
     }
   }
@@ -515,8 +789,40 @@ const toolIcons = {
       grid-template-columns: 1fr;
     }
 
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+
     .pillar-row {
       flex-wrap: wrap;
+    }
+
+    .hero__stats {
+      max-width: none;
+    }
+
+    .defect-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-areas:
+        'code lever'
+        'text text';
+      align-items: center;
+      row-gap: var(--space-2);
+      column-gap: var(--space-4);
+    }
+
+    .defect-row__code {
+      grid-area: code;
+    }
+
+    .defect-row__text {
+      grid-area: text;
+    }
+
+    .defect-row__lever {
+      grid-area: lever;
+      justify-self: end;
     }
   }
 </style>

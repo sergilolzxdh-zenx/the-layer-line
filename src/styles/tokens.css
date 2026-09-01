@@ -1,11 +1,13 @@
 /*
   Design tokens for The Layer Line.
-  Palette is neutral machined-steel grey with a single accent hue: a
-  calibrated instrument blue (the color of painter's tape and PEI-sheet
-  packaging in this hobby, not a generic "tech blue"), used at two
-  weights rather than as two different accent colors. Every value below
-  is verified against WCAG AA — see scripts in the design notes for
-  the contrast checks this palette was built against.
+  Palette is neutral steel-grey with a single accent hue: a diagnostic
+  safety-orange (the color of a warning label or a check-engine light,
+  not a generic "brand orange"), used at two weights — a vivid one for
+  buttons and graphic elements, a deeper rust for text-sized use — rather
+  than as two different accent colors. Warning callouts use a separate
+  gold so they read as distinct from ordinary accent usage. Every value
+  below is verified against WCAG AA — see scripts in the design notes
+  for the contrast checks this palette was built against.
 */
 :root {
   /* Color — light (default) */
@@ -17,12 +19,12 @@
   --color-ink-faint: #666e71;
   --color-line: #c6cdd0;
   --color-line-strong: #9aa4a8;
-  --color-accent: #1c6fb0;
+  --color-accent: #c94716;
   --color-accent-ink: #ffffff;
-  --color-accent-cool: #14567f;
-  --color-accent-cool-soft: #dceaf3;
-  --color-warn-bg: #f5dfc9;
-  --color-warn-ink: #7a4310;
+  --color-accent-cool: #8a3410;
+  --color-accent-cool-soft: #fbe6d8;
+  --color-warn-bg: #f2e6bd;
+  --color-warn-ink: #5c4a12;
 
   /* Typography */
   --font-display: 'Archivo Variable', 'Archivo', 'Arial Narrow', sans-serif;

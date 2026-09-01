@@ -2,9 +2,9 @@
   <rect width="1200" height="630" fill="#eceff0"/>
   <rect x="0" y="0" width="1200" height="630" fill="none" stroke="#c6cdd0" stroke-width="2"/>
   <text x="80" y="270" font-family="Arial, sans-serif" font-weight="800" font-size="88" fill="#14181b">The Layer</text>
-  <text x="80" y="360" font-family="Arial, sans-serif" font-weight="800" font-size="88" fill="#1c6fb0">Line</text>
-  <rect x="82" y="380" width="220" height="8" fill="#1c6fb0"/>
-  <rect x="82" y="393" width="158" height="8" fill="#6fa8d6"/>
+  <text x="80" y="360" font-family="Arial, sans-serif" font-weight="800" font-size="88" fill="#c94716">Line</text>
+  <rect x="82" y="380" width="220" height="8" fill="#c94716"/>
+  <rect x="82" y="393" width="158" height="8" fill="#e0895e"/>
   <rect x="82" y="406" width="92" height="8" fill="#9aa4a8"/>
   <text x="80" y="470" font-family="Consolas, monospace" font-size="28" letter-spacing="1" fill="#4a5155">PRACTICAL FDM 3D PRINTING, ONE LAYER AT A TIME</text>
 </svg>
