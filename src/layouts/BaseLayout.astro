@@ -32,18 +32,6 @@ const organizationLd = {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <script is:inline>
-      (function () {
-        try {
-          var stored = localStorage.getItem('theme');
-          if (stored === 'light' || stored === 'dark') {
-            document.documentElement.dataset.theme = stored;
-          }
-        } catch (_) {
-          /* localStorage unavailable (privacy mode, etc.) — fall back to OS preference */
-        }
-      })();
-    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | {SITE.name}</title>
     <meta name="description" content={description} />
