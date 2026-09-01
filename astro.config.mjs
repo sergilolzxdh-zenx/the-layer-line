@@ -6,7 +6,7 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://the-layer-line.sexoyatusa.workers.dev',
+  site: 'https://thelayerline.site',
   integrations: [sitemap(), mdx()],
   trailingSlash: 'always',
 });

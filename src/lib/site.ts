@@ -3,7 +3,7 @@ export const SITE = {
   tagline: 'Practical FDM 3D printing, one layer at a time',
   description:
     'Independent guides, calibration walkthroughs and calculators for desktop FDM 3D printing — stringing, warping, layer lines, retraction, and the settings behind them.',
-  url: 'https://the-layer-line.sexoyatusa.workers.dev',
+  url: 'https://thelayerline.site',
 };
 
 export const NAV_LINKS = [

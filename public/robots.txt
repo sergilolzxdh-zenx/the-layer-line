@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://the-layer-line.sexoyatusa.workers.dev/sitemap-index.xml
+Sitemap: https://thelayerline.site/sitemap-index.xml
