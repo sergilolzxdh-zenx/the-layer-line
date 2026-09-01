@@ -82,7 +82,7 @@ Deliberately **not** implemented: `FAQPage` (no FAQ content exists yet — don't
 | Terms of Use | ✅ `/terms/` |
 | Editorial Policy | ✅ `/editorial-policy/` |
 | Original, substantial content | ✅ 14 long-form pages, no thin/duplicate pages |
-| No AdSense script/ID committed | ✅ confirmed — `AdSlot.astro` is a labeled placeholder only |
+| AdSense connection script | ✅ live via `PUBLIC_ADSENSE_CLIENT` (`ca-pub-4555323558143314`) in `BaseLayout.astro`; no individual ad units yet — `AdSlot.astro` still renders a labeled placeholder, see `MONETIZATION.md` |
 | Ad placement won't cause accidental clicks | ✅ by design — `AdSlot` reserves space with a dashed border and label, sits after intro/at article end/in sidebar, never inside a heading or nav |
 
 ## Known gaps to revisit

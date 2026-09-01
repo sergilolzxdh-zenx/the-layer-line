@@ -85,7 +85,6 @@ const terms = [
   <div class="container glossary">
     <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Glossary', href: '/glossary/' }]} />
     <header class="glossary__header">
-      <p class="eyebrow">Reference</p>
       <h1>3D Printing Glossary</h1>
       <p class="glossary__lead">
         Short, plain-language definitions for the terms used throughout this site. Each one links to a full guide
@@ -163,7 +162,8 @@ const terms = [
   .glossary__item a {
     display: inline-block;
     margin-top: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 600;
     font-size: var(--size-00);
   }
 

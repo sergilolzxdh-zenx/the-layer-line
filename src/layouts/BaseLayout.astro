@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../lib/site';
@@ -16,6 +17,7 @@ const { title, description, path, image, noindex = false } = Astro.props;
 const canonicalURL = new URL(path, SITE.url).toString();
 const ogImage = image ?? new URL('/og-default.svg', SITE.url).toString();
 const gaId = import.meta.env.PUBLIC_GA_ID;
+const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
 
 const organizationLd = {
   '@context': 'https://schema.org',
@@ -49,7 +51,26 @@ const organizationLd = {
     <meta name="twitter:image" content={ogImage} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <noscript>
+      <style>
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
     <script type="application/ld+json" set:html={JSON.stringify(organizationLd)} />
+    <ClientRouter />
+
+    {
+      adsenseClient && (
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
+          crossorigin="anonymous"
+        />
+      )
+    }
 
     {
       gaId && (
@@ -62,6 +83,7 @@ const organizationLd = {
             }
             gtag('js', new Date());
             gtag('config', gaId);
+            document.addEventListener('astro:page-load', () => gtag('config', gaId));
           </script>
         </>
       )
@@ -74,5 +96,18 @@ const organizationLd = {
       <slot />
     </main>
     <Footer />
+    <script>
+      import '../scripts/reveal';
+    </script>
   </body>
 </html>
+
+<style is:global>
+  /* Cross-page transitions: one authored moment, tuned to the site's own
+     easing rather than the browser's default crossfade timing. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--duration-base);
+    animation-timing-function: var(--ease-out);
+  }
+</style>

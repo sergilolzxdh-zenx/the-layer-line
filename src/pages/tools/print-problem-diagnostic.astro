@@ -77,7 +77,6 @@ const symptoms = [
     />
 
     <header class="tool__header">
-      <p class="eyebrow">Diagnostic</p>
       <h1>Print Problem Diagnostic</h1>
       <p class="tool__lead">What does the print actually look like? Pick the closest match below.</p>
       <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -106,14 +105,14 @@ const symptoms = [
         {
           symptoms.map((symptom, index) => (
             <div
-              class="symptom-panel"
+              class:list={['symptom-panel', { 'is-active': index === 0 }]}
               id={`panel-${symptom.id}`}
               role="tabpanel"
               aria-labelledby={`tab-${symptom.id}`}
               data-panel={symptom.id}
               hidden={index !== 0}
             >
-              <p class="eyebrow">Most likely causes, in order</p>
+              <p class="label">Most likely causes, in order</p>
               <ol>
                 {symptom.causes.map((cause) => (
                   <li>{cause}</li>
@@ -132,19 +131,32 @@ const symptoms = [
   </div>
 
   <script>
-    const container = document.querySelector('[data-diagnostic]');
-    const buttons = container?.querySelectorAll<HTMLButtonElement>('.symptom-button');
-    const panels = container?.querySelectorAll<HTMLElement>('.symptom-panel');
+    function setupDiagnostic() {
+      const container = document.querySelector('[data-diagnostic]');
+      const buttons = container?.querySelectorAll<HTMLButtonElement>('.symptom-button');
+      const panels = container?.querySelectorAll<HTMLElement>('.symptom-panel');
+      if (!buttons || !panels) return;
 
-    buttons?.forEach((button) => {
-      button.addEventListener('click', () => {
-        const target = button.dataset.symptom;
-        buttons.forEach((b) => b.setAttribute('aria-selected', String(b === button)));
-        panels?.forEach((panel) => {
-          panel.hidden = panel.dataset.panel !== target;
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          if (button.getAttribute('aria-selected') === 'true') return;
+          const target = button.dataset.symptom;
+          buttons.forEach((b) => b.setAttribute('aria-selected', String(b === button)));
+          panels.forEach((panel) => {
+            const shouldShow = panel.dataset.panel === target;
+            if (shouldShow) {
+              panel.hidden = false;
+              requestAnimationFrame(() => panel.classList.add('is-active'));
+            } else {
+              panel.classList.remove('is-active');
+              panel.hidden = true;
+            }
+          });
         });
       });
-    });
+    }
+
+    document.addEventListener('astro:page-load', setupDiagnostic);
   </script>
 
   <style>
@@ -180,9 +192,10 @@ const symptoms = [
     }
 
     .symptom-button {
-      font-family: var(--font-mono);
+      font-family: var(--font-body);
+      font-weight: 600;
       font-size: var(--size-00);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
       text-align: left;
       padding: var(--space-3) var(--space-4);
       border: var(--border-hair-strong);
@@ -190,6 +203,11 @@ const symptoms = [
       background: var(--color-bg-raised);
       color: var(--color-ink-soft);
       cursor: pointer;
+      transition: color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), transform var(--duration-instant) var(--ease-out);
+    }
+
+    .symptom-button:active {
+      transform: scale(var(--scale-press));
     }
 
     .symptom-button:hover {
@@ -209,6 +227,18 @@ const symptoms = [
       border-radius: var(--radius-md);
       background: var(--color-bg-raised);
       padding: var(--space-6);
+      overflow: hidden;
+    }
+
+    .symptom-panel {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+    }
+
+    .symptom-panel.is-active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .symptom-panel ol {
@@ -220,6 +250,13 @@ const symptoms = [
 
     .symptom-panel li {
       font-size: var(--size-1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .symptom-panel {
+        transition: opacity var(--duration-fast) linear;
+        transform: none;
+      }
     }
   </style>
 </BaseLayout>

@@ -15,10 +15,8 @@ const related = slugs
 {
   related.length > 0 && (
     <section class="related" aria-labelledby="related-heading">
-      <p class="eyebrow" id="related-heading">
-        Related
-      </p>
-      <div class="related__grid">
+      <h2 id="related-heading">Keep reading</h2>
+      <div class="related__list">
         {related.map((article) => (
           <ArticleCard article={article} />
         ))}
@@ -34,10 +32,12 @@ const related = slugs
     border-top: var(--border-hair);
   }
 
-  .related__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-4);
+  .related h2 {
+    font-size: var(--size-3);
+  }
+
+  .related__list > :global(.article-row):first-child {
+    border-top: none;
+    padding-top: var(--space-5);
   }
 </style>

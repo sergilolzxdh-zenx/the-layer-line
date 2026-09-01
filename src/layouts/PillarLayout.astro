@@ -33,20 +33,12 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
     <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: categoryMeta.short, href: `/${category}/` }]} />
 
     <header class="article__header">
-      <p class="eyebrow">Pillar guide</p>
       <h1>{title}</h1>
       <p class="article__lead">{description}</p>
       <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
       <p class="article__dates">
-        Published <time datetime={publishDate.toISOString()}>{dateFormatter.format(publishDate)}</time>
-        {
-          updatedDate && (
-            <>
-              {' '}
-              · Updated <time datetime={updatedDate.toISOString()}>{dateFormatter.format(updatedDate)}</time>
-            </>
-          )
-        }
+        Published {dateFormatter.format(publishDate)}
+        {updatedDate && <> · Updated {dateFormatter.format(updatedDate)}</>}
       </p>
     </header>
 
@@ -57,7 +49,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
         {
           sources.length > 0 && (
             <section class="article__sources" aria-labelledby="sources-heading">
-              <p class="eyebrow" id="sources-heading">Sources</p>
+              <p class="label" id="sources-heading">Sources</p>
               <ul>
                 {sources.map((source) => (
                   <li>
@@ -71,9 +63,9 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
           )
         }
 
-        <section class="pillar-children" aria-labelledby="pillar-children-heading">
-          <p class="eyebrow" id="pillar-children-heading">In this section</p>
-          <div class="pillar-children__grid">
+        <section class="pillar-children" aria-labelledby="pillar-children-heading" data-reveal>
+          <h2 id="pillar-children-heading">In this section</h2>
+          <div class="pillar-children__list">
             {children.map((entry: CollectionEntry<'articles'>) => <ArticleCard article={entry} />)}
           </div>
         </section>
@@ -102,7 +94,6 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
 
   .article__header h1 {
     font-size: var(--size-5);
-    margin-top: var(--space-3);
   }
 
   .article__lead {
@@ -113,11 +104,9 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
   }
 
   .article__dates {
-    font-family: var(--font-mono);
-    font-size: var(--size-000);
+    font-family: var(--font-body);
+    font-size: var(--size-00);
     color: var(--color-ink-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
   }
 
   .article__layout {
@@ -167,11 +156,13 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
     border-top: var(--border-hair);
   }
 
-  .pillar-children__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-4);
+  .pillar-children h2 {
+    font-size: var(--size-3);
+  }
+
+  .pillar-children__list > :global(.article-row):first-child {
+    border-top: none;
+    padding-top: var(--space-5);
   }
 
   .article__aside {

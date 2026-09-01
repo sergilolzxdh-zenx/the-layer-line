@@ -16,6 +16,11 @@
 html {
   color-scheme: light;
   -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--color-line-strong) var(--color-bg);
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
 }
 
 body {
@@ -34,10 +39,35 @@ svg {
   display: block;
 }
 
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border: 3px solid var(--color-bg);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-faint);
+}
+
 a {
   color: var(--color-accent-cool);
   text-decoration-thickness: 1.5px;
   text-underline-offset: 3px;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 a:hover {
@@ -47,6 +77,7 @@ a:hover {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+  border-radius: 1px;
 }
 
 h1,
@@ -59,6 +90,7 @@ h4 {
   line-height: var(--leading-tight);
   margin: 0;
   letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 p {
@@ -72,12 +104,17 @@ p {
   padding-inline: var(--space-5);
 }
 
-.eyebrow {
-  font-family: var(--font-mono);
+/* A quiet standalone label — for a block that has no other heading of its
+   own (a sidebar module, a footer column, a sources list). Never stacked
+   above a bigger heading: where a heading already exists, the heading
+   carries the weight and this class does not appear. */
+.label {
+  font-family: var(--font-body);
+  font-weight: 600;
   font-size: var(--size-00);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--color-accent-cool);
+  color: var(--color-ink-faint);
 }
 
 .visually-hidden {
@@ -101,7 +138,7 @@ p {
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm);
   z-index: 100;
-  transition: top var(--duration-base) var(--ease-standard);
+  transition: top var(--duration-base) var(--ease-out);
 }
 
 .skip-link:focus {
@@ -123,6 +160,8 @@ p {
   display: block;
   height: 3px;
   background: var(--color-accent);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-out);
 }
 
 .layer-lines span:nth-child(1) {
@@ -131,18 +170,29 @@ p {
 .layer-lines span:nth-child(2) {
   width: 72%;
   background: var(--color-accent-cool);
+  transition-delay: 60ms;
 }
 .layer-lines span:nth-child(3) {
   width: 42%;
   background: var(--color-line-strong);
+  transition-delay: 120ms;
 }
 
 .layer-lines--center {
   margin-inline: auto;
 }
 
+.layer-lines--animate span {
+  transform: scaleX(0);
+}
+
+.layer-lines--animate.is-visible span {
+  transform: scaleX(1);
+}
+
 /* Measurement styling — numbers with units get a quiet mono treatment
-   throughout the site so precision reads consistently everywhere. */
+   throughout the site so precision reads consistently everywhere. This
+   is the one place monospace earns its keep: real numeric data. */
 .measurement {
   font-family: var(--font-mono);
   color: var(--color-ink-soft);
@@ -153,23 +203,35 @@ p {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: var(--size-00);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-stretch: 110%;
+  font-weight: 700;
+  font-size: var(--size-0);
+  letter-spacing: 0.01em;
   text-decoration: none;
   padding: var(--space-3) var(--space-5);
   border: var(--border-hair-strong);
   border-radius: var(--radius-sm);
   color: var(--color-ink);
   background: var(--color-bg-raised);
-  transition: background var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-instant) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
 }
 
 .button:hover {
   color: var(--color-accent-ink);
   background: var(--color-ink);
   border-color: var(--color-ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.button:active {
+  transform: scale(var(--scale-press));
 }
 
 .button--accent {
@@ -198,11 +260,17 @@ td {
 }
 
 th {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
+  font-weight: 600;
   font-size: var(--size-00);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: var(--color-ink-soft);
+}
+
+td.measurement,
+td :is(.measurement) {
+  font-family: var(--font-mono);
 }
 
 .table-scroll {
@@ -266,4 +334,32 @@ code {
   background: var(--color-bg-sunken);
   padding: 0.1em 0.35em;
   border-radius: var(--radius-sm);
+}
+
+/* Scroll-reveal: elements start slightly lower and transparent, then
+   settle into place once observed entering the viewport (see reveal.js).
+   One authored moment reused consistently, not a different effect per
+   section. Skipped entirely under reduced motion via the media query. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  transition-delay: calc(var(--reveal-index, 0) * 60ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .layer-lines--animate span {
+    transform: none;
+  }
 }

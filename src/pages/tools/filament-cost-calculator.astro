@@ -19,7 +19,6 @@ import AdSlot from '../../components/AdSlot.astro';
     />
 
     <header class="tool__header">
-      <p class="eyebrow">Calculator</p>
       <h1>Filament & Print Cost Calculator</h1>
       <p class="tool__lead">
         Enter what your spool actually cost and how the print is set up. This adds filament and electricity together
@@ -91,7 +90,7 @@ import AdSlot from '../../components/AdSlot.astro';
       </form>
 
       <aside class="result" aria-live="polite">
-        <p class="eyebrow">Estimated cost</p>
+        <p class="label result__label">Estimated cost</p>
         <p class="result__total measurement" id="result-total">$0.00</p>
         <dl class="result__breakdown">
           <div><dt>Filament</dt><dd class="measurement" id="result-filament">$0.00</dd></div>
@@ -121,50 +120,64 @@ import AdSlot from '../../components/AdSlot.astro';
   </div>
 
   <script>
-    const form = document.getElementById('cost-calculator') as HTMLFormElement;
-    const totalEl = document.getElementById('result-total')!;
-    const filamentEl = document.getElementById('result-filament')!;
-    const electricityEl = document.getElementById('result-electricity')!;
-    const failureEl = document.getElementById('result-failure')!;
-    const perUnitEl = document.getElementById('result-perunit')!;
+    function setupCalculator() {
+      const form = document.getElementById('cost-calculator') as HTMLFormElement | null;
+      const totalEl = document.getElementById('result-total');
+      const filamentEl = document.getElementById('result-filament');
+      const electricityEl = document.getElementById('result-electricity');
+      const failureEl = document.getElementById('result-failure');
+      const perUnitEl = document.getElementById('result-perunit');
+      if (!form || !totalEl || !filamentEl || !electricityEl || !failureEl || !perUnitEl) return;
 
-    function formatUSD(value: number) {
-      if (!Number.isFinite(value)) return '$0.00';
-      return `$${value.toFixed(2)}`;
+      function formatUSD(value: number) {
+        if (!Number.isFinite(value)) return '$0.00';
+        return `$${value.toFixed(2)}`;
+      }
+
+      function num(name: string): number {
+        const el = form!.elements.namedItem(name) as HTMLInputElement | null;
+        const value = el ? parseFloat(el.value) : 0;
+        return Number.isFinite(value) ? value : 0;
+      }
+
+      function pulse(el: Element, text: string) {
+        if (el.textContent === text) return;
+        el.textContent = text;
+        el.classList.remove('is-updated');
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        (el as HTMLElement).offsetWidth;
+        el.classList.add('is-updated');
+      }
+
+      function calculate() {
+        const spoolPrice = num('spoolPrice');
+        const spoolWeight = num('spoolWeight') || 1;
+        const printWeight = num('printWeight');
+        const printHours = num('printHours');
+        const watts = num('printerWatts');
+        const rate = num('electricityRate');
+        const failureRate = Math.min(num('failureRate'), 90) / 100;
+        const quantity = Math.max(1, Math.round(num('quantity')) || 1);
+
+        const filamentCost = (printWeight / spoolWeight) * spoolPrice;
+        const electricityCost = ((printHours * watts) / 1000) * rate;
+        const subtotal = filamentCost + electricityCost;
+        const withFailure = subtotal / (1 - failureRate);
+        const failureCost = withFailure - subtotal;
+        const total = withFailure * quantity;
+
+        pulse(filamentEl!, formatUSD(filamentCost * quantity));
+        pulse(electricityEl!, formatUSD(electricityCost * quantity));
+        pulse(failureEl!, formatUSD(failureCost * quantity));
+        pulse(totalEl!, formatUSD(total));
+        pulse(perUnitEl!, formatUSD(withFailure));
+      }
+
+      form.addEventListener('input', calculate);
+      calculate();
     }
 
-    function num(name: string): number {
-      const el = form.elements.namedItem(name) as HTMLInputElement | null;
-      const value = el ? parseFloat(el.value) : 0;
-      return Number.isFinite(value) ? value : 0;
-    }
-
-    function calculate() {
-      const spoolPrice = num('spoolPrice');
-      const spoolWeight = num('spoolWeight') || 1;
-      const printWeight = num('printWeight');
-      const printHours = num('printHours');
-      const watts = num('printerWatts');
-      const rate = num('electricityRate');
-      const failureRate = Math.min(num('failureRate'), 90) / 100;
-      const quantity = Math.max(1, Math.round(num('quantity')) || 1);
-
-      const filamentCost = (printWeight / spoolWeight) * spoolPrice;
-      const electricityCost = ((printHours * watts) / 1000) * rate;
-      const subtotal = filamentCost + electricityCost;
-      const withFailure = subtotal / (1 - failureRate);
-      const failureCost = withFailure - subtotal;
-      const total = withFailure * quantity;
-
-      filamentEl.textContent = formatUSD(filamentCost * quantity);
-      electricityEl.textContent = formatUSD(electricityCost * quantity);
-      failureEl.textContent = formatUSD(failureCost * quantity);
-      totalEl.textContent = formatUSD(total);
-      perUnitEl.textContent = formatUSD(withFailure);
-    }
-
-    form.addEventListener('input', calculate);
-    calculate();
+    document.addEventListener('astro:page-load', setupCalculator);
   </script>
 </BaseLayout>
 
@@ -213,10 +226,11 @@ import AdSlot from '../../components/AdSlot.astro';
 
   .field label {
     display: block;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 600;
     font-size: var(--size-000);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     color: var(--color-ink-soft);
     margin-bottom: var(--space-2);
   }
@@ -266,7 +280,7 @@ import AdSlot from '../../components/AdSlot.astro';
     gap: var(--space-4);
   }
 
-  .result .eyebrow {
+  .result__label {
     color: var(--color-accent);
   }
 
@@ -274,6 +288,24 @@ import AdSlot from '../../components/AdSlot.astro';
     font-size: var(--size-6);
     color: var(--color-bg);
     font-weight: 700;
+  }
+
+  .result__total.is-updated,
+  .result__breakdown dd.is-updated {
+    animation: value-pulse var(--duration-slow) var(--ease-out);
+  }
+
+  @keyframes value-pulse {
+    from {
+      color: var(--color-accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .result__total.is-updated,
+    .result__breakdown dd.is-updated {
+      animation: none;
+    }
   }
 
   .result__breakdown {

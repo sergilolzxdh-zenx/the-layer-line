@@ -8,16 +8,16 @@ sources: []
 import Callout from '../../components/Callout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 
-Most slicer and printer problems that look like a "settings" issue are actually a materials issue — a profile built around one filament's behavior being applied to a different one. The four materials below cover the large majority of desktop FDM printing, and each behaves differently enough that it's worth understanding the mechanism, not just copying a number.
+Most slicer and printer problems that look like a "settings" issue are actually a materials issue: a profile built around one filament's behavior being applied to a different one. The four materials below cover the large majority of desktop FDM printing, and each behaves differently enough that it's worth understanding the mechanism, not just copying a number.
 
 <AdSlot slot="in-article" />
 
 ## The short version
 
-- **PLA** — easiest to print, lowest odds of warping, lowest heat resistance. The default for most models, prototypes, and anything that won't sit in a hot car or near a heat source.
-- **PETG** — tougher and more heat-resistant than PLA, but more prone to stringing and slightly fussier about cooling. A good step up for functional parts.
-- **ABS/ASA** — most heat- and impact-resistant of the common materials, but shrinks more as it cools, which makes it prone to warping without an enclosure. ASA handles UV exposure noticeably better than ABS for outdoor parts.
-- **TPU** — flexible, not rigid, and needs slower speeds and often a direct-drive extruder to print reliably at all.
+- **PLA:** easiest to print, lowest odds of warping, lowest heat resistance. The default for most models, prototypes, and anything that won't sit in a hot car or near a heat source.
+- **PETG:** tougher and more heat-resistant than PLA, but more prone to stringing and slightly fussier about cooling. A good step up for functional parts.
+- **ABS/ASA:** most heat- and impact-resistant of the common materials, but shrinks more as it cools, which makes it prone to warping without an enclosure. ASA handles UV exposure noticeably better than ABS for outdoor parts.
+- **TPU:** flexible, not rigid, and needs slower speeds and often a direct-drive extruder to print reliably at all.
 
 See the full [PLA vs. PETG vs. ABS comparison](/materials/pla-vs-petg-vs-abs/) for a side-by-side on temperatures, bed adhesion, and typical uses, or the [PETG guide](/materials/petg-guide/) for a deeper look at the material most people move to after PLA.
 
@@ -27,9 +27,9 @@ Three physical properties explain almost all of the practical differences betwee
 
 **Melting behavior.** Semi-crystalline plastics like PLA have a fairly narrow, well-defined melting point. Amorphous plastics like ABS and PETG soften gradually over a wider range instead of melting sharply, which is part of why their printable temperature windows are wider and why "the right temperature" is more of a range than a single number.
 
-**Shrinkage on cooling.** All thermoplastics contract slightly as they cool from printing temperature to room temperature. ABS and ASA shrink more than PLA does, and that difference in shrinkage between the outer (cooler, already-solid) layers and the inner (still warm) layers is what pulls corners upward — warping. PLA's lower shrinkage is a big part of why it's so much more forgiving without an enclosure.
+**Shrinkage on cooling.** All thermoplastics contract slightly as they cool from printing temperature to room temperature. ABS and ASA shrink more than PLA does, and that difference in shrinkage between the outer (cooler, already-solid) layers and the inner (still warm) layers is what pulls corners upward: warping. PLA's lower shrinkage is a big part of why it's so much more forgiving without an enclosure.
 
-**Viscosity when molten.** PETG in particular tends to be "stringier" than PLA at comparable relative temperatures because of how it behaves when molten and oozing — thin strings hold together more easily rather than breaking cleanly. That's why PETG print profiles usually lean harder on retraction tuning and travel speed than PLA ones do.
+**Viscosity when molten.** PETG in particular tends to be "stringier" than PLA at comparable relative temperatures because of how it behaves when molten and oozing: thin strings hold together more easily rather than breaking cleanly. That's why PETG print profiles usually lean harder on retraction tuning and travel speed than PLA ones do.
 
 <AdSlot slot="in-article" />
 

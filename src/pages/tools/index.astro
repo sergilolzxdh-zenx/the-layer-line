@@ -26,7 +26,6 @@ const tools = [
   <div class="container tools-hub">
     <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Tools', href: '/tools/' }]} />
     <header class="tools-hub__header">
-      <p class="eyebrow">Tools</p>
       <h1>3D Printing Tools</h1>
       <p class="tools-hub__lead">
         Small, focused tools that solve a specific problem — not a dashboard of everything we could think of.
@@ -36,11 +35,14 @@ const tools = [
 
     <div class="tools-hub__grid">
       {
-        tools.map((tool) => (
-          <a class="tool-card" href={tool.href}>
+        tools.map((tool, index) => (
+          <a class="tool-card" href={tool.href} data-reveal style={`--reveal-index:${index}`}>
             <h2>{tool.title}</h2>
             <p>{tool.description}</p>
-            <span class="tool-card__cta">Open tool →</span>
+            <span class="tool-card__cta">
+              Open tool
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
+            </span>
           </a>
         ))
       }
@@ -79,15 +81,21 @@ const tools = [
   .tool-card {
     display: block;
     padding: var(--space-6);
-    border: var(--border-hair);
-    border-radius: var(--radius-md);
+    border-top: 3px solid var(--color-accent);
     background: var(--color-bg-raised);
     text-decoration: none;
     color: var(--color-ink);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  }
+
+  .tool-card:nth-child(2) {
+    border-top-color: var(--color-accent-cool);
   }
 
   .tool-card:hover {
-    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
   }
 
   .tool-card h2 {
@@ -100,10 +108,23 @@ const tools = [
   }
 
   .tool-card__cta {
-    font-family: var(--font-mono);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    font-family: var(--font-body);
+    font-weight: 600;
     font-size: var(--size-00);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
     color: var(--color-accent-cool);
+  }
+
+  .tool-card__cta svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .tool-card:hover .tool-card__cta svg {
+    transform: translateX(3px);
   }
 </style>

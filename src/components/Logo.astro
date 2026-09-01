@@ -42,4 +42,16 @@ const { size = 'default' } = Astro.props;
     width: 100%;
     margin-block: 4px 0;
   }
+
+  .logo .layer-lines span {
+    transition: width var(--duration-base) var(--ease-out);
+  }
+
+  .logo:hover .layer-lines span:nth-child(2) {
+    width: 100%;
+  }
+
+  .logo:hover .layer-lines span:nth-child(3) {
+    width: 72%;
+  }
 </style>

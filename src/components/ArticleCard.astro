@@ -14,46 +14,94 @@ const typeLabels: Record<string, string> = {
 };
 ---
 
-<a class="article-card" href={`/${article.id}/`}>
-  <p class="article-card__type">{typeLabels[article.data.pageType]}</p>
-  <h3>{article.data.title}</h3>
-  <p class="article-card__desc">{article.data.description}</p>
+<a class="article-row" href={`/${article.id}/`}>
+  <div class="article-row__text">
+    <h3>{article.data.title}</h3>
+    <p class="article-row__desc">{article.data.description}</p>
+  </div>
+  <div class="article-row__meta">
+    <span class="article-row__type">{typeLabels[article.data.pageType]}</span>
+    <svg class="article-row__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  </div>
 </a>
 
 <style>
-  .article-card {
-    display: block;
-    padding: var(--space-5);
-    border: var(--border-hair);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-raised);
+  .article-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+    border-top: var(--border-hair);
     text-decoration: none;
     color: var(--color-ink);
-    transition: border-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
   }
 
-  .article-card:hover {
-    border-color: var(--color-accent);
-    color: var(--color-ink);
+  .article-row:last-child {
+    border-bottom: var(--border-hair);
   }
 
-  .article-card__type {
-    font-family: var(--font-mono);
-    font-size: var(--size-000);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-accent-cool);
-    margin: 0 0 var(--space-2);
+  .article-row__text {
+    min-width: 0;
   }
 
-  .article-card h3 {
+  .article-row h3 {
     font-size: var(--size-2);
-    margin-bottom: var(--space-2);
+    transition: color var(--duration-fast) var(--ease-out);
   }
 
-  .article-card__desc {
+  .article-row:hover h3 {
+    color: var(--color-accent);
+  }
+
+  .article-row__desc {
     color: var(--color-ink-soft);
     font-size: var(--size-0);
-    margin: 0;
+    margin: var(--space-2) 0 0;
+    max-width: 56ch;
+  }
+
+  .article-row__meta {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-top: var(--space-1);
+  }
+
+  .article-row__type {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--size-00);
+    letter-spacing: 0.02em;
+    color: var(--color-accent-cool);
+    white-space: nowrap;
+  }
+
+  .article-row__arrow {
+    width: 18px;
+    height: 18px;
+    color: var(--color-ink-faint);
+    transform: translateX(0);
+    transition: transform var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+
+  .article-row:hover .article-row__arrow {
+    color: var(--color-accent);
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 560px) {
+    .article-row {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .article-row__meta {
+      padding-top: 0;
+    }
   }
 </style>

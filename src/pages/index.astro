@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Newsletter from '../components/Newsletter.astro';
+import ArticleCard from '../components/ArticleCard.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { CATEGORIES, CATEGORY_ORDER } from '../lib/categories';
 
@@ -21,6 +22,22 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
   meta: CATEGORIES[slug],
   articles: allArticles.filter((a: CollectionEntry<'articles'>) => a.data.category === slug),
 }));
+
+const pillarIcons: Record<string, string> = {
+  'print-quality':
+    '<path d="M10.29 3.86 1.82 18a1.5 1.5 0 0 0 1.29 2.25h17.78A1.5 1.5 0 0 0 22.18 18L13.71 3.86a1.5 1.5 0 0 0-2.42 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  calibration:
+    '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/>',
+  materials:
+    '<path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
+};
+
+const toolIcons = {
+  calculator:
+    '<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8" y2="11.01"/><line x1="12" y1="11" x2="12" y2="11.01"/><line x1="16" y1="11" x2="16" y2="11.01"/><line x1="8" y1="15" x2="8" y2="15.01"/><line x1="12" y1="15" x2="12" y2="15.01"/><line x1="16" y1="15" x2="16" y2="15.01"/><line x1="8" y1="19" x2="16" y2="19"/>',
+  diagnostic:
+    '<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v3l2 2"/>',
+};
 ---
 
 <BaseLayout
@@ -31,7 +48,6 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
   <section class="hero">
     <div class="container hero__inner">
       <div class="hero__text">
-        <p class="eyebrow">Desktop FDM 3D printing</p>
         <h1>Every print defect is a symptom. This is how you find the cause.</h1>
         <p class="hero__lead">
           Practical, mechanism-first guides for the problems that actually show up on desktop printers — stringing,
@@ -92,15 +108,20 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
 
   <section class="section">
     <div class="container">
-      <p class="eyebrow">Where to start</p>
       <h2>Three pillars, everything else hangs off them</h2>
-      <div class="pillars-grid">
+      <div class="pillars-list">
         {
-          byCategory.map(({ slug, meta }) => (
-            <a class="pillar-card" href={`/${slug}/`}>
-              <h3>{meta.title}</h3>
-              <p>{meta.description}</p>
-              <span class="pillar-card__cta">Read the guide →</span>
+          byCategory.map(({ slug, meta }, index) => (
+            <a class="pillar-row" href={`/${slug}/`} data-reveal style={`--reveal-index:${index}`}>
+              <svg class="pillar-row__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={pillarIcons[slug]} />
+              <div class="pillar-row__text">
+                <h3>{meta.title}</h3>
+                <p>{meta.description}</p>
+              </div>
+              <span class="pillar-row__cta">
+                Read the guide
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </span>
             </a>
           ))
         }
@@ -110,32 +131,24 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
 
   <section class="section section--sunken">
     <div class="container">
-      <p class="eyebrow">Editor's picks</p>
       <h2>Where most people start</h2>
-      <div class="picks-grid">
-        {
-          editorsPicks.map((article) => (
-            <a class="pick-card" href={`/${article.id}/`}>
-              <p class="pick-card__cat">{CATEGORIES[article.data.category].short}</p>
-              <h3>{article.data.title}</h3>
-              <p>{article.data.description}</p>
-            </a>
-          ))
-        }
+      <div class="picks-list" data-reveal>
+        {editorsPicks.map((article) => <ArticleCard article={article} />)}
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <p class="eyebrow">Tools</p>
       <h2>Calculators worth bookmarking</h2>
       <div class="tools-grid">
-        <a class="tools-card" href="/tools/filament-cost-calculator/">
+        <a class="tools-card" href="/tools/filament-cost-calculator/" data-reveal style="--reveal-index:0">
+          <svg class="tools-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={toolIcons.calculator} />
           <h3>Filament & Print Cost Calculator</h3>
           <p>Real per-print cost from your spool price, print time, and electricity rate.</p>
         </a>
-        <a class="tools-card" href="/tools/print-problem-diagnostic/">
+        <a class="tools-card" href="/tools/print-problem-diagnostic/" data-reveal style="--reveal-index:1">
+          <svg class="tools-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={toolIcons.diagnostic} />
           <h3>Print Problem Diagnostic</h3>
           <p>Pick the defect you're seeing, get the most likely causes in priority order.</p>
         </a>
@@ -145,7 +158,6 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
 
   <section class="section section--sunken">
     <div class="container browse">
-      <p class="eyebrow">Browse everything</p>
       <h2>All guides by topic</h2>
       <div class="browse-grid">
         {
@@ -173,7 +185,6 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
   <section class="section">
     <div class="container about-teaser">
       <div>
-        <p class="eyebrow">About this site</p>
         <h2>Independently written. No sponsored recommendations.</h2>
         <p>
           The Layer Line isn't affiliated with any printer or filament manufacturer. Guides are built from
@@ -196,6 +207,7 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
   .hero {
     border-bottom: var(--border-hair);
     padding-block: var(--space-8) var(--space-9);
+    overflow: clip;
   }
 
   .hero__inner {
@@ -205,9 +217,34 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
     align-items: center;
   }
 
+  .hero__text {
+    animation: hero-in var(--duration-slow) var(--ease-out) both;
+  }
+
+  .hero__diagram {
+    animation: hero-in var(--duration-slow) var(--ease-out) 90ms both;
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__text,
+    .hero__diagram {
+      animation: none;
+    }
+  }
+
   .hero__text h1 {
     font-size: var(--size-6);
-    margin-top: var(--space-3);
     max-width: 16ch;
   }
 
@@ -231,7 +268,7 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
   }
 
   .hero__diagram a circle {
-    transition: r var(--duration-fast) var(--ease-standard);
+    transition: r var(--duration-fast) var(--ease-out);
   }
 
   .hero__diagram a:hover circle {
@@ -240,11 +277,11 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
 
   .hero__diagram-caption {
     text-align: center;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 600;
     font-size: var(--size-000);
     color: var(--color-ink-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     margin-top: var(--space-2);
   }
 
@@ -258,76 +295,128 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
 
   .section h2 {
     font-size: var(--size-4);
-    margin-top: var(--space-2);
     max-width: 28ch;
   }
 
-  .pillars-grid,
-  .picks-grid,
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
+  .pillars-list {
     margin-top: var(--space-6);
   }
 
-  .picks-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .tools-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .pillar-card,
-  .pick-card,
-  .tools-card {
-    display: block;
-    padding: var(--space-5);
-    border: var(--border-hair);
-    border-radius: var(--radius-md);
-    background: var(--color-bg-raised);
+  .pillar-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+    border-top: var(--border-hair);
     text-decoration: none;
     color: var(--color-ink);
   }
 
-  .pillar-card:hover,
-  .pick-card:hover,
-  .tools-card:hover {
-    border-color: var(--color-accent);
+  .pillars-list a:last-child {
+    border-bottom: var(--border-hair);
   }
 
-  .pillar-card h3,
-  .pick-card h3,
+  .pillar-row__icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    color: var(--color-accent-cool);
+    transition: color var(--duration-fast) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+
+  .pillar-row:hover .pillar-row__icon {
+    color: var(--color-accent);
+    transform: scale(1.08);
+  }
+
+  .pillar-row__text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pillar-row__text h3 {
+    font-size: var(--size-3);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .pillar-row:hover .pillar-row__text h3 {
+    color: var(--color-accent);
+  }
+
+  .pillar-row__text p {
+    color: var(--color-ink-soft);
+    margin: var(--space-2) 0 0;
+    max-width: 56ch;
+  }
+
+  .pillar-row__cta {
+    flex-shrink: 0;
+    display: none;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--size-00);
+    color: var(--color-accent-cool);
+  }
+
+  .pillar-row__cta svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .pillar-row:hover .pillar-row__cta svg {
+    transform: translateX(3px);
+  }
+
+  .picks-list {
+    margin-top: var(--space-6);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  .tools-card {
+    display: block;
+    padding: var(--space-6);
+    border-top: 3px solid var(--color-accent);
+    background: var(--color-bg-raised);
+    text-decoration: none;
+    color: var(--color-ink);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  }
+
+  .tools-card:nth-child(2) {
+    border-top-color: var(--color-accent-cool);
+  }
+
+  .tools-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .tools-card__icon {
+    width: 28px;
+    height: 28px;
+    color: var(--color-ink-faint);
+    margin-bottom: var(--space-4);
+  }
+
   .tools-card h3 {
     font-size: var(--size-2);
     margin-bottom: var(--space-2);
   }
 
-  .pillar-card p,
-  .pick-card p,
   .tools-card p {
     color: var(--color-ink-soft);
     font-size: var(--size-0);
     margin: 0;
-  }
-
-  .pillar-card__cta {
-    display: inline-block;
-    margin-top: var(--space-3);
-    font-family: var(--font-mono);
-    font-size: var(--size-000);
-    text-transform: uppercase;
-    color: var(--color-accent-cool);
-  }
-
-  .pick-card__cat {
-    font-family: var(--font-mono);
-    font-size: var(--size-000);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-accent-cool);
-    margin: 0 0 var(--space-2);
   }
 
   .browse-grid {
@@ -370,13 +459,17 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
     margin-top: var(--space-4);
   }
 
+  @media (min-width: 640px) {
+    .pillar-row__cta {
+      display: inline-flex;
+    }
+  }
+
   @media (max-width: 960px) {
     .hero__inner {
       grid-template-columns: 1fr;
     }
 
-    .pillars-grid,
-    .picks-grid,
     .browse-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -387,10 +480,12 @@ const byCategory = CATEGORY_ORDER.map((slug) => ({
   }
 
   @media (max-width: 620px) {
-    .pillars-grid,
-    .picks-grid,
     .browse-grid {
       grid-template-columns: 1fr;
+    }
+
+    .pillar-row {
+      flex-wrap: wrap;
     }
   }
 </style>

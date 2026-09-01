@@ -50,10 +50,9 @@ const jsonLd = {
     list-style: none;
     margin: 0;
     padding: 0;
-    font-family: var(--font-mono);
-    font-size: var(--size-000);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-family: var(--font-body);
+    font-size: var(--size-00);
+    font-weight: 500;
   }
 
   .breadcrumbs li {
@@ -65,6 +64,7 @@ const jsonLd = {
   .breadcrumbs a {
     color: var(--color-ink-faint);
     text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
   }
 
   .breadcrumbs a:hover {

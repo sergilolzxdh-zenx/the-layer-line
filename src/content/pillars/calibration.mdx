@@ -3,7 +3,7 @@ title: "3D Printer Calibration: The Complete Guide"
 description: "The handful of calibration passes that actually matter on a desktop FDM printer, in the order that makes each one easier to get right."
 publishDate: 2026-09-01
 sources:
-  - label: "Prusa Knowledge Base — Stringing and oozing"
+  - label: "Prusa Knowledge Base: Stringing and oozing"
     url: "https://help.prusa3d.com/article/stringing-and-oozing_1805"
 ---
 
@@ -18,10 +18,10 @@ Calibration is easy to over-complicate. On a stock, mechanically sound FDM print
 
 Calibration steps build on each other, and doing them out of sequence means re-doing earlier ones:
 
-1. **[E-steps](/calibration/e-steps/)** — confirms the extruder motor moves the amount of filament your firmware thinks it does. Everything downstream assumes this number is close to correct.
-2. **[Bed leveling](/calibration/bed-leveling/)** — sets the physical relationship between the nozzle and the bed across the whole surface, which determines first-layer quality.
-3. **[Flow rate](/calibration/flow-rate/)** — fine-tunes extrusion volume using an actual printed test, catching anything E-steps alone can't (nozzle wear, filament diameter variance, thermal expansion in the hot end).
-4. **[Retraction tuning](/calibration/retraction-tuning/)** — dials in how the extruder pulls back filament during travel moves, which is specific to each filament's viscosity and your hot end's internal geometry.
+1. **[E-steps](/calibration/e-steps/)**: confirms the extruder motor moves the amount of filament your firmware thinks it does. Everything downstream assumes this number is close to correct.
+2. **[Bed leveling](/calibration/bed-leveling/)**: sets the physical relationship between the nozzle and the bed across the whole surface, which determines first-layer quality.
+3. **[Flow rate](/calibration/flow-rate/)**: fine-tunes extrusion volume using an actual printed test, catching anything E-steps alone can't (nozzle wear, filament diameter variance, thermal expansion in the hot end).
+4. **[Retraction tuning](/calibration/retraction-tuning/)**: dials in how the extruder pulls back filament during travel moves, which is specific to each filament's viscosity and your hot end's internal geometry.
 
 <Callout kind="tip" label="You don't need to redo all four for every spool">
 E-steps and bed leveling are largely printer-and-extruder properties — you set them once and revisit them only after a hardware change (new extruder gears, a new nozzle, a releveled frame). Flow rate and retraction are more filament-specific and are worth re-checking when you switch brands or materials, even if the material type is the same.
@@ -32,7 +32,7 @@ E-steps and bed leveling are largely printer-and-extruder properties — you set
 Calibration has diminishing returns. For most people printing functional parts and models, the goal is:
 
 - E-steps accurate enough that a commanded 100 mm extrusion is within roughly 1–2% of measured.
-- A first layer that's uniformly squished — visibly flattened, but not so thin it looks translucent or scraped — across the entire bed, not just the center.
+- A first layer that's uniformly squished (visibly flattened, but not so thin it looks translucent or scraped) across the entire bed, not just the center.
 - A flow percentage that produces flat top surfaces without gaps, and vertical walls at the dimension you modeled them at.
 - Retraction that eliminates stringing on a test piece with multiple travel moves, without introducing gaps or under-extrusion at the start of each new travel move.
 

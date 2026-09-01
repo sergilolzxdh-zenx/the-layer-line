@@ -13,18 +13,54 @@ const items = headings.filter((h) => h.depth === 2);
 
 {
   items.length > 1 && (
-    <nav class="toc" aria-label="Table of contents">
-      <p class="eyebrow">On this page</p>
-      <ol>
+    <nav class="toc" aria-label="Table of contents" data-toc>
+      <p class="label">On this page</p>
+      <ul>
         {items.map((heading) => (
           <li>
-            <a href={`#${heading.slug}`}>{heading.text}</a>
+            <a href={`#${heading.slug}`} data-toc-link={heading.slug}>
+              {heading.text}
+            </a>
           </li>
         ))}
-      </ol>
+      </ul>
     </nav>
   )
 }
+
+<script>
+  function setupToc() {
+    const toc = document.querySelector<HTMLElement>('[data-toc]');
+    if (!toc) return;
+
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+    const targets = links
+      .map((link) => document.getElementById(link.dataset.tocLink ?? ''))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (targets.length === 0) return;
+
+    const setActive = (slug: string | null) => {
+      links.forEach((link) => {
+        link.classList.toggle('is-active', link.dataset.tocLink === slug);
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length > 0) {
+          setActive(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-15% 0px -70% 0px' }
+    );
+
+    targets.forEach((target) => observer.observe(target));
+  }
+
+  document.addEventListener('astro:page-load', setupToc);
+</script>
 
 <style>
   .toc {
@@ -34,34 +70,34 @@ const items = headings.filter((h) => h.depth === 2);
     background: var(--color-bg-raised);
   }
 
-  .toc ol {
+  .toc ul {
     list-style: none;
-    counter-reset: toc;
     margin: var(--space-3) 0 0;
     padding: 0;
     display: grid;
-    gap: var(--space-2);
+    gap: var(--space-1);
   }
 
   .toc li {
-    counter-increment: toc;
     font-size: var(--size-0);
   }
 
-  .toc li::before {
-    content: counter(toc, decimal-leading-zero);
-    font-family: var(--font-mono);
-    font-size: var(--size-000);
-    color: var(--color-accent-cool);
-    margin-right: var(--space-2);
-  }
-
   .toc a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
     color: var(--color-ink-soft);
     text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
   }
 
   .toc a:hover {
+    color: var(--color-ink);
+  }
+
+  .toc a.is-active {
     color: var(--color-accent);
+    background: var(--color-warn-bg);
+    font-weight: 600;
   }
 </style>

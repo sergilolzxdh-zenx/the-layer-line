@@ -2,16 +2,32 @@
 
 ## Primary: Google AdSense
 
-This is the site's primary planned revenue model. **No AdSense script, publisher ID, or ad code is present in this codebase.** That's deliberate — AdSense approval requires a live site with substantial original content first, and inserting real ad code before approval (or before there's enough content to review) risks a rejected application.
+This is the site's primary revenue model. **The AdSense connection script is now live**, gated behind the `PUBLIC_ADSENSE_CLIENT` environment variable (set to `ca-pub-4555323558143314` — the site's real publisher ID) in `BaseLayout.astro`. This is the "connect your site" step: it lets Google crawl and verify the site for review. It does **not** by itself display any ads, and no individual ad unit exists in the code yet — `AdSlot.astro` still renders a labeled placeholder everywhere.
 
-### Sequence to turn this on for real
+### Where things stand
 
-1. Deploy the site to its real domain (see `DEPLOYMENT.md`) and let it accumulate some organic indexing — Google generally wants to see a real, navigable, policy-compliant site.
-2. Confirm AdSense policy readiness against `SEO_AUDIT.md`'s "AdSense readiness" table (About, Contact, Privacy Policy, Terms, Editorial Policy, Cookie Policy, no thin content) — all present at launch.
-3. Apply at [google.com/adsense](https://www.google.com/adsense).
-4. Once approved, Google gives you a publisher ID (`ca-pub-XXXXXXXXXXXXXXXX`). Set it as `PUBLIC_ADSENSE_CLIENT` in your deployment environment.
-5. Update `src/components/AdSlot.astro` to render the real `<ins class="adsbygoogle">` unit (with a real ad slot ID per placement from your AdSense dashboard) when `import.meta.env.PUBLIC_ADSENSE_CLIENT` is set, falling back to the current placeholder otherwise. Add the AdSense loader script (`<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=...">`) to `BaseLayout.astro`, gated the same way the GA4 script already is.
-6. Re-run the accessibility and layout-shift checks in `SEO_AUDIT.md` once real ads are live — ad dimensions from a live network can differ from the placeholder's reserved space.
+- ✅ Publisher ID connected (`PUBLIC_ADSENSE_CLIENT` in `.env` locally — **not committed**, per `.gitignore`)
+- ⏳ **Action needed:** add the same `PUBLIC_ADSENSE_CLIENT=ca-pub-4555323558143314` variable in the Cloudflare Pages/Workers project's environment variables (Settings → Environment variables), then redeploy — the local `.env` only affects local builds, not the deployed site.
+- ⏳ Apply for/await AdSense review at [google.com/adsense](https://www.google.com/adsense) if not already submitted. Policy readiness is already covered — see `SEO_AUDIT.md`'s "AdSense readiness" table (About, Contact, Privacy Policy, Terms, Editorial Policy, Cookie Policy, no thin content).
+- ⏳ Once approved, either turn on **Auto ads** in the AdSense dashboard (Google places ads automatically, no more code needed) or create manual ad units per placement and get their slot IDs.
+
+### If you go the manual ad-unit route (recommended, matches the placement plan below)
+
+For each `AdSlot` placement (`in-article`, `article-end`, `sidebar`), create a matching ad unit in AdSense to get a `data-ad-slot` ID, then update `src/components/AdSlot.astro` to render the real unit when both the client ID and that slot's ID are set:
+
+```astro
+<ins class="adsbygoogle"
+  style="display:block"
+  data-ad-client={adsenseClient}
+  data-ad-slot={slotId}
+  data-ad-format="auto"
+  data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+```
+
+Keep the placeholder as the fallback when a slot ID isn't set yet, so partially-configured placements never ship broken markup.
+
+Re-run the accessibility and layout-shift checks in `SEO_AUDIT.md` once real ads are live — ad dimensions from a live network can differ from the placeholder's reserved space.
 
 ### Current placement plan (already reserved, not yet live)
 

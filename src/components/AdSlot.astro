@@ -1,9 +1,10 @@
 ---
-// Placeholder ad container. No AdSense script or publisher ID is wired in —
-// see MONETIZATION.md for how to enable real units once the site is approved.
-// Reserves space to avoid layout shift; renders a labeled placeholder only
-// while PUBLIC_ADSENSE_CLIENT is unset, so nothing resembling a real ad
-// ships before there is one.
+// Placeholder ad container. The AdSense connection script (client ID) is
+// wired in BaseLayout.astro, but no individual ad unit exists yet — that
+// requires the site to be approved and a unit created in the AdSense
+// dashboard first. See MONETIZATION.md for the remaining steps. Reserves
+// space to avoid layout shift; renders a labeled placeholder so nothing
+// resembling a real ad ships before there is one.
 export interface Props {
   slot: 'in-article' | 'article-end' | 'sidebar';
 }
@@ -33,9 +34,10 @@ const sizes: Record<Props['slot'], string> = {
   }
 
   .ad-slot__label {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 600;
     font-size: var(--size-000);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-ink-faint);
   }

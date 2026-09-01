@@ -61,16 +61,26 @@
   --measure-wide: 78ch;
   --content-width: 1180px;
 
-  --shadow-card: 0 1px 0 var(--color-line), 0 12px 24px -18px rgba(27, 31, 29, 0.35);
+  --shadow-sm: 0 1px 2px rgba(27, 31, 29, 0.08), 0 1px 1px rgba(27, 31, 29, 0.05);
+  --shadow-md: 0 8px 20px -6px rgba(27, 31, 29, 0.18), 0 2px 6px -2px rgba(27, 31, 29, 0.1);
+  --shadow-lg: 0 24px 48px -16px rgba(27, 31, 29, 0.28), 0 4px 12px -4px rgba(27, 31, 29, 0.12);
 
-  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --duration-fast: 120ms;
+  /* Motion — strong, intentional curves rather than the built-in CSS defaults. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-standard: var(--ease-out);
+  --duration-instant: 100ms;
+  --duration-fast: 160ms;
   --duration-base: 220ms;
+  --duration-slow: 420ms;
+  --scale-press: 0.975;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
+    --duration-instant: 0ms;
     --duration-fast: 0ms;
     --duration-base: 0ms;
+    --duration-slow: 0ms;
   }
 }

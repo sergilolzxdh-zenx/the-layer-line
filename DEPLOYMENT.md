@@ -28,7 +28,7 @@ Build succeeds with 0 errors and produces static HTML for every route (26 pages 
 | Variable | Purpose | Required? |
 | --- | --- | --- |
 | `PUBLIC_GA_ID` | Google Analytics 4 measurement ID (`G-XXXXXXXXXX`). When unset, no GA script loads. | No |
-| `PUBLIC_ADSENSE_CLIENT` | Reserved for a future AdSense publisher ID. Not yet wired into any component — see `MONETIZATION.md`. | No |
+| `PUBLIC_ADSENSE_CLIENT` | AdSense publisher ID (`ca-pub-4555323558143314`). Loads the AdSense connection script site-wide when set. **Must be added in Cloudflare's environment variables to take effect on the live site** — see `MONETIZATION.md`. | No (site works without it, but AdSense review needs it live) |
 
 Copy `.env.example` to `.env` for local testing; never commit `.env`.
 
@@ -64,13 +64,14 @@ git push -u origin main
 
 ## Google AdSense
 
-See `MONETIZATION.md` for the full sequence (site must be live and indexed with real content before applying). In short: apply at [google.com/adsense](https://www.google.com/adsense), wait for approval, then replace the placeholder `<AdSlot>` component's rendering with real `<ins class="adsbygoogle">` units gated on `PUBLIC_ADSENSE_CLIENT`. No AdSense script or publisher ID is present in this codebase today.
+The AdSense connection script is already wired in `BaseLayout.astro`, gated on `PUBLIC_ADSENSE_CLIENT` (publisher ID `ca-pub-4555323558143314`). **To activate it on the live site**, add `PUBLIC_ADSENSE_CLIENT=ca-pub-4555323558143314` to the Cloudflare project's environment variables and redeploy — it's already set locally in `.env` (not committed), but that has no effect on the deployed build. See `MONETIZATION.md` for what happens next (review, then Auto ads or manual ad units).
 
 ## Post-deploy checklist
 
 - [ ] `site` in `astro.config.mjs` matches the real domain
 - [ ] Custom domain DNS configured and SSL active
 - [ ] `PUBLIC_GA_ID` set (optional, once you have a GA4 property)
+- [ ] `PUBLIC_ADSENSE_CLIENT` set in Cloudflare's environment variables (not just local `.env`)
 - [ ] Sitemap submitted in Search Console
 - [ ] Homepage + pillar pages requested for indexing
 - [ ] `mailto:` addresses in About/Contact/legal pages point to inboxes you actually control

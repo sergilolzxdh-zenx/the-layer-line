@@ -1,11 +1,11 @@
 ---
 title: "3D Print Quality Troubleshooting: The Complete Guide"
-description: "A structured way to work through the print defects that actually show up on desktop FDM printers — what causes them, what to check first, and which fixes tend to matter most."
+description: "A structured way to work through the print defects that actually show up on desktop FDM printers: what causes them, what to check first, and which fixes tend to matter most."
 publishDate: 2026-09-01
 sources:
-  - label: "Simplify3D — Print Quality Troubleshooting Guide"
+  - label: "Simplify3D: Print Quality Troubleshooting Guide"
     url: "https://www.simplify3d.com/resources/print-quality-troubleshooting/"
-  - label: "Prusa Knowledge Base — Stringing and oozing"
+  - label: "Prusa Knowledge Base: Stringing and oozing"
     url: "https://help.prusa3d.com/article/stringing-and-oozing_1805"
 ---
 
@@ -22,11 +22,11 @@ This page is the map. It groups the common defects by what's actually going wron
 
 Before changing any settings, look closely at the failed print (or the one in progress) and match it to one of these categories:
 
-- **The surface looks rough or has fine wispy strands between parts** — that's almost always [stringing](/print-quality/stringing/), caused by filament oozing during travel moves.
-- **Corners lift off the bed, or the part warps into a curved shape** — that's [warping](/print-quality/warping/), driven by uneven cooling and shrinkage.
-- **You can clearly see and feel ridges running around the whole model, even where you didn't expect them** — that's [visible layer lines](/print-quality/layer-lines/), a mix of mechanical and cooling causes.
-- **The first layer won't stick, peels up at the edges, or the whole print detaches partway through** — start with [first-layer adhesion](/print-quality/first-layer-adhesion/).
-- **The part is missing material in some spots, or has blobs and zits in others** — that's an extrusion balance issue; see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/).
+- **The surface looks rough or has fine wispy strands between parts.** That's almost always [stringing](/print-quality/stringing/), caused by filament oozing during travel moves.
+- **Corners lift off the bed, or the part warps into a curved shape.** That's [warping](/print-quality/warping/), driven by uneven cooling and shrinkage.
+- **You can clearly see and feel ridges running around the whole model, even where you didn't expect them.** That's [visible layer lines](/print-quality/layer-lines/), a mix of mechanical and cooling causes.
+- **The first layer won't stick, peels up at the edges, or the whole print detaches partway through.** Start with [first-layer adhesion](/print-quality/first-layer-adhesion/).
+- **The part is missing material in some spots, or has blobs and zits in others.** That's an extrusion balance issue; see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/).
 
 <Callout kind="tip" label="Change one variable at a time">
 It's tempting to adjust temperature, retraction, and cooling all in the same test print. When two changes fix the problem, you won't know which one actually mattered — and you'll carry an unnecessary setting into every future print. Isolate variables, even when it's slower.
@@ -34,7 +34,7 @@ It's tempting to adjust temperature, retraction, and cooling all in the same tes
 
 ## The four root causes
 
-**Temperature.** Too hot and the filament oozes, sags, and strings. Too cold and it doesn't bond between layers or extrude consistently. Every polymer has a usable range, and it shifts a few degrees between filament brands even within the same material — see the [PLA vs. PETG vs. ABS](/materials/pla-vs-petg-vs-abs/) comparison for typical ranges.
+**Temperature.** Too hot and the filament oozes, sags, and strings. Too cold and it doesn't bond between layers or extrude consistently. Every polymer has a usable range, and it shifts a few degrees between filament brands even within the same material (see the [PLA vs. PETG vs. ABS](/materials/pla-vs-petg-vs-abs/) comparison for typical ranges).
 
 **Flow.** This is the relationship between how much filament your firmware _thinks_ it's pushing and how much is actually coming out of the nozzle. A miscalibrated E-steps value or an incorrect flow percentage throws off wall thickness, layer adhesion, and dimensional accuracy at the same time, even when everything else is dialed in. [Calibrating flow rate](/calibration/flow-rate/) is one of the highest-leverage things you can do on a new printer.
 
@@ -59,7 +59,7 @@ Doing them out of order usually means re-doing an earlier step later, because a 
 ## Common mistakes
 
 <Callout kind="mistake">
-Copying someone else's slicer profile wholesale. Retraction distance, flow percentage, and even effective nozzle temperature are specific to your combination of printer, extruder, nozzle, and filament spool. A profile is a reasonable starting point — not a finished answer.
+Copying someone else's slicer profile wholesale. Retraction distance, flow percentage, and even effective nozzle temperature are specific to your combination of printer, extruder, nozzle, and filament spool. A profile is a reasonable starting point, not a finished answer.
 </Callout>
 
 <Callout kind="mistake">

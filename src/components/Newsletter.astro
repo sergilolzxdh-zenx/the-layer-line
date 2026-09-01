@@ -7,8 +7,8 @@ const { compact = false } = Astro.props;
 
 <section class:list={['newsletter', { 'newsletter--compact': compact }]} aria-labelledby="newsletter-heading">
   <div class="newsletter__text">
-    <p class="eyebrow">Newsletter</p>
     <h2 id="newsletter-heading">Useful guides, tools and practical tips — without the spam.</h2>
+    <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
     <p>One email when we publish something worth your time. No drip sequence, no upsells.</p>
   </div>
   <form class="newsletter__form" data-newsletter>
@@ -20,14 +20,18 @@ const { compact = false } = Astro.props;
 </section>
 
 <script>
-  const form = document.querySelector('[data-newsletter]');
-  const status = document.querySelector('[data-newsletter-status]');
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    if (status) {
-      status.textContent = 'Signups open soon — this form is not yet connected to a mailing list.';
-    }
-  });
+  function setupNewsletter() {
+    const form = document.querySelector('[data-newsletter]');
+    const status = document.querySelector('[data-newsletter-status]');
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (status) {
+        status.textContent = 'Signups open soon — this form is not yet connected to a mailing list.';
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupNewsletter);
 </script>
 
 <style>
@@ -50,10 +54,6 @@ const { compact = false } = Astro.props;
     color: var(--color-line);
   }
 
-  .newsletter .eyebrow {
-    color: var(--color-accent);
-  }
-
   .newsletter__form {
     display: flex;
     gap: var(--space-3);
@@ -69,12 +69,27 @@ const { compact = false } = Astro.props;
     font-family: var(--font-body);
     font-size: var(--size-0);
     color: var(--color-ink);
+    transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .newsletter__form input:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(232, 88, 42, 0.25);
   }
 
   .newsletter__note {
     font-size: var(--size-00);
     color: var(--color-line-strong);
     min-height: 1.2em;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+
+  .newsletter__note:not(:empty) {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .newsletter--compact {
