@@ -89,12 +89,17 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       </form>
 
       <aside class="result" aria-live="polite">
-        <p class="label result__label">Estimated cost</p>
+        <p class="label result__label"><span class="result__live" aria-hidden="true"></span>Estimated cost</p>
         <p class="result__total measurement" id="result-total">$0.00</p>
+        <div class="result__bar" role="presentation">
+          <span class="result__bar-segment result__bar-segment--filament" id="bar-filament"></span>
+          <span class="result__bar-segment result__bar-segment--electricity" id="bar-electricity"></span>
+          <span class="result__bar-segment result__bar-segment--failure" id="bar-failure"></span>
+        </div>
         <dl class="result__breakdown">
-          <div><dt>Filament</dt><dd class="measurement" id="result-filament">$0.00</dd></div>
-          <div><dt>Electricity</dt><dd class="measurement" id="result-electricity">$0.00</dd></div>
-          <div><dt>Failed-print allowance</dt><dd class="measurement" id="result-failure">$0.00</dd></div>
+          <div><dt><span class="result__dot result__dot--filament" aria-hidden="true"></span>Filament</dt><dd class="measurement" id="result-filament">$0.00</dd></div>
+          <div><dt><span class="result__dot result__dot--electricity" aria-hidden="true"></span>Electricity</dt><dd class="measurement" id="result-electricity">$0.00</dd></div>
+          <div><dt><span class="result__dot result__dot--failure" aria-hidden="true"></span>Failed-print allowance</dt><dd class="measurement" id="result-failure">$0.00</dd></div>
           <div class="result__perunit"><dt>Per unit ({'>'}1 qty)</dt><dd class="measurement" id="result-perunit">$0.00</dd></div>
         </dl>
       </aside>
@@ -124,7 +129,10 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       const electricityEl = document.getElementById('result-electricity');
       const failureEl = document.getElementById('result-failure');
       const perUnitEl = document.getElementById('result-perunit');
-      if (!form || !totalEl || !filamentEl || !electricityEl || !failureEl || !perUnitEl) return;
+      const barFilament = document.getElementById('bar-filament');
+      const barElectricity = document.getElementById('bar-electricity');
+      const barFailure = document.getElementById('bar-failure');
+      if (!form || !totalEl || !filamentEl || !electricityEl || !failureEl || !perUnitEl || !barFilament || !barElectricity || !barFailure) return;
 
       function formatUSD(value: number) {
         if (!Number.isFinite(value)) return '$0.00';
@@ -168,6 +176,12 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
         pulse(failureEl!, formatUSD(failureCost * quantity));
         pulse(totalEl!, formatUSD(total));
         pulse(perUnitEl!, formatUSD(withFailure));
+
+        const barTotal = filamentCost + electricityCost + failureCost;
+        const pct = (value: number) => (barTotal > 0 ? (value / barTotal) * 100 : 0);
+        barFilament!.style.width = `${pct(filamentCost)}%`;
+        barElectricity!.style.width = `${pct(electricityCost)}%`;
+        barFailure!.style.width = `${pct(failureCost)}%`;
       }
 
       form.addEventListener('input', calculate);
@@ -278,13 +292,93 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   }
 
   .result__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     color: var(--color-accent);
+  }
+
+  .result__live {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: result-blip 1.8s steps(1, end) infinite;
+  }
+
+  @keyframes result-blip {
+    0%, 60% {
+      opacity: 1;
+    }
+    61%,
+    100% {
+      opacity: 0.25;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .result__live {
+      animation: none;
+    }
   }
 
   .result__total {
     font-size: var(--size-6);
     color: var(--color-bg);
     font-weight: 700;
+  }
+
+  .result__bar {
+    display: flex;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #3a3f3c;
+  }
+
+  .result__bar-segment {
+    display: block;
+    height: 100%;
+    width: 0%;
+    transition: width var(--duration-base) var(--ease-out);
+  }
+
+  .result__bar-segment--filament {
+    background: var(--color-accent);
+  }
+
+  .result__bar-segment--electricity {
+    background: var(--color-accent-cool);
+  }
+
+  .result__bar-segment--failure {
+    background: var(--color-line-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .result__bar-segment {
+      transition: none;
+    }
+  }
+
+  .result__dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: var(--space-2);
+  }
+
+  .result__dot--filament {
+    background: var(--color-accent);
+  }
+
+  .result__dot--electricity {
+    background: var(--color-accent-cool);
+  }
+
+  .result__dot--failure {
+    background: var(--color-line-strong);
   }
 
   .result__total.is-updated,
@@ -320,6 +414,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   }
 
   .result__breakdown dt {
+    display: flex;
+    align-items: center;
     color: var(--color-line);
     font-size: var(--size-0);
   }

@@ -38,6 +38,33 @@ const toolIcons = {
   diagnostic:
     '<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v3l2 2"/>',
 };
+
+const SYMPTOMS = [
+  {
+    label: 'Thin hairs between parts',
+    cause: 'Wet filament or the nozzle running too hot',
+    fix: "Dry the spool first, then drop nozzle temperature in 5°C steps. Retraction is the third thing to check, not the first.",
+    href: '/print-quality/stringing/',
+  },
+  {
+    label: 'Corners lifting off the bed',
+    cause: 'Bed too cool, or a draft across the plate',
+    fix: "Raise bed temperature and clean the plate before touching anything else — most warping isn't a settings problem.",
+    href: '/print-quality/warping/',
+  },
+  {
+    label: 'Gaps or weak top layers',
+    cause: 'Under-extrusion — not enough plastic',
+    fix: 'Check flow rate with a single-wall test before adding more top layers to paper over the problem.',
+    href: '/print-quality/under-extrusion-vs-over-extrusion/',
+  },
+  {
+    label: 'Rippling after every corner',
+    cause: 'Ringing from vibration, not heat',
+    fix: "Tension the belts and reduce acceleration — temperature and cooling settings won't touch this.",
+    href: '/print-quality/layer-lines/',
+  },
+];
 ---
 
 <BaseLayout
@@ -58,50 +85,28 @@ const toolIcons = {
           <a class="button" href="/tools/print-problem-diagnostic/">Diagnose a print →</a>
         </div>
       </div>
-      <div class="hero__diagram" aria-hidden="false">
-        <svg viewBox="0 0 620 420" role="img" aria-labelledby="hero-diagram-title">
-          <title id="hero-diagram-title">A diagram of a print showing stringing, a warped corner, and layer banding</title>
-          <line x1="20" y1="380" x2="600" y2="380" stroke="#9aa4a8" stroke-width="2" />
-          {Array.from({ length: 30 }).map((_, i) => (
-            <line x1={20 + i * 20} y1="380" x2={20 + i * 20} y2="386" stroke="#9aa4a8" stroke-width="1" />
-          ))}
-
-          <g>
-            <rect x="70" y="270" width="60" height="110" fill="none" stroke="#14181b" stroke-width="2" />
-            <line x1="70" y1="290" x2="130" y2="290" stroke="#c6cdd0" stroke-width="1" />
-            <line x1="70" y1="310" x2="130" y2="310" stroke="#c6cdd0" stroke-width="1" />
-            <line x1="70" y1="330" x2="130" y2="330" stroke="#c6cdd0" stroke-width="1" />
-            <line x1="70" y1="350" x2="130" y2="350" stroke="#c6cdd0" stroke-width="1" />
-            <rect x="200" y="290" width="60" height="90" fill="none" stroke="#14181b" stroke-width="2" />
-            <path d="M130 285 Q 165 250 200 292" fill="none" stroke="#c94716" stroke-width="1.5" />
-            <path d="M130 300 Q 165 270 200 305" fill="none" stroke="#c94716" stroke-width="1.5" />
-            <a href="/print-quality/stringing/">
-              <circle cx="165" cy="272" r="5" fill="#c94716" />
-              <text x="165" y="255" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">STRINGING</text>
-            </a>
-          </g>
-
-          <g>
-            <path d="M330 380 L330 300 Q328 275 350 278 L 430 285 L 430 380 Z" fill="none" stroke="#14181b" stroke-width="2" />
-            <line x1="330" y1="360" x2="330" y2="380" stroke="#c94716" stroke-width="2" stroke-dasharray="4 3" />
-            <a href="/print-quality/warping/">
-              <circle cx="335" cy="292" r="5" fill="#c94716" />
-              <text x="360" y="250" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">WARPING</text>
-            </a>
-          </g>
-
-          <g>
-            <rect x="480" y="230" width="90" height="150" fill="none" stroke="#14181b" stroke-width="2" />
-            {Array.from({ length: 13 }).map((_, i) => (
-              <line x1="480" y1={240 + i * 11} x2="570" y2={240 + i * 11 + (i % 2 === 0 ? 3 : -3)} stroke="#c94716" stroke-width="1" />
-            ))}
-            <a href="/print-quality/layer-lines/">
-              <circle cx="525" cy="222" r="5" fill="#c94716" />
-              <text x="525" y="205" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#4a5155">RINGING</text>
-            </a>
-          </g>
-        </svg>
-        <p class="hero__diagram-caption">Three real defects, three different root causes. Click one.</p>
+      <div class="triage" data-reveal>
+        <div class="triage__head">
+          <p class="label">Quick triage</p>
+          <span class="triage__count">{SYMPTOMS.length} symptoms</span>
+        </div>
+        <div class="triage__buttons" role="group" aria-label="Pick what you're seeing">
+          {
+            SYMPTOMS.map((s, i) => (
+              <button type="button" class="triage__btn" data-index={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+                {s.label}
+              </button>
+            ))
+          }
+        </div>
+        <div class="triage__result">
+          <p class="label">Most likely cause</p>
+          <p class="triage__cause" id="triage-cause">{SYMPTOMS[0].cause}</p>
+          <p class="triage__fix" id="triage-fix">{SYMPTOMS[0].fix}</p>
+          <a class="triage__link" id="triage-link" href={SYMPTOMS[0].href}>
+            Open the full guide →
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -206,6 +211,54 @@ const toolIcons = {
   </section>
 </BaseLayout>
 
+<script>
+  const SYMPTOMS = [
+    {
+      cause: 'Wet filament or the nozzle running too hot',
+      fix: "Dry the spool first, then drop nozzle temperature in 5°C steps. Retraction is the third thing to check, not the first.",
+      href: '/print-quality/stringing/',
+    },
+    {
+      cause: 'Bed too cool, or a draft across the plate',
+      fix: "Raise bed temperature and clean the plate before touching anything else — most warping isn't a settings problem.",
+      href: '/print-quality/warping/',
+    },
+    {
+      cause: 'Under-extrusion — not enough plastic',
+      fix: 'Check flow rate with a single-wall test before adding more top layers to paper over the problem.',
+      href: '/print-quality/under-extrusion-vs-over-extrusion/',
+    },
+    {
+      cause: 'Ringing from vibration, not heat',
+      fix: "Tension the belts and reduce acceleration — temperature and cooling settings won't touch this.",
+      href: '/print-quality/layer-lines/',
+    },
+  ];
+
+  function setupTriage() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.triage__btn');
+    const causeEl = document.getElementById('triage-cause');
+    const fixEl = document.getElementById('triage-fix');
+    const linkEl = document.getElementById('triage-link') as HTMLAnchorElement | null;
+    if (!buttons.length || !causeEl || !fixEl || !linkEl) return;
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.index);
+        const symptom = SYMPTOMS[index];
+        if (!symptom) return;
+
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        causeEl.textContent = symptom.cause;
+        fixEl.textContent = symptom.fix;
+        linkEl.href = symptom.href;
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupTriage);
+</script>
+
 <style>
   .hero {
     border-bottom: var(--border-hair);
@@ -224,7 +277,7 @@ const toolIcons = {
     animation: hero-in var(--duration-slow) var(--ease-out) both;
   }
 
-  .hero__diagram {
+  .triage {
     animation: hero-in var(--duration-slow) var(--ease-out) 90ms both;
   }
 
@@ -241,7 +294,7 @@ const toolIcons = {
 
   @media (prefers-reduced-motion: reduce) {
     .hero__text,
-    .hero__diagram {
+    .triage {
       animation: none;
     }
   }
@@ -265,27 +318,93 @@ const toolIcons = {
     flex-wrap: wrap;
   }
 
-  .hero__diagram svg {
+  .triage {
+    border: var(--border-hair-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+    overflow: hidden;
+  }
+
+  .triage__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: var(--border-hair);
+  }
+
+  .triage__count {
+    font-family: var(--font-mono);
+    font-size: var(--size-00);
+    color: var(--color-ink-faint);
+  }
+
+  .triage__buttons {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .triage__btn {
+    display: block;
     width: 100%;
-    height: auto;
-  }
-
-  .hero__diagram a circle {
-    transition: r var(--duration-fast) var(--ease-out);
-  }
-
-  .hero__diagram a:hover circle {
-    r: 7;
-  }
-
-  .hero__diagram-caption {
-    text-align: center;
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
     font-family: var(--font-body);
     font-weight: 600;
-    font-size: var(--size-000);
-    color: var(--color-ink-faint);
-    letter-spacing: 0.03em;
+    font-size: var(--size-0);
+    color: var(--color-ink-soft);
+    background: none;
+    border: var(--border-hair);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out), transform var(--duration-instant) var(--ease-out);
+  }
+
+  .triage__btn:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+
+  .triage__btn:active {
+    transform: scale(var(--scale-press));
+  }
+
+  .triage__btn[aria-pressed='true'] {
+    border-color: var(--color-accent);
+    background: var(--color-accent-cool-soft);
+    color: var(--color-ink);
+  }
+
+  .triage__result {
+    padding: var(--space-5);
+    border-top: var(--border-hair);
+    background: var(--color-bg-sunken);
+  }
+
+  .triage__cause {
     margin-top: var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 110%;
+    font-size: var(--size-2);
+    color: var(--color-accent-cool);
+  }
+
+  .triage__fix {
+    margin-top: var(--space-2);
+    color: var(--color-ink-soft);
+    font-size: var(--size-0);
+    line-height: var(--leading-relaxed);
+  }
+
+  .triage__link {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--size-00);
+    color: var(--color-accent);
   }
 
   .section {

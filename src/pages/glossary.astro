@@ -55,9 +55,12 @@ const letters = [...groups.keys()];
                 <div
                   class="glossary__item"
                   data-glossary-item
-                  data-search={`${item.term} ${item.def}`.toLowerCase()}
+                  data-search={`${item.term} ${item.def} ${item.category}`.toLowerCase()}
                 >
-                  <dt id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>{item.term}</dt>
+                  <dt id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
+                    {item.term}
+                    <span class="glossary__tag">{item.category}</span>
+                  </dt>
                   <dd>
                     <p>{item.def}</p>
                     <a href={item.link}>Read the full guide →</a>
@@ -232,10 +235,27 @@ const letters = [...groups.keys()];
   }
 
   .glossary__item dt {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
     font-family: var(--font-display);
     font-weight: 700;
     font-stretch: 115%;
     font-size: var(--size-2);
+  }
+
+  .glossary__tag {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-stretch: 100%;
+    font-size: var(--size-000);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+    border: var(--border-hair);
+    border-radius: var(--radius-sm);
+    padding: 1px var(--space-2);
   }
 
   .glossary__item dd {

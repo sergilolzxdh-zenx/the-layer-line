@@ -9,6 +9,7 @@ const articles = defineCollection({
     description: z.string(),
     category: z.enum(['print-quality', 'calibration', 'materials']),
     pageType: z.enum(['guide', 'how-to', 'troubleshooting', 'comparison', 'reference']),
+    severity: z.enum(['low', 'medium', 'high']).optional(),
     publishDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     relatedSlugs: z.array(z.string()).default([]),

@@ -14,8 +14,14 @@ export interface Props {
 }
 
 const { entry, headings } = Astro.props;
-const { title, description, category, pageType, publishDate, updatedDate, sources, relatedSlugs } = entry.data;
+const { title, description, category, pageType, severity, publishDate, updatedDate, sources, relatedSlugs } = entry.data;
 const categoryMeta = CATEGORIES[category as CategorySlug];
+
+const severityLabels: Record<string, string> = {
+  low: 'Low impact',
+  medium: 'Medium impact',
+  high: 'High impact',
+};
 
 const articleLd = {
   '@context': 'https://schema.org',
@@ -56,7 +62,8 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month:
       <p class="article__lead">{description}</p>
       <div class="layer-lines" aria-hidden="true"><span></span><span></span><span></span></div>
       <p class="article__dates">
-        {typeLabels[pageType]} · Published <time datetime={publishDate.toISOString()}>{dateFormatter.format(publishDate)}</time>
+        {typeLabels[pageType]}
+        {severity && ` · ${severityLabels[severity]}`} · Published <time datetime={publishDate.toISOString()}>{dateFormatter.format(publishDate)}</time>
         {
           updatedDate && (
             <>
