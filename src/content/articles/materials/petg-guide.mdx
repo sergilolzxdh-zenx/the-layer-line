@@ -41,3 +41,15 @@ Assuming rough surface finish means the temperature is wrong. PETG absorbs moist
 <Callout kind="tip" label="Dry filament before a long or important print">
 A few hours in a filament dryer or a low-temperature oven (following the specific manufacturer's guidance for safe temperatures) before a print that needs to come out right the first time is cheap insurance against moisture-related surface defects.
 </Callout>
+
+## Drying PETG properly
+
+PETG is more hygroscopic than PLA, meaning it pulls moisture from the air faster and more persistently, so "leave it out overnight" is rarely enough for filament that's been open for weeks. A practical baseline is 4–6 hours at 60–65°C in a dedicated filament dryer, or a household oven set as low as it goes and monitored closely if a dryer isn't available — check the specific manufacturer's guidance first, since ovens can overshoot low target temperatures and some spool materials deform below PETG's own softening point. Signs the filament was actually wet before drying: audible popping or crackling at the nozzle, a rough or slightly frosted surface texture, and inconsistent stringing that doesn't track with any retraction change.
+
+## Annealing for extra heat resistance
+
+PETG's out-of-the-box heat resistance (softening around 70–80°C) can be improved somewhat by annealing: baking a finished, cooled part at a controlled temperature below its glass transition point for a period of time, which allows internal stresses to relax and crystallinity to increase slightly. This is a genuine trade-off, not a free upgrade — annealing can cause a finished part to shrink or warp slightly as internal stress releases, so it's worth testing on a non-critical print first, and it matters much less for parts that never encounter elevated temperatures anyway.
+
+<Callout kind="tip" label="An enclosure isn't required, but changes cooling behavior">
+PETG doesn't need an enclosure to print successfully, but if you already have one (for ABS/ASA prints), be aware that trapped ambient heat can make PETG's already-lower cooling needs even lower — a print that looks slightly under-cooled with normal fan settings outside an enclosure may need more, not less, cooling inside one.
+</Callout>

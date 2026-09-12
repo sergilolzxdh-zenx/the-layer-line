@@ -1,0 +1,52 @@
+---
+title: "Elephant's Foot: Why the Base of a Print Bulges Out"
+description: "The first few layers flaring outward wider than the rest of the model is a distinct defect from warping or over-extrusion, with its own specific cause and fix."
+category: "print-quality"
+pageType: "troubleshooting"
+severity: "medium"
+publishDate: 2026-09-12
+relatedSlugs:
+  - "calibration/bed-leveling"
+  - "print-quality/first-layer-adhesion"
+  - "print-quality/warping"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+
+Elephant's foot is the bottom few layers of a print bulging outward beyond the rest of the model's walls, giving the base a slightly flared, foot-like profile instead of straight vertical sides. It happens because the first layers are still warm and mechanically soft when the weight of the rest of the print starts pressing down on them, and that pressure squeezes them slightly wider than the layers printed once things had cooled and firmed up.
+
+## How it's different from over-extrusion or warping
+
+It's easy to lump this in with other first-layer or dimensional problems, but the mechanism is distinct:
+
+- **Over-extrusion** (see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/)) makes every layer too thick or wide fairly uniformly. Elephant's foot is localized specifically to the first few layers, with the rest of the part printing at the correct dimension.
+- **Warping** pulls the base of a print *up and away* from the bed, usually starting at corners. Elephant's foot does the opposite — the base stays flat against the bed but spreads *outward*. A part can technically show both at once, but they're not the same defect and don't share a fix; see [warping](/print-quality/warping/) if the base is lifting rather than flaring.
+- **Bad first-layer adhesion** looks like a print not sticking at all, or peeling. Elephant's foot happens on a print that's adhering fine — arguably too well, combined with too much heat held too long right at the bed.
+
+## What causes it
+
+- **Nozzle too close to the bed (first layer squish too aggressive).** A very tightly squished first layer spreads more than intended, and if this ripple effect compounds slightly through the first several layers before ordinary layer bonding takes over, the base ends up wider than the walls above it. See [bed leveling](/calibration/bed-leveling/) for setting Z-offset correctly.
+- **Bed temperature too high, or held too long.** A hot bed keeps the first layers soft and pliable for longer than they need to be, giving the weight of the print above more time to deform them before they solidify.
+- **First layer height set very low relative to nozzle diameter.** A first layer that's proportionally thinner than the rest tends to spread horizontally more readily under the same vertical pressure.
+
+## Fixing it, in order
+
+1. **Recheck Z-offset and first-layer squish.** This is the most common cause and the cheapest to rule out — see [bed leveling](/calibration/bed-leveling/) for setting it properly rather than eyeballing it.
+2. **Reduce bed temperature slightly after the first few layers**, if your slicer supports a temperature step-down. Keeping the bed at full temperature for the entire print isn't necessary for adhesion once the first several layers have bonded, and dropping it a few degrees after the base is down reduces how long those layers stay soft.
+3. **Apply horizontal expansion compensation in the slicer.** Most slicers have a setting (sometimes called "elephant's foot compensation" directly) that insets the first few layers slightly inward, horizontally, to counteract the expected outward bulge. This treats the symptom directly and is a reasonable practical fix once the underlying squish and temperature are already reasonable — it's compensation, not a root-cause fix, so pair it with checking Z-offset rather than using it alone to mask a genuinely too-tight first layer.
+4. **For dimensionally critical parts, chamfer or fillet the base in the model itself**, where the design allows it. A small chamfer spreads the transition between the flared base and the correct wall dimension over a longer distance, making any remaining bulge far less visually and dimensionally significant.
+
+<Callout kind="tip" label="Small amounts are often fine">
+A very slight base flare, a few hundredths of a millimeter, is common even on well-tuned printers and rarely matters for anything but tight-tolerance mechanical fits. Reserve the more aggressive fixes (slicer compensation, bed temperature step-down) for cases where it's actually visible or affects fit, rather than chasing a perfectly straight wall on every print.
+</Callout>
+
+## Common mistakes
+
+<Callout kind="mistake">
+Treating elephant's foot as an over-extrusion problem and lowering flow rate across the whole print. That fixes the base at the cost of thinner walls and weaker layer adhesion everywhere else, when the actual problem is isolated to the first few layers. Use horizontal expansion compensation or a Z-offset fix instead of a global flow change.
+</Callout>
+
+<Callout kind="mistake">
+Loosening the first layer squish so much to fix the flare that adhesion suffers. If backing off Z-offset causes the first layer to look under-squished or adhesion gets noticeably worse, you've overcorrected — combine a smaller Z-offset adjustment with slicer-level horizontal expansion compensation instead of solving it with Z-offset alone.
+</Callout>

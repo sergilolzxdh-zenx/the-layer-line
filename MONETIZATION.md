@@ -10,7 +10,8 @@ This is the site's primary revenue model, run via **Google AdSense Auto ads** �
 - ✅ `ads.txt` live at the site root, declaring Google as an authorized seller
 - ✅ Site ownership verified in AdSense, review requested
 - ✅ Consent message configured for EEA/UK/Swiss visitors (3-option: Consentir / No consentir / Gestionar opciones — the compliant pattern, since GDPR requires rejecting to be as easy as accepting)
-- ⏳ Waiting on AdSense's review decision
+- ❌ First review (around 2026-09-12) rejected for "Contenido de poco valor" (low-value content). No technical issue found (robots.txt, indexing, and rendering all check out) — the likely driver is a young site (launched 2026-09-01) with a limited page count and article length, which is a common generic rejection for new sites regardless of per-page quality. Responded by expanding all 11 launch articles with additional depth and publishing 4 more articles from the roadmap backlog (see `CONTENT_ROADMAP.md`'s wave-2 entry) — 18 content pages total as of this update.
+- ⏳ Before requesting re-review: check Google Search Console for indexing status and any real organic impressions/traffic (see `DEPLOYMENT.md`). A site with zero search traffic and no backlinks may get rejected again on the same grounds even with deeper content — re-review works best once there's some indexing/traffic history, not immediately after a content push.
 
 ### Why Auto ads instead of manually placed slots
 

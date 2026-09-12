@@ -43,3 +43,26 @@ Reaching for cooling and temperature adjustments to fix banding or one-sided rid
 <Callout kind="tip">
 If you're not sure whether an issue is mechanical, print a plain cube or cylinder with no complex geometry. Mechanical issues (banding, one-sided lines) show up clearly on the simplest possible shape, while normal staircase texture only appears where the model actually has a slope or curve.
 </Callout>
+
+## The layer height trade-off, with numbers
+
+Since staircasing scales directly with layer height, it helps to see the actual print-time cost of going finer, not just "it takes longer":
+
+| Layer height | Visible staircasing on a 45° slope | Relative print time |
+|---|---|---|
+| 0.28–0.32 mm | Clearly visible steps | Fastest (baseline) |
+| 0.20 mm | Noticeable but modest | ~1.4–1.6× baseline |
+| 0.12 mm | Faint, hard to see without close inspection | ~2.3–2.7× baseline |
+| 0.08 mm | Effectively smooth to the eye | ~3.5–4× baseline |
+
+These multipliers are approximate and depend on your printer's speed limits and the model's geometry, but the shape of the trade-off holds generally: each step down in layer height buys diminishing visual improvement for a real, non-linear time cost. For most functional parts and prototypes, 0.2 mm is the practical default; drop lower only for the specific surfaces where it will actually be seen up close.
+
+## Z-axis specific causes worth checking directly
+
+If banding or vertical inconsistency tracks with a specific vertical position on the print rather than repeating on a timing/geometry basis, look at the Z axis itself rather than the motion system generally:
+
+- **A bent leadscrew** produces a wobble that repeats once per screw rotation, which shows up as a periodic ripple tied to Z height rather than to print speed or direction changes.
+- **A loose motor coupler** between the Z stepper and the leadscrew can cause the nozzle height to lag or jump slightly, producing inconsistent layer thickness that looks like uneven extrusion but is actually a positioning error.
+- **Debris on Z rods or a leadscrew** causes binding that's often worse at certain heights than others, since dust and dried lubricant tend to accumulate unevenly along the rod's length.
+
+A dial indicator (or, less precisely, watching the nozzle closely during slow manual Z movement) can confirm a mechanical Z issue directly, rather than inferring it from the printed result alone.

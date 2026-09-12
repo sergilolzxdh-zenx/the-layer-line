@@ -34,7 +34,7 @@ Copy `.env.example` to `.env` for local testing; never commit `.env`.
 
 ### Custom domain
 
-`astro.config.mjs` sets `site: 'https://thelayerline.com'`, which feeds the sitemap and canonical URLs. **If you deploy under a different domain, update that value before going live** — canonical tags and the sitemap will otherwise point at the wrong host. In Cloudflare Pages: **Custom domains → Set up a custom domain**, then update DNS as instructed there.
+`astro.config.mjs` sets `site: 'https://thelayerline.site'`, which feeds the sitemap and canonical URLs. **If you deploy under a different domain, update that value before going live** — canonical tags and the sitemap will otherwise point at the wrong host. In Cloudflare Pages: **Custom domains → Set up a custom domain**, then update DNS as instructed there.
 
 ## GitHub
 

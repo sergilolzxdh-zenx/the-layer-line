@@ -1,0 +1,51 @@
+---
+title: "TPU Printing Guide: Settings for Flexible Filament"
+description: "TPU doesn't fail the way rigid filaments do. Slow down, rethink retraction, and the extruder hardware you have matters more than with PLA, PETG, or ABS."
+category: "materials"
+pageType: "guide"
+publishDate: 2026-09-12
+relatedSlugs:
+  - "calibration/retraction-tuning"
+  - "materials/pla-vs-petg-vs-abs"
+  - "print-quality/under-extrusion-vs-over-extrusion"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+
+TPU (thermoplastic polyurethane) is flexible rather than rigid, and that single property changes more about how it prints than any temperature or bed-adhesion difference. The core challenge isn't melting it correctly — it's getting a soft, compressible filament to feed through the extruder without buckling before it reaches the hot end.
+
+## Why extruder type matters more here than for any other material
+
+On a **Bowden** setup, the filament has to travel through a length of PTFE tube between the drive gear and the hot end. Rigid filaments handle this fine; TPU, being flexible, can buckle or coil slightly inside that tube under the same push force instead of transmitting it cleanly to the nozzle, especially at higher speeds or with softer (lower Shore hardness) formulations. This shows up as inconsistent extrusion that looks like under-extrusion but is actually a feeding problem upstream of the hot end.
+
+A **direct-drive** extruder, with the motor mounted right above the hot end, gives the filament almost no distance to buckle into before it's pushed into the melt zone, and is the strongly preferred setup for TPU. Bowden printers can still print TPU, particularly harder formulations (higher Shore A ratings) at slow speeds with a well-constrained filament path, but expect more trial and error than on a direct-drive machine.
+
+## Starting settings
+
+- **Nozzle temperature**: 220–250°C, depending on the specific formulation — softer, more flexible TPUs often print at the lower end of this range.
+- **Bed temperature**: 30–60°C; TPU generally doesn't need the aggressive bed heat that ABS or even PETG does, and adhesion tends to come more from a suitable bed surface than from temperature.
+- **Print speed**: 15–30 mm/s, noticeably slower than PLA or PETG. This isn't a conservative suggestion to relax later — printing TPU too fast is one of the most common causes of inconsistent extrusion and skipped steps, because the filament simply can't be pushed through and melted fast enough at higher volumetric flow rates.
+- **Retraction**: minimal, or disabled entirely on many setups. TPU's viscosity when molten tends to resist stringing far better than PETG does, so the aggressive retraction habits built up on other materials usually aren't needed — and high retraction distance on flexible filament is a common cause of the buckling problem described above, since it's the same compressive failure mode as feeding.
+
+## Diagnosing feed problems specifically
+
+If TPU prints inconsistently — extrusion that starts and stops, or a grinding sound without a hard clog — the [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/) diagnostic steps still apply, but check these TPU-specific causes first:
+
+- **Filament path constraint.** Any point where the filament isn't fully guided (a loose spool holder, an oversized PTFE tube, a long unsupported run before the extruder) gives TPU room to buckle before it even reaches the drive gear.
+- **Extruder tension too high.** Rigid filaments tolerate a tight gear grip; TPU can deform or get pinched under the same tension in a way that restricts rather than helps feeding.
+- **Retraction distance too high**, as above — if retraction is enabled at a distance carried over from PLA or PETG settings, that's a likely first thing to reduce.
+
+<Callout kind="tip" label="Slow down travel moves too, not just print speed">
+Fast travel moves can whip a flexible filament path around enough to disturb feeding right as the next extrusion move starts, especially on a Bowden setup. Reducing travel speed alongside print speed is a small change that often improves consistency more than it costs in total print time.
+</Callout>
+
+## Common mistakes
+
+<Callout kind="mistake">
+Applying PLA or PETG retraction settings directly to TPU. High retraction distance is one of the most common causes of grinding and inconsistent extrusion on flexible filament — start near zero and add only as much as a real stringing problem demands, rather than assuming more is safer.
+</Callout>
+
+<Callout kind="mistake">
+Printing at normal PLA speeds and blaming poor results on the filament or printer. TPU's slower practical print speed isn't a limitation of a particular printer — it's inherent to how the material feeds and melts. Slowing down is usually the single biggest improvement available before changing any other setting.
+</Callout>

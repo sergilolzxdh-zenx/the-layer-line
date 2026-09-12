@@ -6,8 +6,8 @@ pageType: "comparison"
 publishDate: 2026-09-01
 relatedSlugs:
   - "materials/petg-guide"
-  - "print-quality/warping"
-  - "calibration/flow-rate"
+  - "materials/abs-asa-guide"
+  - "materials/tpu-guide"
 sources: []
 ---
 
@@ -43,7 +43,11 @@ PETG holds up better to heat and impact than PLA while still not requiring an en
 
 ## ABS/ASA: for heat and an enclosure
 
-ABS resists heat and impact better than PETG in most comparisons, but its higher shrinkage on cooling makes it prone to warping (see [warping](/print-quality/warping/)) unless you have an enclosure or heated chamber. ASA is chemically similar to ABS but handles UV exposure noticeably better, making it the better choice specifically for parts that will sit outdoors. Neither is a good starting material without at least a basic enclosure or a printer that already runs an unusually warm ambient temperature.
+ABS resists heat and impact better than PETG in most comparisons, but its higher shrinkage on cooling makes it prone to warping (see [warping](/print-quality/warping/)) unless you have an enclosure or heated chamber. ASA is chemically similar to ABS but handles UV exposure noticeably better, making it the better choice specifically for parts that will sit outdoors. Neither is a good starting material without at least a basic enclosure or a printer that already runs an unusually warm ambient temperature. See the [full ABS/ASA guide](/materials/abs-asa-guide/) for settings and ventilation notes.
+
+## The one this table leaves out: TPU
+
+TPU (flexible filament) doesn't fit cleanly into a heat/impact/warping comparison because its defining property is different: it flexes instead of staying rigid. It needs slower print speeds, usually minimal or no retraction, and strongly prefers a direct-drive extruder over Bowden. It's not a drop-in alternative to the three materials above — it's a choice you make when a part specifically needs to bend, compress, or absorb impact by deforming rather than resisting. See the [TPU guide](/materials/tpu-guide/) if that's the part you're printing.
 
 <Callout kind="tip" label="Manufacturer datasheets vary more than you'd expect">
 The ranges above are typical, not universal — a specific manufacturer's PETG might specify 235–245°C while another recommends 240–250°C for what's nominally the same material. Start from the spool's own datasheet or included instructions and use the ranges here as a sanity check, not a replacement.

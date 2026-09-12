@@ -48,3 +48,14 @@ Using top-layer gaps alone to judge flow rate. Pinholes in top surfaces can also
 <Callout kind="mistake">
 Re-running full flow calibration after every spool change "just in case." If you're using the same brand and material and the results have been consistent, a quick single-wall check is enough to confirm nothing changed — you don't need to treat every roll as a fresh unknown.
 </Callout>
+
+## When flow rate can't fix it
+
+Flow rate is a correction, not a repair. If you need a flow percentage far outside a reasonable range (roughly 90–110% for most setups) to hit the target wall thickness, that's a sign of a problem flow rate is compensating for rather than fixing:
+
+- **A nozzle worn significantly oversize** — brass nozzles wear faster than hardened steel, especially with abrasive filaments (anything with carbon fiber, glass fiber, wood, or metal fill). Beyond a certain point, no flow percentage produces clean results because the physical orifice itself is the wrong size. Replacing the nozzle is the actual fix.
+- **A large, real E-steps error being masked by flow rate.** If flow rate needs to be set very differently across otherwise-similar filaments to get consistent results, revisit [E-steps](/calibration/e-steps/) rather than treating flow rate as a catch-all.
+
+## Global vs. per-filament flow settings
+
+Most slicers let you set flow rate at two levels: a global printer setting and a per-filament profile override. Once you've found the correct value for a specific filament, save it into that filament's profile rather than the global default — otherwise switching filaments resets your calibration effort and you'll end up re-guessing the value each time you swap spools. Keeping a running note (a spreadsheet, or even a label on the spool itself) of the flow percentage that worked for each filament saves time on every future reprint of that material.

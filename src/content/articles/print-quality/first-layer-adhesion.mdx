@@ -55,3 +55,24 @@ Adding more adhesive or a brim before checking bed leveling and temperature. Adh
 <Callout kind="tip" label="Clean the surface first">
 Oils from handling (even just touching the bed with bare hands) can reduce adhesion noticeably on PEI and glass surfaces. Wiping the bed with isopropyl alcohol before a print that needs strong adhesion is a fast, free troubleshooting step that's easy to skip.
 </Callout>
+
+## Brim, raft, or skirt: they solve different problems
+
+These three are often lumped together as "adhesion helpers," but they're not interchangeable:
+
+- **Skirt** doesn't touch the part at all — it's a printed outline a short distance away, used to prime the nozzle and give you a visual check that filament is extruding evenly before the actual print starts. It does nothing for adhesion.
+- **Brim** is a flat, single-layer border connected directly to the part's base, adding surface area exactly where corners tend to lift. It's the right choice for a part that's otherwise fine but has marginal adhesion at the edges, and it peels off cleanly after printing.
+- **Raft** is a full sacrificial base layer printed underneath the entire part, with the model printing on top of it rather than directly on the bed. It's the most aggressive option — useful for parts with very little first-layer contact area (thin legs, small footprints) or a bed surface that's known to be uneven — but it costs more material and time, and leaves a rougher bottom surface once removed.
+
+Reach for a brim first for corner-lifting on an otherwise-adhering print; reach for a raft only when the part's actual contact area with the bed is the problem, not just the edges.
+
+## Bed surfaces compared
+
+| Surface | Works well for | Notes |
+|---|---|---|
+| Smooth PEI | PLA, PETG | Good default; PETG may bond too strongly without a release agent |
+| Textured PEI | PLA, PETG, ABS | Slightly rougher bottom finish; more forgiving on adhesion |
+| Glass | PLA, PETG (with adhesive) | Usually needs glue stick or spray for anything but PLA |
+| Spring steel + PEI coating | All common materials | Flexes to pop parts off; the coating itself matters more than the steel |
+
+The surface matters less than matching temperature and leveling to whatever surface you actually have — a good surface can't compensate for an incorrect nozzle-to-bed gap.

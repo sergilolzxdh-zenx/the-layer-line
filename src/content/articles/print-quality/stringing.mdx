@@ -8,7 +8,7 @@ publishDate: 2026-09-01
 relatedSlugs:
   - "calibration/retraction-tuning"
   - "materials/petg-guide"
-  - "print-quality/layer-lines"
+  - "print-quality/nozzle-clogs"
 sources:
   - label: "Prusa Knowledge Base — Stringing and oozing"
     url: "https://help.prusa3d.com/article/stringing-and-oozing_1805"
@@ -42,9 +42,24 @@ Faster travel moves spend less time hovering near a hot part, which reduces the 
 
 ## Less common causes
 
-- **A worn or partially clogged nozzle** can cause inconsistent internal pressure that leaks filament even during correctly-tuned retraction moves.
+- **A worn or partially clogged nozzle** can cause inconsistent internal pressure that leaks filament even during correctly-tuned retraction moves. See [nozzle clogs](/print-quality/nozzle-clogs/) if stringing showed up suddenly on a printer that was previously well-tuned.
 - **Coasting and wipe settings**, where supported by your slicer, reduce pressure in the nozzle right before a travel move starts, which can help on stubborn cases without needing more aggressive retraction.
 - **Damp filament** — moisture turning to steam inside the nozzle can push out small amounts of plastic unpredictably. This shows up alongside other symptoms like popping sounds and rough surface finish, not stringing alone.
+
+## Why stringing sometimes gets worse partway through a print
+
+A printer that strings cleanly for the first twenty minutes and then gets progressively worse usually isn't a retraction problem at all — it's heat soak. As the hot end runs continuously, heat can creep further up the heat break than it does on a short print, softening filament slightly earlier than intended and making retraction less effective at the same configured distance and speed. This is more common on printers with a weak or poorly-aimed heat break fan, and it's also one of the ways a print can start clean and end up stringy without any setting having changed. If retraction is well-tuned but stringing builds up specifically on longer prints, check that the heat break cooling fan is actually running at full speed throughout the print, not just during the first layer.
+
+A draft across the print bed has a similar but opposite mechanism: it cools the nozzle tip slightly between moves, which can make the filament more viscous right as it's supposed to be retracting cleanly, producing inconsistent stringing that looks random from one print to the next. Printers near a window, air vent, or open door are more exposed to this than an enclosed setup.
+
+## Quick reference: starting points by extruder type
+
+| Extruder type | Retraction distance | Retraction speed | Notes |
+|---|---|---|---|
+| Bowden | 3–7 mm | 30–60 mm/s | Compressible tube length absorbs part of the pull |
+| Direct drive | 0.5–2 mm | 20–40 mm/s | Little to no tube length to compress into |
+
+These are starting points for a [retraction test](/calibration/retraction-tuning/), not finished values — the actual number that eliminates stringing on your printer depends on your specific hot end geometry and filament.
 
 ## Common mistakes
 

@@ -45,3 +45,24 @@ Re-leveling the bed every time a print fails, regardless of cause. If leveling w
 <Callout kind="mistake">
 Trusting a single leveling pass on a large bed. Bigger beds are more likely to have some waviness across the surface that a 4-point manual check won't catch: mesh leveling, or at minimum checking more points manually, matters more as bed size increases.
 </Callout>
+
+## Probe types compared
+
+If you're choosing or troubleshooting an auto-leveling probe rather than leveling manually, the sensing method affects both accuracy and what can go wrong:
+
+| Probe type | How it senses | Common failure mode |
+|---|---|---|
+| Inductive | Detects metal beds only, no contact | False readings on non-metal or coated build surfaces |
+| BLTouch / CR-Touch | Physical pin extends and triggers a switch | Pin sticking, wiring issues, needs periodic cleaning |
+| Strain gauge (load cell) | Measures nozzle contact force directly | Sensitive to electrical noise; needs careful wiring |
+| Capacitive | Detects most materials via capacitance | More sensitive to ambient humidity and static |
+
+A probe reading inconsistent heights across otherwise-flat areas of the bed is more often a probe-specific issue (loose mounting, electrical noise, a dirty sensing surface) than an actual bed flatness problem — worth ruling out before assuming the bed itself is warped.
+
+## Bed surfaces and how they interact with leveling
+
+The bed surface material changes how leveling feels and how forgiving it is of small errors:
+
+- **Smooth or textured PEI** gives consistent feedback during manual paper-drag leveling and is the easiest surface to level by feel.
+- **Glass** is very flat but can make the "slight friction" feel of correct Z-offset harder to judge, since it's low-friction across a wider range of gaps than PEI.
+- **Spring steel with a magnetic base** can introduce a small amount of flex if the magnetic sheet isn't fully seated, which shows up as inconsistent first-layer height that looks like a leveling problem but is actually a seating issue — press the sheet down fully before leveling if you're using one.

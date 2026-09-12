@@ -28,17 +28,24 @@ Research → build → publish → index → measure → learn → improve → s
 | `/tools/print-problem-diagnostic/` | Tool | Cross-cluster | Live |
 | `/glossary/` | Reference | Cross-cluster | Live |
 
+## Published — wave 2 (2026-09-12)
+
+Added after launch content was flagged as insufficient depth/volume during AdSense review. Pulled the four highest-priority items straight from the "Next candidates" backlog below rather than inventing new topics, per this doc's own philosophy of prioritizing an existing vetted backlog over ad-hoc additions. Existing articles were also expanded with additional sections (mechanism detail, tables, edge cases) rather than padded — see `CONTENT_GUIDELINES.md`'s originality standard.
+
+| Page | Type | Cluster | Status |
+|---|---|---|---|
+| `/print-quality/nozzle-clogs/` | Troubleshooting | Print Quality | Live |
+| `/print-quality/elephants-foot/` | Troubleshooting | Print Quality | Live |
+| `/materials/abs-asa-guide/` | Guide | Materials | Live |
+| `/materials/tpu-guide/` | Guide | Materials | Live |
+
 ## Next candidates (not yet written — prioritized backlog)
 
 Search-demand and difficulty estimates below are directional judgment calls (see `NICHE_RESEARCH.md` methodology note), not licensed keyword-tool data. Priority reflects estimated demand × how well this site could out-do current results, not demand alone.
 
 | Candidate | Intent | Cluster | Priority | Content type | Est. difficulty | Notes |
 |---|---|---|---|---|---|---|
-| Nozzle clogs: how to clear and prevent them | Troubleshooting | Print Quality | HIGH | Troubleshooting | Medium | Natural 6th print-quality article; high real-world frequency |
-| Elephant's foot (bulging first layers) | Troubleshooting | Print Quality | HIGH | Troubleshooting | Low-Medium | Distinct from warping/adhesion; currently redirected into first-layer-adhesion, deserves its own page once that page shows search demand in GSC |
 | Temperature tower: how to read and use one | How-to | Calibration | MEDIUM | How-to + tool | Medium | Good candidate for a 3rd interactive tool (a temp tower "planner") once the two existing tools show engagement |
-| ABS/ASA printing guide (parallel to PETG guide) | Guide | Materials | MEDIUM | Guide | Medium | Fills out the materials pillar to match PETG's depth |
-| TPU / flexible filament guide | Guide | Materials | MEDIUM | Guide | Medium-High | Different extruder requirements make this genuinely distinct, not a rehash |
 | Best layer height for a given part | How-to | Print Quality | LOW-MEDIUM | How-to | High (competitive, close to "what is X" territory) | Only worth it with a genuinely original angle (e.g. a layer-height/print-time trade-off calculator) |
 | Slicer comparison (Cura vs. PrusaSlicer vs. Orca) | Comparison | Cross-cluster | DO NOT TARGET (yet) | Comparison | High | Requires actual hands-on use of each slicer to write honestly — see `CONTENT_GUIDELINES.md` on not fabricating testing; revisit if/when that testing happens |
 | Printer buying guide / recommendations | Comparison | Cross-cluster | DO NOT TARGET | Comparison | High | Requires actual hardware testing and ongoing price tracking neither of which this site does yet; high risk of becoming exactly the "generic AI content" this project is explicitly trying to avoid |

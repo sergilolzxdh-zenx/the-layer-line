@@ -44,5 +44,24 @@ Retraction distance is partly a function of how much empty space exists between 
 </Callout>
 
 <Callout kind="mistake">
-Tuning retraction on PLA and assuming the result transfers directly to PETG or TPU. Viscosity when molten varies enough between materials that retraction distance and speed are genuinely filament-specific, not just printer-specific. See the [stringing guide](/print-quality/stringing/) for why PETG tends to need more attention here.
+Tuning retraction on PLA and assuming the result transfers directly to PETG or TPU. Viscosity when molten varies enough between materials that retraction distance and speed are genuinely filament-specific, not just printer-specific. See the [stringing guide](/print-quality/stringing/) for why PETG tends to need more attention here, or the [TPU guide](/materials/tpu-guide/) for why flexible filament often needs less retraction, not more.
 </Callout>
+
+## Typical retraction ranges by material
+
+These are starting points for a retraction tower, on a Bowden setup — direct drive generally needs roughly a third to a half of these distances, per the extruder-type guidance above:
+
+| Material | Distance | Speed | Notes |
+|---|---|---|---|
+| PLA | 4–6 mm | 40–60 mm/s | Most forgiving; wide working range |
+| PETG | 4–7 mm | 30–45 mm/s | Prioritize distance tuning over speed; see [PETG guide](/materials/petg-guide/) |
+| ABS/ASA | 3–5 mm | 40–60 mm/s | Similar to PLA; less prone to stringing than PETG |
+| TPU | 0–2 mm | 20–30 mm/s | Often printed with retraction disabled entirely — see [TPU guide](/materials/tpu-guide/) |
+
+## Complementary settings once retraction is dialed in
+
+Retraction distance and speed solve most stringing on their own, but a few slicer settings work alongside retraction rather than replacing it:
+
+- **Coasting** stops active extrusion a short distance before a travel move begins, letting existing nozzle pressure finish the last bit of the line instead of the retraction move having to counteract it. It's a smaller, complementary effect, not a substitute for correct retraction distance.
+- **Wipe on retract** moves the nozzle slightly along the last printed line while retracting, which helps hide any oozing that happens during the retraction move itself rather than preventing it.
+- **Linear advance / pressure advance** (firmware-dependent naming) adjusts extrusion pressure dynamically based on print speed changes, which reduces blobbing at corners and can indirectly reduce the amount of retraction needed by keeping nozzle pressure more consistent throughout the print. This is a firmware-level tuning pass distinct from retraction and worth exploring once basic retraction is solved, not before.

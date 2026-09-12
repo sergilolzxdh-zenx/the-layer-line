@@ -1,4 +1,4 @@
-export type GlossaryCategory = 'Hardware' | 'Slicer' | 'Calibration' | 'Defect';
+export type GlossaryCategory = 'Hardware' | 'Slicer' | 'Calibration' | 'Defect' | 'Material';
 
 export interface GlossaryTerm {
   term: string;
@@ -21,10 +21,22 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Slicer',
   },
   {
+    term: 'Cold pull',
+    def: "A technique for clearing a nozzle clog by heating the hot end, then cooling it slightly before pulling the filament straight out, carrying trapped debris with it.",
+    link: '/print-quality/nozzle-clogs/',
+    category: 'Hardware',
+  },
+  {
     term: 'Direct drive extruder',
     def: 'An extruder layout where the drive motor sits right on top of the hot end. Needs less retraction distance than Bowden and generally handles flexible filaments like TPU better.',
     link: '/calibration/retraction-tuning/',
     category: 'Hardware',
+  },
+  {
+    term: "Elephant's foot",
+    def: 'The base of a print bulging outward wider than the walls above it, caused by the weight of the part squishing still-soft first layers before they fully cool.',
+    link: '/print-quality/elephants-foot/',
+    category: 'Defect',
   },
   {
     term: 'Draft shield',
@@ -45,16 +57,34 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: 'Calibration',
   },
   {
+    term: 'Heat creep',
+    def: 'Heat traveling further up the hot end than intended, softening filament above the melt zone. A common cause of intermittent clogs and grinding, usually from inadequate heat-break fan airflow.',
+    link: '/print-quality/nozzle-clogs/',
+    category: 'Hardware',
+  },
+  {
     term: 'Layer height',
     def: 'The thickness of each individual printed layer, set in the slicer. Smaller values give finer detail and less visible staircasing at the cost of print time.',
     link: '/print-quality/layer-lines/',
     category: 'Slicer',
   },
   {
+    term: 'Nozzle clog',
+    def: "A physical obstruction restricting or blocking extrusion, caused by heat creep, debris, or degraded filament residue — not fixable by adjusting flow rate or temperature.",
+    link: '/print-quality/nozzle-clogs/',
+    category: 'Defect',
+  },
+  {
     term: 'Over-extrusion',
     def: 'The printer pushing out more plastic than commanded, showing up as blobs, rough bumpy surfaces, or dimensions larger than modeled.',
     link: '/print-quality/under-extrusion-vs-over-extrusion/',
     category: 'Defect',
+  },
+  {
+    term: 'Linear advance (pressure advance)',
+    def: "A firmware feature that adjusts extrusion pressure dynamically as print speed changes, reducing blobbing at corners. A refinement calibrated after E-steps and flow rate, not a replacement for either.",
+    link: '/calibration/',
+    category: 'Calibration',
   },
   {
     term: 'Retraction',
@@ -91,5 +121,17 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     def: 'The precise distance between the nozzle tip and the bed at the start of a print, set separately from mesh bed leveling, which only corrects relative variation across the bed.',
     link: '/calibration/bed-leveling/',
     category: 'Calibration',
+  },
+  {
+    term: 'ASA',
+    def: 'A filament chemically similar to ABS but with noticeably better UV resistance, making it the better choice for parts that spend time outdoors.',
+    link: '/materials/abs-asa-guide/',
+    category: 'Material',
+  },
+  {
+    term: 'TPU',
+    def: 'A flexible filament that needs slower print speeds, minimal retraction, and preferably a direct-drive extruder to feed reliably.',
+    link: '/materials/tpu-guide/',
+    category: 'Material',
   },
 ];

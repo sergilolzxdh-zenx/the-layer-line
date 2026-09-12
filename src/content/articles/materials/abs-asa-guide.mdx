@@ -1,0 +1,51 @@
+---
+title: "ABS and ASA Printing Guide: Settings, Enclosures, and Ventilation"
+description: "ABS and ASA reward the same discipline PETG does — understand what the material actually needs instead of copying a PLA profile — plus one requirement neither PLA nor PETG has: an enclosure."
+category: "materials"
+pageType: "guide"
+publishDate: 2026-09-12
+relatedSlugs:
+  - "materials/pla-vs-petg-vs-abs"
+  - "print-quality/warping"
+  - "print-quality/first-layer-adhesion"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+
+ABS and ASA are chemically similar and print almost identically, with one practical difference: ASA resists UV exposure noticeably better, making it the better pick for anything that will spend time outdoors, while ABS is generally cheaper and more widely available. Everything about settings and technique below applies to both unless noted.
+
+## Starting settings
+
+- **Nozzle temperature**: 230–250°C, brand-dependent. Both materials soften gradually over a fairly wide range rather than melting sharply, so there's more room to adjust for stringing or layer adhesion without leaving the usable window entirely.
+- **Bed temperature**: 90–110°C. This is meaningfully hotter than PLA or PETG, and it's not optional — a cooler bed lets the first layers cool and contract too quickly, which is the direct mechanism behind warping in this material family. See [warping](/print-quality/warping/) for why.
+- **Enclosure**: required in practice, not just recommended, for anything beyond small, simple parts. See below.
+- **Cooling fan**: low to off for the first several layers, moderate afterward. Aggressive part cooling works against layer adhesion in the same way it does for PETG, and additionally increases the cooling differential that drives warping.
+
+## Why an enclosure isn't optional here
+
+ABS and ASA shrink noticeably more than PLA as they cool from printing temperature to room temperature (see the [materials comparison](/materials/pla-vs-petg-vs-abs/) for why shrinkage varies by polymer). On an open printer, ambient room air pulls heat away from the print unevenly, and that uneven cooling is what causes corners and edges to lift — warping, not a print-quality defect you can tune away with retraction or flow settings.
+
+An enclosure doesn't need to be an expensive purpose-built chamber. A cardboard box, an IKEA cabinet conversion, or a simple frame with plastic sheeting around an existing printer all work by the same mechanism: trapping the heat the bed and hot end already produce so the printed part cools more slowly and evenly. Leave some ventilation rather than sealing it completely — see the safety note below.
+
+## Ventilation and fumes
+
+ABS in particular releases noticeable fumes when printing, and both materials should be printed in a ventilated space — a room with airflow to the outside, or a printer enclosure vented through a filter or exhaust, not a small sealed room with no air exchange. This isn't a setting to tune around: match whatever ventilation guidance the filament manufacturer provides for their specific formulation, and don't treat a stuffy smell as just an inconvenience to push through. If ongoing indoor printing of ABS/ASA is part of your routine, a vented enclosure or an air filtration setup is worth the investment for air quality, not just print quality.
+
+## Post-processing: acetone vapor smoothing
+
+ABS has one post-processing option PLA and PETG don't share well: acetone vapor exposure will chemically soften and fuse the outer surface of a printed part, smoothing out visible layer lines into a glossy finish. This works because ABS dissolves in acetone; PLA and PETG don't respond the same way. If you try this, it should be done in a well-ventilated space, away from open flame or ignition sources (acetone vapor is flammable), following a specific tested procedure rather than improvising exposure time — over-exposure can round off fine details or distort thin features. ASA responds similarly but is used for vapor smoothing less often in practice, since its main advantage (UV resistance) matters most for outdoor parts where a glossy finish is a secondary concern.
+
+<Callout kind="tip" label="ASA for anything that sits outside">
+If a part is going to spend real time in sunlight, ASA's added UV resistance over ABS matters more than any print-setting difference between the two — ABS can become brittle and discolored with prolonged UV exposure in a way ASA specifically resists.
+</Callout>
+
+## Common mistakes
+
+<Callout kind="mistake">
+Printing ABS or ASA on an open printer and blaming warping on bed leveling or adhesion. Once bed temperature and leveling are correct, an open build volume is very often the remaining cause — see [warping](/print-quality/warping/) for the full priority order, but for this material family specifically, an enclosure usually matters more than any other single change.
+</Callout>
+
+<Callout kind="mistake">
+Printing ABS/ASA in an unventilated room because the smell "isn't that bad" on a given day. Fume exposure varies with room size, airflow, and print duration in ways that aren't always obvious in the moment — ventilate as a standing practice, not based on how strong the smell seems on a particular print.
+</Callout>

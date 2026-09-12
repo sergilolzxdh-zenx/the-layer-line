@@ -24,6 +24,8 @@ Before changing any settings, look closely at the failed print (or the one in pr
 - **You can clearly see and feel ridges running around the whole model, even where you didn't expect them.** That's [visible layer lines](/print-quality/layer-lines/), a mix of mechanical and cooling causes.
 - **The first layer won't stick, peels up at the edges, or the whole print detaches partway through.** Start with [first-layer adhesion](/print-quality/first-layer-adhesion/).
 - **The part is missing material in some spots, or has blobs and zits in others.** That's an extrusion balance issue; see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/).
+- **The base of the print bulges outward wider than the rest of the model.** That's [elephant's foot](/print-quality/elephants-foot/), caused by the still-soft first layers squishing under the weight of the part above them.
+- **Extrusion stopped entirely, or filament grinds without coming out.** That's most likely a [nozzle clog](/print-quality/nozzle-clogs/), not a settings problem.
 
 <Callout kind="tip" label="Change one variable at a time">
 It's tempting to adjust temperature, retraction, and cooling all in the same test print. When two changes fix the problem, you won't know which one actually mattered — and you'll carry an unnecessary setting into every future print. Isolate variables, even when it's slower.
@@ -60,5 +62,13 @@ Copying someone else's slicer profile wholesale. Retraction distance, flow perce
 <Callout kind="mistake">
 Chasing a cosmetic issue with structural settings. Fuzzy skin, ironing, and cooling fan tuning make a print look better without addressing why the underlying geometry is inconsistent. Fix flow and temperature first.
 </Callout>
+
+## Problems that aren't a "settings" issue at all
+
+Most of the defects above are fixed with a slicer setting or a calibration pass. Two common ones aren't:
+
+**Nozzle clogs** stop or restrict extrusion regardless of what the slicer is told to do — no flow or temperature adjustment fixes plastic that physically can't get through the nozzle. See [nozzle clogs](/print-quality/nozzle-clogs/) for the cold-pull procedure that actually clears one.
+
+**Elephant's foot** (the base of a print flaring outward) looks like an extrusion or adhesion problem but is really about how much weight is pressing down on still-soft first layers, and how long they stay soft under a hot bed. See [elephant's foot](/print-quality/elephants-foot/) for the fix, which is closer to bed-leveling and first-layer-height territory than a flow adjustment.
 
 Work through the guides below in whichever order matches what you're actually seeing, or start from [calibration](/calibration/) if you're setting up a printer for the first time and haven't had a failure yet.

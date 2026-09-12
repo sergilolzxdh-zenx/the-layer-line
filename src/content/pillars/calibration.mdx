@@ -35,6 +35,10 @@ Calibration has diminishing returns. For most people printing functional parts a
 
 Chasing tighter numbers than that mostly matters for dimensionally critical mechanical parts, not general-purpose printing.
 
+## A fifth pass, once the basics are solid
+
+Linear advance (also called pressure advance, depending on firmware) isn't part of the core four because it's a refinement on top of them, not a replacement for any of them — it needs a correctly calibrated E-steps and flow rate to tune meaningfully. It adjusts extrusion pressure dynamically as print speed changes, reducing blobbing at corners and improving how cleanly fast direction changes print. It's worth calibrating once the four core passes are done and stable, particularly if you print at higher speeds or with a Bowden setup where pressure changes take longer to propagate to the nozzle.
+
 ## Common mistakes
 
 <Callout kind="mistake">

@@ -8,7 +8,7 @@ publishDate: 2026-09-01
 relatedSlugs:
   - "calibration/flow-rate"
   - "calibration/e-steps"
-  - "print-quality/layer-lines"
+  - "print-quality/nozzle-clogs"
 sources: []
 ---
 
@@ -47,3 +47,23 @@ Extrusion volume that's off in either direction disrupts how cleanly each new li
 <Callout kind="mistake">
 Adjusting nozzle temperature to fix what's actually a flow rate problem. Temperature affects how easily plastic flows once it's moving, but the volume of plastic moved is set by flow rate (and, upstream of that, E-steps) — not temperature. If walls are the wrong thickness on a well-tuned printer, start with flow, not heat.
 </Callout>
+
+## When it's neither settings nor calibration
+
+A printer that extrudes consistently for weeks and then starts under-extruding intermittently — not on every print, and not predictably — usually isn't a calibration drift. Flow rate and E-steps are stable mechanical and firmware values that don't wander on their own. The more likely causes are:
+
+- **A developing partial clog**, where debris or degraded filament residue narrows the nozzle opening just enough to restrict flow under some conditions but not others. See [nozzle clogs](/print-quality/nozzle-clogs/) for the cold-pull fix.
+- **Heat creep**, where the hot end runs hot enough further up the heat break that filament starts softening before it should, causing it to compress and grind against the extruder gear intermittently rather than feeding smoothly. This tends to show up more on long prints or in warm ambient conditions, and points to hot end cooling, not flow rate.
+- **A worn extruder gear or degraded PTFE tube liner**, especially on printers that have fed a lot of filament through the same tube — enough small slips add up to inconsistent, rather than constantly wrong, extrusion.
+
+The distinguishing signal: calibration problems are consistent from print to print until you change something. Intermittent problems that come and go without a settings change point upstream, to hardware condition.
+
+## Measuring filament diameter variance directly
+
+Slicers assume a single filament diameter (almost always 1.75 mm or 2.85 mm) for the entire spool, but real filament varies slightly along its length. To check whether this is a factor:
+
+1. Measure the filament's diameter with calipers at 8–10 points spread across a meter or more of unused filament from the spool.
+2. Average the readings and compare to what's set in your slicer's filament profile.
+3. If the actual average differs from the slicer setting by more than about 0.02–0.03 mm, update the slicer profile to match — this has the same effect as a flow rate correction but addresses the actual cause instead of masking it with an unrelated percentage.
+
+Filament with high diameter variance (readings that swing widely from point to point, not just a small consistent offset) is a quality problem with that specific spool, not something a slicer setting can fully correct — flow will be right at some points along the print and wrong at others no matter what average value you enter.

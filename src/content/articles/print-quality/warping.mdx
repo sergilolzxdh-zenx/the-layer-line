@@ -32,6 +32,19 @@ Corners have the most surface area exposed to cooling air relative to how much w
 If your slicer supports one, a draft shield — a thin printed wall around the part, separate from the model — blocks direct airflow across the print without you having to disable cooling everywhere. It's a smaller change than a full enclosure but often enough for moderately warp-prone parts.
 </Callout>
 
+## Building a usable enclosure without buying one
+
+An enclosure doesn't need to be purpose-built to help. The goal is trapping the heat the bed and hot end already generate, not adding new heat sources. A cardboard box or a cheap PVC-and-plastic-sheeting frame around the printer, with a gap left near the top or a small fan for ventilation, is enough to meaningfully slow the cooling differential that drives ABS and ASA warping. Two things matter more than the enclosure material itself:
+
+- **Leave some ventilation.** A fully sealed box can trap fumes (see the safety note in any ABS/ASA-specific guide) and can also let ambient temperature climb high enough to affect the printer's own electronics on long prints.
+- **Don't enclose PLA prints by default.** PLA's low shrinkage means it rarely needs one, and trapping heat around a PLA print can soften it enough to cause drooping overhangs or dimensional drift — a different defect traded in for warping.
+
+## Where on the part warping shows up tells you something
+
+- **All four corners of a large flat print, roughly evenly** — this is the classic shrinkage pattern and points to material choice, bed temperature, and enclosure first.
+- **One corner or edge, consistently, across different prints and materials** — that's much more likely a genuine bed-leveling or frame-squareness issue at that specific spot than shrinkage; see [bed leveling](/calibration/bed-leveling/).
+- **Only on tall, thin features or unsupported overhangs, not the base** — that's more often cooling-fan behavior on that specific feature than whole-part shrinkage, and is closer to a layer-adhesion or cooling-settings problem than warping proper.
+
 ## Common mistakes
 
 <Callout kind="mistake">

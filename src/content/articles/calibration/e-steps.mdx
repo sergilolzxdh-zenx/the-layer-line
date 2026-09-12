@@ -51,3 +51,17 @@ Switching filament brands or colors doesn't require re-checking E-steps — that
 <Callout kind="mistake">
 Skipping E-steps and going straight to flow rate percentage adjustments in the slicer. Flow rate is meant to fine-tune small, per-filament differences on top of a correct E-steps value — using it to compensate for a badly wrong E-steps means every filament needs a wildly different flow percentage to compensate, which is a sign the underlying number needs fixing instead.
 </Callout>
+
+## If your measurement looks inconsistent between runs
+
+Getting noticeably different results (say, 90 mm one run and 97 mm the next, testing the same 100 mm command) usually isn't a math error — it points to the stepper motor skipping steps under load during the test itself, which throws off the measurement rather than reflecting the real E-steps value. A few things cause this specifically during testing:
+
+- **Test extrusion speed set too high.** This is the most common cause — see the tip above.
+- **A geared extruder with worn or dirty gears** can slip intermittently even at a reasonable test speed. If cleaning the gear teeth doesn't help, the gear itself may need replacing before E-steps calibration will produce a stable number.
+- **Filament tension set too loose**, which lets the drive gear spin without fully engaging the filament on every rotation.
+
+Run the test three times and use the middle or average result rather than trusting a single pass, especially on an extruder you haven't calibrated before.
+
+## Dual-drive vs. single-drive extruders
+
+Single-drive extruders grip the filament with one geared wheel against a smooth idler; dual-drive extruders grip it between two geared wheels. Dual-drive setups generally produce more consistent E-steps results because they're less prone to the filament slipping against a passive idler under load — if you're getting persistently unstable readings on a single-drive extruder even after ruling out speed and tension, that's a real (if smaller) limitation of the hardware, not necessarily a mistake in your procedure.

@@ -67,7 +67,8 @@ Deliberately **not** implemented: `FAQPage` (no FAQ content exists yet — don't
 
 ## Content quality (per `CONTENT_GUIDELINES.md`)
 
-- 14 content pages (3 pillars + 11 articles) at launch, each with a distinct differentiator (comparison table, prioritized troubleshooting order, or embedded tool) — see `CONTENT_ROADMAP.md`.
+- 18 content pages (3 pillars + 15 articles) as of the 2026-09-12 wave-2 update, each with a distinct differentiator (comparison table, prioritized troubleshooting order, or embedded tool) — see `CONTENT_ROADMAP.md`.
+- The 11 launch articles and 3 pillars were expanded post-launch with additional mechanism-level sections, tables, and edge cases (not padding — see the originality standard) after AdSense's initial review flagged the site as low-value/thin content.
 - No duplicate or near-duplicate content between pages; each covers a genuinely distinct symptom, calibration step, or material.
 - Two verified external sources cited (Simplify3D, Prusa Knowledge Base); no fabricated sources.
 
@@ -81,7 +82,7 @@ Deliberately **not** implemented: `FAQPage` (no FAQ content exists yet — don't
 | Cookie Policy | ✅ `/cookie-policy/` |
 | Terms of Use | ✅ `/terms/` |
 | Editorial Policy | ✅ `/editorial-policy/` |
-| Original, substantial content | ✅ 14 long-form pages, no thin/duplicate pages |
+| Original, substantial content | ⏳ 18 long-form pages after the 2026-09-12 depth pass; site is still young (launched 2026-09-01) — AdSense's "low value content" rejection on first review was very likely driven by site age/page count/traffic history as much as per-page depth, so re-review success isn't guaranteed by content alone. See `MONETIZATION.md`. |
 | AdSense connection script | ✅ live via `PUBLIC_ADSENSE_CLIENT` (`ca-pub-4555323558143314`) in `BaseLayout.astro`; monetized via Auto ads (Google-placed), see `MONETIZATION.md` |
 | Ad placement won't cause accidental clicks | ⚠️ depends on AdSense's Auto ads format settings, not site code — interstitial/overlay formats should stay disabled in the AdSense dashboard per `MONETIZATION.md` |
 

@@ -1,0 +1,70 @@
+---
+title: "Nozzle Clogs: How to Clear and Prevent Them"
+description: "A clogged nozzle isn't a settings problem, and no amount of temperature or flow adjustment fixes it. Here's how to tell a clog from under-extrusion, and how to actually clear one."
+category: "print-quality"
+pageType: "troubleshooting"
+severity: "high"
+publishDate: 2026-09-12
+relatedSlugs:
+  - "print-quality/under-extrusion-vs-over-extrusion"
+  - "print-quality/stringing"
+  - "calibration/flow-rate"
+sources: []
+---
+
+import Callout from '../../../components/Callout.astro';
+
+A clog is a physical obstruction in the nozzle or hot end, not a wrong number in the slicer. It can be partial (filament comes out inconsistently, thinner than it should, or only under pressure) or total (nothing comes out at all, and the extruder motor clicks or grinds as it tries to push filament that has nowhere to go). Either way, no flow rate or temperature change fixes it — the plastic physically can't get through.
+
+## Telling a clog apart from under-extrusion
+
+Both show up as missing material and weak layers, but they point in different directions:
+
+- **Consistent, printer-wide under-extrusion** across an entire print, at a stable percentage, is almost always a [flow or E-steps calibration issue](/calibration/flow-rate/) — see [under-extrusion vs. over-extrusion](/print-quality/under-extrusion-vs-over-extrusion/) for the diagnostic test.
+- **A clog** usually starts abruptly, mid-print or between prints, rather than being present from the first layer of every print. It's often accompanied by a clicking or grinding sound as the extruder gear skips against filament that isn't moving, and sometimes a slight burning smell if degraded plastic is stuck inside the melt zone.
+
+If a printer that extruded normally yesterday suddenly won't extrude today with no settings changed, that's a clog, not a calibration drift.
+
+## What actually causes a clog
+
+- **Heat creep**, where heat travels further up the heat break than it should (usually from inadequate heat-break fan airflow), softening filament above the melt zone. That softened filament expands slightly and jams against the cooler walls of the heat break instead of feeding smoothly.
+- **Debris in the filament** — dust, dirt, or contamination picked up from an unclean spool or an open filament path — gets carried into the nozzle and lodges in the narrow orifice.
+- **Filament left at temperature for a long idle period** can degrade chemically inside the nozzle, especially materials that char or carbonize at sustained high heat, leaving residue that narrows the opening over time.
+- **Switching filament types without a proper purge**, particularly from a higher-temperature material to a lower-temperature one, can leave residual plastic from the first filament that doesn't fully clear and later hardens inside the melt zone.
+- **A worn or damaged PTFE tube liner** (in hot ends that use one all the way to the nozzle) can degrade from repeated exposure to filament run above its rated temperature, leaving carbonized flakes that periodically restrict flow.
+
+## Clearing a clog: the cold pull
+
+The cold pull (also called an "atomic pull") clears most clogs without disassembling the hot end:
+
+1. Heat the nozzle to your filament's normal printing temperature and manually push a length of filament through until it extrudes cleanly, then let it cool to roughly 90–110°C for PLA, or a proportionally lower point below the melting range for other materials (check the specific temperature guidance for your filament and hot end, since this varies by material).
+2. Once at that lower temperature, firmly and steadily pull the filament straight out of the extruder. Done correctly, it comes out with a thin, tapered tip that carries the debris out with it.
+3. Inspect the tip. A clean, sharp point means the pull worked. A blunt, torn, or debris-flecked tip means residue is still in the nozzle — reheat, push fresh filament through, and repeat the pull.
+4. Some people use a dedicated cleaning filament (a nylon-based product designed specifically for cold pulls) instead of the printing filament itself, which can grip debris more effectively — useful for a stubborn clog that a few pulls with regular filament didn't fully clear.
+
+<Callout kind="tip" label="Use a stiffer filament for the pull if PLA isn't clearing it">
+PLA can be too soft to grip and carry out stubborn debris on its own. If several PLA cold pulls aren't fully clearing a clog, a pull using PETG or a nylon cleaning filament at the appropriate temperature for that material often succeeds where PLA didn't.
+</Callout>
+
+## When the cold pull doesn't work
+
+If repeated cold pulls don't clear it, or the clog is at the very tip of the nozzle rather than higher up in the melt zone, the next steps are more invasive:
+
+- **A cold pull followed by a fine nozzle-cleaning needle**, sized specifically for your nozzle's orifice diameter, inserted while hot to physically dislodge debris right at the tip.
+- **Removing and soaking the nozzle** in a solvent appropriate to the plastic involved (following the specific product's safety guidance), then clearing it with a needle once softened.
+- **Replacing the nozzle entirely.** Nozzles are inexpensive relative to the time spent troubleshooting a stubborn clog, and a nozzle that's been clogged repeatedly may have wear or damage to the orifice that makes it prone to clogging again even after clearing.
+
+## Preventing clogs
+
+- Keep the heat-break cooling fan running at full speed throughout every print, not just the first layer — this is the single biggest lever against heat-creep clogs.
+- Don't leave filament sitting at printing temperature for long idle periods between prints; drop to a lower standby temperature or turn off the hot end if there's going to be a real gap.
+- Store filament covered and away from dust, and avoid printing filament that's visibly picked up debris.
+- When switching materials, especially from a higher-temperature filament to a lower-temperature one, purge thoroughly at a temperature that suits both materials before starting the new print.
+
+<Callout kind="mistake">
+Cranking the temperature up to "push through" a suspected clog. This can work for very minor restrictions, but for a real clog it more often bakes debris further into the melt zone or degrades the filament already stuck there, making the eventual cold pull harder rather than solving anything.
+</Callout>
+
+<Callout kind="mistake">
+Jamming a needle into a cold nozzle to clear a clog. Nozzle openings are small and precisely sized; forcing a needle through a cold, hardened obstruction risks scratching or widening the orifice, which permanently affects extrusion consistency. Always heat first.
+</Callout>
